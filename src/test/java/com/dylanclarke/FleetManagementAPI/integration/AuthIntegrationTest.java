@@ -54,11 +54,35 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         String json = """
         {
           "username": "duplicate",
-          "password": "password",
-          "companyName": "TestCo"
+          "email": "duplicate@example.com",
+          "password": "password"
         }
         """;
 
+
+        mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    @DisplayName("Should reject duplicate email")
+    void shouldRejectDuplicateEmail() throws Exception {
+
+        register(
+               "user1",
+                "shared@example.com",
+                "password"
+        );
+
+        String json = """
+        {
+          "username": "user2",
+          "email": "shared@example.com",
+          "password": "password"
+        }
+        """;
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)

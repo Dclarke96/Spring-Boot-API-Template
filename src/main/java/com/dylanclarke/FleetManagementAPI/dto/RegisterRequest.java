@@ -1,10 +1,10 @@
 package com.dylanclarke.FleetManagementAPI.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 public class RegisterRequest {
 
@@ -15,28 +15,26 @@ public class RegisterRequest {
     @NotBlank(message = "Username cannot be blank")
     @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
     @Pattern(
-        regexp = "^[a-zA-Z0-9_]+$",
-        message = "Username can only contain letters, numbers, and underscores"
+            regexp = "^[a-zA-Z0-9_]+$",
+            message = "Username can only contain letters, numbers, and underscores"
     )
     private String username;
 
+    @Schema(
+            description = "Email address for the new account",
+            example = "admin@example.com"
+    )
+    @NotBlank(message = "Email cannot be blank")
+    @Email(message = "Email must be valid")
+    private String email;
 
     @Schema(
             description = "Password for the new account",
             example = "Password123!"
     )
     @NotBlank(message = "Password cannot be blank")
-    @Size(min = 4, message = "Password must be at least 4 characters")
+    @Size(min = 8, message = "Password must be at least 8 characters")
     private String password;
-
-
-    @Schema(
-            description = "Company associated with the account",
-            example = "Clarke Fleet Services"
-    )
-    @NotBlank(message = "Company name cannot be blank")
-    private String companyName;
-
 
     public String getUsername() {
         return username;
@@ -46,6 +44,13 @@ public class RegisterRequest {
         this.username = username;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getPassword() {
         return password;
@@ -53,14 +58,5 @@ public class RegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
     }
 }

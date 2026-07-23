@@ -1,19 +1,23 @@
 package com.dylanclarke.FleetManagementAPI.integration;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Base class for all integration tests.
@@ -40,23 +44,47 @@ public abstract class BaseIntegrationTest {
     protected ObjectMapper objectMapper;
 
     // =========================================================
-    // AUTH HELPERS
+    // AUTHENTICATION HELPERS
     // =========================================================
 
+    /**
+     * Temporary compatibility helper.
+     *
+     * The companyName parameter is intentionally retained while the
+     * Fleet domain is being extracted so existing tests do not need
+     * to be rewritten all at once.
+     */
     protected void register(
             String username,
             String companyName
     ) throws Exception {
 
+        register(
+                username,
+                username + "@example.com",
+                "password"
+        );
+    }
+
+    /**
+     * Registers a user with explicit credentials.
+     */
+    protected void register(
+            String username,
+            String email,
+            String password
+    ) throws Exception {
+
         String json = """
         {
           "username":"%s",
-          "password":"password",
-          "companyName":"%s"
+          "email":"%s",
+          "password":"%s"
         }
         """.formatted(
                 username,
-                companyName
+                email,
+                password
         );
 
         mockMvc.perform(post("/api/auth/register")
@@ -105,7 +133,6 @@ public abstract class BaseIntegrationTest {
         );
     }
 
-
     protected Long createVehicle(
             String token,
             String title
@@ -118,7 +145,6 @@ public abstract class BaseIntegrationTest {
                 LocalDate.now().plusYears(1)
         );
     }
-
 
     protected Long createVehicle(
             String token,
@@ -146,7 +172,6 @@ public abstract class BaseIntegrationTest {
                 endDate
         );
 
-
         String response = mockMvc.perform(post("/api/vehicles")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -156,15 +181,12 @@ public abstract class BaseIntegrationTest {
                 .getResponse()
                 .getContentAsString();
 
-
         JsonNode node = objectMapper.readTree(response);
-
 
         return node.get("data")
                 .get("id")
                 .asLong();
     }
-
 
     protected void getVehicle(
             String token,
