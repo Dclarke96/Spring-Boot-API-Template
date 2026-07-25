@@ -1,14 +1,15 @@
 package com.dylanclarke.FleetManagementAPI.integration;
 
 import com.dylanclarke.FleetManagementAPI.repository.UserRepository;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -26,10 +27,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should register a new user")
     void shouldRegisterUserSuccessfully() throws Exception {
 
-        register(
-                "user1",
-                "TestCo"
-        );
+        register("user1");
 
         Assertions.assertTrue(
                 userRepository.findAll()
@@ -45,10 +43,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should reject duplicate username")
     void shouldRejectDuplicateUsername() throws Exception {
 
-        register(
-                "duplicate",
-                "TestCo"
-        );
+        register("duplicate");
 
 
         String json = """
@@ -66,15 +61,17 @@ class AuthIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isConflict());
     }
 
+
     @Test
     @DisplayName("Should reject duplicate email")
     void shouldRejectDuplicateEmail() throws Exception {
 
         register(
-               "user1",
+                "user1",
                 "shared@example.com",
                 "password"
         );
+
 
         String json = """
         {
@@ -84,11 +81,13 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         }
         """;
 
+
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isConflict());
     }
+
 
 
     // =========================================================
@@ -99,10 +98,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should login successfully")
     void shouldLoginSuccessfully() throws Exception {
 
-        register(
-                "loginuser",
-                "TestCo"
-        );
+        register("loginuser");
 
 
         String token = login("loginuser");
@@ -117,10 +113,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should reject invalid password")
     void shouldRejectInvalidPassword() throws Exception {
 
-        register(
-                "badpass",
-                "TestCo"
-        );
+        register("badpass");
 
 
         String json = """
@@ -157,6 +150,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     }
 
 
+
     // =========================================================
     // AUTHENTICATION TESTS
     // =========================================================
@@ -165,10 +159,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should allow authenticated request")
     void shouldAllowAuthenticatedRequest() throws Exception {
 
-        register(
-                "authuser",
-                "TestCo"
-        );
+        register("authuser");
 
 
         String token = login("authuser");

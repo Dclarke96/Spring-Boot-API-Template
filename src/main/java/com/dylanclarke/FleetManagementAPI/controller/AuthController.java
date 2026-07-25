@@ -36,7 +36,7 @@ public class AuthController {
 
     @Operation(
             summary = "Register a new user",
-            description = "Creates a new company and administrator account."
+            description = "Creates a new user account."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 

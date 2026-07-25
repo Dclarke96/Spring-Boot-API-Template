@@ -49,15 +49,10 @@ public abstract class BaseIntegrationTest {
     // =========================================================
 
     /**
-     * Temporary compatibility helper.
-     *
-     * The companyName parameter is intentionally retained while the
-     * Fleet domain is being extracted so existing tests do not need
-     * to be rewritten all at once.
-     */
+    * Registers a user with default test credentials.
+    */
     protected void register(
-            String username,
-            String companyName
+             String username
     ) throws Exception {
 
         register(
@@ -66,7 +61,7 @@ public abstract class BaseIntegrationTest {
                 "password"
         );
     }
-
+    
     /**
      * Registers a user with explicit credentials.
      */
