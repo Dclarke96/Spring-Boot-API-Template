@@ -8,20 +8,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class TestAuthHelper {
 
-    public static String getAuthToken(MockMvc mockMvc, String username) throws Exception {
+    public static String getAuthToken(
+            MockMvc mockMvc,
+            String username
+    ) throws Exception {
 
         String registerJson = """
         {
           "username": "%s",
-          "password": "password",
-          "companyName": "TestCo"
+          "email": "%s@example.com",
+          "password": "password"
         }
-        """.formatted(username);
+        """.formatted(
+                username,
+                username
+        );
 
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(registerJson))
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
+
 
         String loginJson = """
         {
@@ -29,6 +36,7 @@ public class TestAuthHelper {
           "password": "password"
         }
         """.formatted(username);
+
 
         String response = mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -38,6 +46,7 @@ public class TestAuthHelper {
             .getResponse()
             .getContentAsString();
 
-        return response; // adjust if needed
+
+        return response;
     }
 }

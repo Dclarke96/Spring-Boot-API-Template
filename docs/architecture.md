@@ -2,13 +2,13 @@
 
 ## Current State & Target Architecture
 
-The Fleet Management API began with a **classic layered architecture**:
+The Spring Boot API Template began with a **classic layered architecture**:
 
 ```
 Controller → Service → Repository → Database
 ```
 
-This structure supported rapid development, feature delivery, and early validation of the application domain.
+This structure supported rapid development, feature delivery, and early validation of application functionality.
 
 As the project has matured, the architecture is evolving toward a **Clean Architecture / Domain-Centric approach** to improve long-term maintainability, testability, and reusability as a foundation for future applications.
 
@@ -30,7 +30,7 @@ The transition toward a domain-centric architecture is driven by several goals:
   * Background processing
   * Reporting
   * Notifications
-  * Additional fleet management domains
+  * Additional business domains
 
 ---
 
@@ -39,30 +39,32 @@ The transition toward a domain-centric architecture is driven by several goals:
 The intended architecture follows Clean Architecture principles:
 
 ```
-src/main/java/com/fleetmanagement/
+src/main/java/com/template/
 
-├── domain/                      
-│   ├── model/                   
-│   ├── repository/              
-│   ├── service/                 
-│   └── usecase/                 
+├── domain/
+│   ├── model/
+│   ├── repository/
+│   ├── service/
+│   └── usecase/
 
-├── application/                
+├── application/
 │   └── DTOs, orchestration, input/output models
 
-├── infrastructure/              
-│   ├── persistence/             
-│   ├── web/                     
-│   ├── external/               
-│   └── config/                  
+├── infrastructure/
+│   ├── persistence/
+│   ├── web/
+│   ├── external/
+│   └── config/
 
-├── common/                      
+├── common/
 │   └── shared utilities, exceptions, constants
 
-└── FleetManagementApplication.java
+└── Application.java
 ```
 
-### Target Responsibilities
+---
+
+# Target Responsibilities
 
 ## Domain Layer
 
@@ -112,9 +114,9 @@ Instead of rebuilding the entire application, functionality is migrated incremen
 
 Example migration path:
 
-1. Vehicle management
-2. Maintenance management
-3. Additional fleet capabilities
+1. Authentication foundation
+2. Core business capability migration
+3. Additional application domains
 
 Existing layered components remain functional until their replacement is introduced.
 
@@ -122,7 +124,7 @@ This approach reduces risk while allowing architectural improvements over time.
 
 ---
 
-# Current Architecture (Version 2.0)
+# Current Architecture (Version 0.2.0)
 
 The current implementation follows a layered architecture with additional separation for cross-cutting concerns.
 
@@ -151,9 +153,9 @@ Configuration
 
 ---
 
-## Current Layer Responsibilities
+# Current Layer Responsibilities
 
-### API Layer
+## API Layer
 
 Responsible for:
 
@@ -170,7 +172,7 @@ Examples:
 
 ---
 
-### Service Layer
+## Service Layer
 
 Responsible for:
 
@@ -187,7 +189,7 @@ Examples:
 
 ---
 
-### Persistence Layer
+## Persistence Layer
 
 Responsible for:
 
@@ -203,9 +205,11 @@ Examples:
 
 ---
 
-### Cross-Cutting Concerns
+# Cross-Cutting Concerns
 
 The application separates shared technical concerns:
+
+---
 
 ## Security
 
@@ -248,33 +252,38 @@ Responsible for:
 
 ---
 
-# Entities & Relationships
+# Example Domain Entities
+
+The current repository includes example business entities used to validate the template architecture.
+
+These domains are intentionally included as reference implementations and can be replaced by application-specific models when using this template.
 
 Current entities represent persistence models mapped to database tables.
 
-Examples:
+---
 
-## Vehicle
+## Vehicle Example
 
-Represents fleet vehicle information including:
+Represents an example business resource including:
 
-* Vehicle identification
-* Fleet details
-* Company ownership relationships
+* Resource identification
+* Operational details
+* Lifecycle information
+* Domain-specific attributes
 
 Future architecture iterations may move business rules from persistence entities into dedicated domain models.
 
 ---
 
-## MaintenanceRecord
+## MaintenanceRecord Example
 
-Represents vehicle maintenance history including:
+Represents an example related resource including:
 
 * Maintenance details
-* Vehicle relationships
+* Resource relationships
 * Operational records
 
-Future domain migration may introduce richer maintenance rules and lifecycle behavior.
+Future domain migration may introduce richer business rules and lifecycle behavior.
 
 ---
 
@@ -319,7 +328,7 @@ Business rules are currently enforced within service workflows.
 
 Examples:
 
-* Duplicate vehicle checks
+* Duplicate resource checks
 * Resource existence checks
 * Relationship validation
 
@@ -329,7 +338,7 @@ Future domain migration will move appropriate business rules into domain models 
 
 # Architecture Diagram
 
-Current architecture diagram should represent:
+The current implementation follows a layered architecture:
 
 ```
 Controller
@@ -342,9 +351,11 @@ Repository
     |
     ↓
 Database
+```
 
+Supporting components:
 
-Supporting:
+```
 - DTOs
 - Security
 - Exception Handling

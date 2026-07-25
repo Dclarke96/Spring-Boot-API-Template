@@ -10,10 +10,8 @@ import com.dylanclarke.FleetManagementAPI.dto.AuthRequest;
 import com.dylanclarke.FleetManagementAPI.dto.RegisterRequest;
 import com.dylanclarke.FleetManagementAPI.exception.AuthenticationException;
 import com.dylanclarke.FleetManagementAPI.exception.DuplicateResourceException;
-import com.dylanclarke.FleetManagementAPI.model.Company;
 import com.dylanclarke.FleetManagementAPI.model.Role;
 import com.dylanclarke.FleetManagementAPI.model.User;
-import com.dylanclarke.FleetManagementAPI.repository.CompanyRepository;
 import com.dylanclarke.FleetManagementAPI.repository.UserRepository;
 import com.dylanclarke.FleetManagementAPI.security.JwtService;
 
@@ -25,16 +23,17 @@ public class AuthenticationService {
     private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
 
     private final UserRepository userRepository;
-    private final CompanyRepository companyRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public AuthenticationService(UserRepository userRepository, CompanyRepository companyRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
-
-    this.userRepository = userRepository;
-    this.companyRepository = companyRepository;
-    this.passwordEncoder = passwordEncoder;
-    this.jwtService = jwtService;
+    public AuthenticationService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService
+    ) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     @Transactional
@@ -52,23 +51,17 @@ public class AuthenticationService {
             );
         }
 
-        Company company = new Company();
-        company.setName(request.getCompanyName());
-        companyRepository.save(company);
-
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setEmail(request.getUsername());
+        user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.ADMIN);
-        user.setCompany(company);
 
         userRepository.save(user);
 
         log.info(
-                "User registered: userId={}, companyId={}, role={}",
+                "User registered: userId={}, role={}",
                 user.getId(),
-                company.getId(),
                 user.getRole()
         );
 
@@ -102,9 +95,8 @@ public class AuthenticationService {
         String token = jwtService.generateToken(user);
 
         log.info(
-                "Login successful: userId={}, companyId={}",
-                user.getId(),
-                user.getCompany().getId()
+                "Login successful: userId={}",
+                user.getId()
         );
 
         return ApiResponse.success(

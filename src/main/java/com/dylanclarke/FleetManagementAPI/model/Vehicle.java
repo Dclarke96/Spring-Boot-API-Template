@@ -4,13 +4,9 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -19,13 +15,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(
-    name = "vehicles",
-    indexes = {
-        @Index(
-            name = "idx_vehicle_company_id",
-            columnList = "company_id"
-        )
-    }
+    name = "vehicles"
 )
 public class Vehicle {
 
@@ -63,11 +53,6 @@ public class Vehicle {
 
     @NotNull(message = "End date is required")
     private LocalDate endDate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
-    private Company company;
-
 
     // -------------------------------
     // Constructors
@@ -210,12 +195,4 @@ public class Vehicle {
         this.endDate = endDate;
     }
 
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
 }

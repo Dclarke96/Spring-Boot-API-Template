@@ -32,7 +32,7 @@ import jakarta.validation.Valid;
 
 @Tag(
         name = "Vehicles",
-        description = "Endpoints for managing vehicles belonging to the authenticated user's company."
+        description = "Endpoints for managing vehicles."
 )
 @SecurityRequirement(name = "Bearer Authentication")
 @RestController
@@ -53,7 +53,7 @@ public class VehicleController {
 
     @Operation(
             summary = "Retrieve all vehicles",
-            description = "Returns a paginated list of vehicles for the authenticated user's company."
+            description = "Returns a paginated list of vehicles accessible to the authenticated user."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
@@ -102,7 +102,7 @@ public class VehicleController {
 
     @Operation(
             summary = "Retrieve a vehicle by ID",
-            description = "Returns a single vehicle owned by the authenticated user's company."
+            description = "Returns a single vehicle by ID."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
@@ -201,7 +201,7 @@ public class VehicleController {
 
     @Operation(
             summary = "Create a vehicle",
-            description = "Creates a new vehicle for the authenticated user's company."
+            description = "Creates a new vehicle."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
@@ -261,7 +261,7 @@ public class VehicleController {
 
     @Operation(
             summary = "Update a vehicle",
-            description = "Updates an existing vehicle belonging to the authenticated user's company."
+            description = "Updates an existing vehicle."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
@@ -321,7 +321,7 @@ public class VehicleController {
 
     @Operation(
             summary = "Delete a vehicle",
-            description = "Deletes a vehicle belonging to the authenticated user's company."
+            description = "Deletes an existing vehicle."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 

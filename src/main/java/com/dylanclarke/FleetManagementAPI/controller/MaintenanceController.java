@@ -30,7 +30,7 @@ import jakarta.validation.Valid;
 
 @Tag(
         name = "Maintenance",
-        description = "Endpoints for managing vehicle maintenance records within the authenticated user's company."
+        description = "Endpoints for managing vehicle maintenance records."
 )
 @SecurityRequirement(name = "Bearer Authentication")
 @RestController
@@ -52,7 +52,7 @@ public class MaintenanceController {
 
     @Operation(
             summary = "Retrieve all maintenance records",
-            description = "Returns a paginated list of maintenance records for the authenticated user's company."
+            description = "Returns a paginated list of maintenance records accessible to the authenticated user."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
@@ -102,7 +102,7 @@ public class MaintenanceController {
 
     @Operation(
             summary = "Retrieve a maintenance record by ID",
-            description = "Returns a single maintenance record belonging to the authenticated user's company."
+            description = "Returns a single maintenance record by ID."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
@@ -201,7 +201,7 @@ public class MaintenanceController {
 
     @Operation(
             summary = "Create a maintenance record",
-            description = "Creates a new maintenance record for a vehicle owned by the authenticated user's company."
+            description = "Creates a new maintenance record for a vehicle."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
@@ -260,7 +260,7 @@ public class MaintenanceController {
 
     @Operation(
             summary = "Update a maintenance record",
-            description = "Updates an existing maintenance record belonging to the authenticated user's company."
+            description = "Updates an existing maintenance record."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
@@ -318,7 +318,7 @@ public class MaintenanceController {
 
     @Operation(
             summary = "Delete a maintenance record",
-            description = "Deletes a maintenance record belonging to the authenticated user's company."
+            description = "Deletes an existing maintenance record."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
