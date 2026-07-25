@@ -1,7 +1,11 @@
 package com.dylanclarke.FleetManagementAPI.service;
 
-import java.time.LocalDate;
-
+import com.dylanclarke.FleetManagementAPI.dto.VehicleRequestDTO;
+import com.dylanclarke.FleetManagementAPI.dto.VehicleResponseDTO;
+import com.dylanclarke.FleetManagementAPI.model.Vehicle;
+import com.dylanclarke.FleetManagementAPI.exception.ResourceNotFoundException;
+import com.dylanclarke.FleetManagementAPI.exception.ValidationException;
+import com.dylanclarke.FleetManagementAPI.repository.VehicleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -9,30 +13,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dylanclarke.FleetManagementAPI.dto.VehicleRequestDTO;
-import com.dylanclarke.FleetManagementAPI.dto.VehicleResponseDTO;
-import com.dylanclarke.FleetManagementAPI.exception.ResourceNotFoundException;
-import com.dylanclarke.FleetManagementAPI.exception.ValidationException;
-import com.dylanclarke.FleetManagementAPI.model.Company;
-import com.dylanclarke.FleetManagementAPI.model.Vehicle;
-import com.dylanclarke.FleetManagementAPI.repository.VehicleRepository;
-import com.dylanclarke.FleetManagementAPI.security.CurrentUserService;
+import java.time.LocalDate;
 
 @Service
 public class VehicleService {
 
-    private static final Logger log = LoggerFactory.getLogger(VehicleService.class);
+    private static final Logger log =
+            LoggerFactory.getLogger(VehicleService.class);
 
     private final VehicleRepository repository;
-    private final CurrentUserService currentUserService;
 
-    public VehicleService(
-            VehicleRepository repository,
-            CurrentUserService currentUserService
-    ) {
+
+    public VehicleService(VehicleRepository repository) {
         this.repository = repository;
-        this.currentUserService = currentUserService;
     }
+
 
     // ----------------------------------------
     // GET ALL (PAGINATED)
@@ -40,9 +35,7 @@ public class VehicleService {
     @Transactional(readOnly = true)
     public Page<VehicleResponseDTO> getAllVehicles(Pageable pageable) {
 
-        Long companyId = currentUserService.getCompanyId();
-
-        return repository.findByCompanyId(companyId, pageable)
+        return repository.findAll(pageable)
                 .map(this::toDto);
     }
 
@@ -53,11 +46,13 @@ public class VehicleService {
     @Transactional(readOnly = true)
     public VehicleResponseDTO getVehicleById(Long id) {
 
-        Long companyId = currentUserService.getCompanyId();
-
-        Vehicle vehicle = repository.findByIdAndCompanyId(id, companyId)
+        Vehicle vehicle = repository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Vehicle", "id", id));
+                        new ResourceNotFoundException(
+                                "Vehicle",
+                                "id",
+                                id
+                        ));
 
         return toDto(vehicle);
     }
@@ -72,9 +67,7 @@ public class VehicleService {
             Pageable pageable
     ) {
 
-        Long companyId = currentUserService.getCompanyId();
-
-        return repository.searchVehiclesByCompany(companyId, query, pageable)
+        return repository.searchVehicles(query, pageable)
                 .map(this::toDto);
     }
 
@@ -85,23 +78,15 @@ public class VehicleService {
     @Transactional
     public VehicleResponseDTO addVehicle(VehicleRequestDTO dto) {
 
-        Long companyId = currentUserService.getCompanyId();
-
         Vehicle entity = toEntity(dto);
-
-        Company company = new Company();
-        company.setId(companyId);
-
-        entity.setCompany(company);
 
         validateVehicle(entity);
 
         Vehicle saved = repository.save(entity);
 
         log.info(
-                "Vehicle created: vehicleId={}, companyId={}",
-                saved.getId(),
-                companyId
+                "Vehicle created: vehicleId={}",
+                saved.getId()
         );
 
         return toDto(saved);
@@ -117,23 +102,28 @@ public class VehicleService {
             VehicleRequestDTO dto
     ) {
 
-        Long companyId = currentUserService.getCompanyId();
-
-        Vehicle existing = repository.findByIdAndCompanyId(id, companyId)
+        Vehicle existing = repository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Vehicle", "id", id));
+                        new ResourceNotFoundException(
+                                "Vehicle",
+                                "id",
+                                id
+                        ));
+
 
         updateEntityFromDto(existing, dto);
 
         validateVehicle(existing);
 
+
         Vehicle saved = repository.save(existing);
 
+
         log.info(
-                "Vehicle updated: vehicleId={}, companyId={}",
-                saved.getId(),
-                companyId
+                "Vehicle updated: vehicleId={}",
+                saved.getId()
         );
+
 
         return toDto(saved);
     }
@@ -145,18 +135,21 @@ public class VehicleService {
     @Transactional
     public void deleteVehicle(Long id) {
 
-        Long companyId = currentUserService.getCompanyId();
-
-        Vehicle vehicle = repository.findByIdAndCompanyId(id, companyId)
+        Vehicle vehicle = repository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Vehicle", "id", id));
+                        new ResourceNotFoundException(
+                                "Vehicle",
+                                "id",
+                                id
+                        ));
+
 
         repository.delete(vehicle);
 
+
         log.info(
-                "Vehicle deleted: vehicleId={}, companyId={}",
-                id,
-                companyId
+                "Vehicle deleted: vehicleId={}",
+                id
         );
     }
 
@@ -195,9 +188,7 @@ public class VehicleService {
         v.setLicensePlate(dto.getLicensePlate());
         v.setMake(dto.getMake());
         v.setModel(dto.getModel());
-
         v.setVehicleYear(dto.getYear());
-
         v.setLocation(dto.getLocation());
 
         v.setMaintenanceAlertsEnabled(
@@ -223,9 +214,7 @@ public class VehicleService {
         vehicle.setLicensePlate(dto.getLicensePlate());
         vehicle.setMake(dto.getMake());
         vehicle.setModel(dto.getModel());
-
         vehicle.setVehicleYear(dto.getYear());
-
         vehicle.setLocation(dto.getLocation());
 
         vehicle.setMaintenanceAlertsEnabled(
@@ -246,6 +235,7 @@ public class VehicleService {
 
         Integer year = vehicle.getVehicleYear();
 
+
         if (year == null) {
 
             throw new ValidationException(
@@ -255,7 +245,9 @@ public class VehicleService {
             );
         }
 
+
         int currentYear = LocalDate.now().getYear();
+
 
         if (year < 1900 || year > currentYear) {
 

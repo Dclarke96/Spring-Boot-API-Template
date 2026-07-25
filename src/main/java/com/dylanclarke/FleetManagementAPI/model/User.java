@@ -1,55 +1,39 @@
 package com.dylanclarke.FleetManagementAPI.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Column;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(
-    name = "users",
-    indexes = {
-        @Index(
-            name = "idx_users_company_id",
-            columnList = "company_id"
-        )
-    }
-)
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(unique = true, nullable = false)
     private String username;
-
 
     @Column(unique = true, nullable = false)
     private String email;
 
-
     @Column(nullable = false)
     private String password;
 
-
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
-    private Company company;
-
+    // -------------------------------
+    // Getters & Setters
+    // -------------------------------
 
     public Long getId() {
         return id;
@@ -93,14 +77,5 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
     }
 }

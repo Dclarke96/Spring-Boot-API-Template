@@ -37,7 +37,4 @@ public class CurrentUserService {
         return get().getUserId();
     }
 
-    public Long getCompanyId() {
-        return null;
-    }
 }

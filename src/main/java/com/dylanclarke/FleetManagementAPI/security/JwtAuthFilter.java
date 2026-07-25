@@ -244,9 +244,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
 
-
-
-
     /**
      * Creates authenticated Spring Security context
      */
