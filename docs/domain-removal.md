@@ -1,25 +1,42 @@
-# Business Domain Extraction
+# Business Domain Decoupling
 
 ## Objective
 
-Extract the Fleet Management business domain from the application while preserving a production-ready Spring Boot foundation.
+Decouple business-specific dependencies from the application foundation while preserving a production-ready Spring Boot API structure.
 
-The end result of this sprint should be a secure, runnable application that contains only reusable infrastructure. Authentication, authorization, error handling, logging, validation, testing, Docker, and API standards should remain intact while all Fleet Management functionality is removed.
+The goal of this phase is not to remove all example business functionality, but to separate reusable infrastructure from domain-specific concerns.
+
+The completed foundation should provide:
+
+* Authentication and authorization infrastructure.
+* JWT security.
+* Standardized API responses.
+* Validation.
+* Exception handling.
+* Logging.
+* Integration testing foundation.
+* Docker support.
+* CI/CD workflow.
+* OpenAPI documentation.
+
+The current Fleet Management functionality remains as an example domain demonstrating how additional applications can be built using the foundation.
 
 ---
 
 # Success Criteria
 
-At the completion:
+At completion:
 
-* No Fleet Management business logic remains.
-* Authentication is domain-neutral.
-* The application builds successfully.
+* Authentication is independent from business domains.
+* No company or tenant ownership concepts remain.
+* Security does not depend on fleet-specific data.
+* Domain services do not influence authentication behavior.
+* Application builds successfully.
 * Tests pass.
 * Swagger loads correctly.
 * Docker starts successfully.
 * GitHub Actions passes.
-* The application remains a valid foundation for future development.
+* The application represents a reusable Spring Boot foundation with an example domain.
 
 ---
 
@@ -27,162 +44,205 @@ At the completion:
 
 ## Goal
 
-Remove business-specific concepts from the authentication layer before removing the Fleet domain.
-
-### User
-
-* [ ] Remove Company relationship
-* [ ] Remove company_id index
-* [ ] Remove getCompany()
-* [ ] Remove setCompany()
-
-### Authentication
-
-* [ ] Remove CompanyRepository dependency from AuthenticationService
-* [ ] Remove Company creation during registration
-* [ ] Remove Company assignment to User
-* [ ] Remove company logging
-* [ ] Remove companyName from RegisterRequest
-
-### Security
-
-* [ ] Remove companyId from CustomUserDetails
-* [ ] Update JwtAuthFilter to remove Company dependency
-* [ ] Verify JWT authentication still functions
-* [ ] Verify authorization still functions
-
-### Verification
-
-* [ ] Registration works
-* [ ] Login works
-* [ ] JWT authentication works
-* [ ] Build passes
-* [ ] Tests pass
-
-**Commit**
-
-`refactor: remove company dependency from authentication foundation`
+Remove company-specific concepts from authentication and security infrastructure.
 
 ---
 
-# Phase 2 — Fleet Feature Removal
+## User Entity
 
-## Controllers
+Completed:
 
-* [ ] Remove VehicleController
-* [ ] Remove MaintenanceController
+- [x] Removed Company relationship.
+- [x] Removed company ownership fields.
+- [x] Removed company-specific helper methods.
+- [x] User entity represents standalone authentication identity.
 
-## Services
+---
 
-* [ ] Remove VehicleService
-* [ ] Remove MaintenanceService
-* [ ] Remove CompanyService
+## Authentication
 
-## DTOs
+Completed:
 
-* [ ] Remove VehicleRequestDTO
-* [ ] Remove VehicleResponseDTO
-* [ ] Remove Maintenance DTOs
-* [ ] Remove Fleet-specific mapping classes
+- [x] Removed CompanyRepository dependency from AuthenticationService.
+- [x] Removed company creation during registration.
+- [x] Removed company assignment during user creation.
+- [x] Removed company-specific logging.
+- [x] Removed companyName from registration flow.
+
+Authentication now manages only:
+
+* User creation.
+* Password encoding.
+* Credential validation.
+* JWT generation.
+
+---
+
+## Security
+
+Completed:
+
+- [x] Removed company identifiers from security context.
+- [x] Removed company dependencies from JWT authentication flow.
+- [x] Verified JWT authentication continues functioning.
+- [x] Verified authorization continues functioning.
+
+---
+
+## Verification
+
+Completed:
+
+- [x] Registration works.
+- [x] Login works.
+- [x] JWT authentication works.
+- [x] Build passes.
+- [x] Integration tests pass.
+
+---
+
+# Phase 2 — Domain Boundary Cleanup
+
+## Goal
+
+Remove business-domain coupling from shared application infrastructure.
+
+---
+
+## Completed Cleanup
+
+### Services
+
+Completed:
+
+- [x] Removed CompanyService.
+- [x] Removed company-related business workflows.
+- [x] Verified remaining services do not depend on authentication ownership concepts.
+
+---
 
 ## Repositories
 
-* [ ] Remove VehicleRepository
-* [ ] Remove MaintenanceRepository
-* [ ] Remove CompanyRepository
+Completed:
+
+- [x] Removed CompanyRepository.
+- [x] Removed company-scoped repository queries.
+
+---
 
 ## Entities
 
-* [ ] Remove Vehicle
-* [ ] Remove MaintenanceRecord
-* [ ] Remove Company
+Completed:
 
-### Verification
+- [x] Removed Company entity.
+- [x] Removed entity relationships tied to company ownership.
 
-* [ ] Application starts
-* [ ] Build passes
-* [ ] Tests pass
+Remaining example domain entities:
 
-**Commit**
+* Vehicle
+* MaintenanceRecord
+* User
 
-`refactor: remove fleet management business domain`
-
----
-
-# Phase 3 — Domain Cleanup
-
-## Remove Remaining Fleet References
-
-### Documentation
-
-* [ ] Fleet README references
-* [ ] Fleet API examples
-* [ ] Fleet screenshots
-* [ ] Fleet terminology
-
-### Configuration
-
-* [ ] OpenAPI descriptions
-* [ ] Example JSON
-* [ ] Seed data
-* [ ] Sample configuration
-
-### Logging
-
-* [ ] Fleet-specific log messages
-* [ ] Company IDs in logs
-* [ ] Vehicle references
-
-### Code Cleanup
-
-* [ ] Remove unused imports
-* [ ] Remove dead code
-* [ ] Remove unused dependencies
-* [ ] Verify package organization
-
-### Verification
-
-* [ ] Build passes
-* [ ] Tests pass
-* [ ] Swagger loads
-* [ ] Docker starts
-* [ ] GitHub Actions passes
-
-**Commit**
-
-`refactor: complete fleet domain extraction`
+These remain intentionally to demonstrate API patterns and application structure.
 
 ---
 
-# Sprint Verification Gate
+# Phase 3 — Documentation and Identity Cleanup
 
-The application must still provide:
+## Goal
+
+Ensure repository documentation reflects the new reusable foundation.
+
+---
+
+## Documentation Updates
+
+Completed:
+
+- [x] Updated README to describe reusable API foundation.
+- [x] Removed company-level isolation references.
+- [x] Updated API documentation examples.
+- [x] Updated architecture documentation.
+- [x] Removed outdated authentication examples.
+
+---
+
+## Configuration Review
+
+Reviewed:
+
+- [x] Application properties.
+- [x] Test configuration.
+- [x] Docker configuration.
+- [x] Build configuration.
+
+Remaining fleet naming in application metadata is considered branding cleanup and will be addressed in future generalization phases.
+
+---
+
+# Verification Gate
+
+The application must provide:
 
 ## Infrastructure
 
-* [ ] Spring Boot application starts
-* [ ] Security configuration
-* [ ] JWT authentication
-* [ ] Role-based authorization
-* [ ] Global exception handling
-* [ ] Request validation
-* [ ] Logging
-* [ ] OpenAPI / Swagger
-* [ ] Docker support
-* [ ] GitHub Actions CI
+Completed:
+
+- [x] Spring Boot application starts.
+- [x] JWT authentication.
+- [x] Role-based authorization foundation.
+- [x] Global exception handling.
+- [x] Request validation.
+- [x] Logging.
+- [x] OpenAPI / Swagger.
+- [x] Docker support.
+- [x] GitHub Actions CI.
+
+---
 
 ## Quality
 
-* [ ] No Fleet Management references remain
-* [ ] No Company dependency remains
-* [ ] No dead code
-* [ ] Clean build
-* [ ] Passing test suite
+Completed:
+
+- [x] No Company dependency remains.
+- [x] No tenant ownership assumptions remain.
+- [x] No authentication/business domain coupling remains.
+- [x] Clean build.
+- [x] Passing test suite.
+
+---
+
+# Current State
+
+The repository now represents:
+
+```
+Reusable Spring Boot Foundation
+            +
+Example Business Domain
+            +
+Production Development Practices
+```
+
+The foundation is ready for future generalization phases.
+
+---
+
+# Future Work
+
+Future phases may address:
+
+* Package name generalization.
+* Application branding cleanup.
+* Example domain extraction strategy.
+* More generic templates.
+* Additional reusable modules.
+* Public template preparation.
 
 ---
 
 # Outcome
 
-At the conclusion, the repository should represent a generic Spring Boot API foundation rather than a Fleet Management application.
+The v0.2.0 milestone successfully separates reusable application infrastructure from company-specific business logic.
 
-Sprint T3 will begin generalizing project identity, package names, and infrastructure to prepare the template for public reuse.
+The project is no longer dependent on Fleet Management ownership concepts while retaining a functional example domain that demonstrates how the foundation can be extended.

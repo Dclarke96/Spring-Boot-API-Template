@@ -4,38 +4,52 @@
 
 ### Decision
 
-The Fleet Management API started with a traditional layered architecture:
+The Spring Boot API Template began with a traditional layered architecture:
 
 ```
 Controller → Service → Repository → Database
 ```
 
-This approach was selected initially because it supported rapid development, clear separation of responsibilities, and efficient feature delivery during early application development.
+This approach was selected because it supported rapid development, clear separation of responsibilities, and efficient validation of application patterns.
 
-As the application matured, the architecture began evolving toward a **Clean Architecture / Domain-Centric approach**.
+The current architecture continues to use this structure while introducing stronger boundaries around reusable infrastructure concerns.
 
-### Reasoning
+Future architecture iterations may continue moving toward **Clean Architecture / Domain-Centric design** as application complexity increases.
 
-The architectural evolution is driven by:
+---
 
-* Better isolation of business rules from frameworks and infrastructure.
-* Improved testability of core application behavior.
-* Reduced coupling to Spring, HTTP, and persistence technologies.
-* Creation of reusable architectural patterns for future projects.
+## Reasoning
 
-### ADR-001: Incremental Clean Architecture Migration
+The architectural approach is driven by:
 
-**Decision:** Adopt Clean Architecture principles incrementally rather than rewriting the application.
+* Clear separation of application responsibilities.
+* Maintainable business workflows.
+* Testable application behavior.
+* Reduced coupling between frameworks, infrastructure, and business logic.
+* Creation of reusable backend development patterns.
 
-**Reasoning:**
+The goal is not to introduce unnecessary complexity, but to evolve the architecture as requirements justify additional boundaries.
 
-A complete rewrite would introduce unnecessary risk and delay feature delivery.
+---
 
-The project follows a strangler-style migration approach:
+# ADR-001: Incremental Clean Architecture Migration
+
+## Decision
+
+Adopt Clean Architecture principles incrementally rather than rewriting the application.
+
+## Reasoning
+
+A complete rewrite introduces unnecessary risk and slows development.
+
+The project follows an incremental migration approach:
 
 * Maintain working functionality.
 * Improve boundaries gradually.
-* Refactor individual business capabilities when appropriate.
+* Refactor individual capabilities when appropriate.
+* Preserve existing behavior through testing.
+
+The current repository provides a production-oriented foundation while allowing future applications to introduce additional architectural separation.
 
 ---
 
@@ -52,6 +66,10 @@ Examples:
 * `MaintenanceRequestDTO`
 * `MaintenanceResponseDTO`
 
+The current Fleet Management implementation serves as the example domain demonstrating these patterns.
+
+---
+
 ## Reasoning
 
 DTOs provide:
@@ -61,9 +79,21 @@ DTOs provide:
 * Flexibility for future API changes.
 * Reduced coupling between external consumers and internal implementation.
 
-The current implementation separates API models from persistence entities.
+The API layer remains independent from persistence entity structure.
 
-Future architecture iterations may introduce additional separation between DTOs, application models, and domain models.
+Future architecture iterations may introduce additional separation between:
+
+```
+API DTOs
+
+↓
+
+Application Models
+
+↓
+
+Domain Models
+```
 
 ---
 
@@ -73,15 +103,17 @@ Future architecture iterations may introduce additional separation between DTOs,
 
 Validation is performed at multiple application boundaries.
 
+---
+
 ## API Boundary Validation
 
 Jakarta Validation is used for structural input validation.
 
 Examples:
 
-* Required fields
-* String length requirements
-* Input formatting rules
+* Required fields.
+* String length requirements.
+* Input formatting rules.
 
 Examples:
 
@@ -90,6 +122,8 @@ Examples:
 @Size
 @Pattern
 ```
+
+---
 
 ## Application Business Validation
 
@@ -101,7 +135,7 @@ Examples:
 * Verifying resource existence.
 * Validating relationships between entities.
 
-As domain models are introduced, appropriate business rules may move into domain entities or use cases.
+As domain complexity increases, appropriate business rules may move into dedicated domain models or use cases.
 
 ---
 
@@ -109,7 +143,7 @@ As domain models are introduced, appropriate business rules may move into domain
 
 ## Decision
 
-The current application uses Spring Data repositories to manage persistence operations.
+The application uses Spring Data repositories to manage persistence operations.
 
 Examples:
 
@@ -117,14 +151,20 @@ Examples:
 * `MaintenanceRepository`
 * `UserRepository`
 
+The Fleet Management domain currently demonstrates repository usage patterns.
+
+---
+
 ## Current State
 
 Repositories currently combine:
 
-* Repository abstraction
-* JPA persistence implementation
+* Repository abstraction.
+* JPA persistence implementation.
 
-This approach provides efficient database access while maintaining a clear service/repository separation.
+This approach provides efficient database access while maintaining separation between business workflows and persistence concerns.
+
+---
 
 ## Future Direction
 
@@ -138,21 +178,23 @@ Domain Repository Interface
 Infrastructure Persistence Implementation
 ```
 
-This would further reduce coupling between business logic and database technology.
+This further reduces coupling between business logic and database technology.
 
 ---
 
-# Service and Use Case Layer
+# Service and Application Workflow Layer
 
 ## Decision
 
-Application logic is currently organized within service classes.
+Application workflows are currently organized within service classes.
 
 Examples:
 
 * `VehicleService`
 * `MaintenanceService`
 * `AuthenticationService`
+
+---
 
 ## Current Responsibility
 
@@ -162,16 +204,76 @@ Services currently handle:
 * Business validation.
 * Repository coordination.
 * Transaction boundaries.
+* Domain-specific operations.
+
+---
 
 ## Future Direction
 
-As domain complexity increases, selected workflows may migrate toward dedicated use cases and richer domain models.
+As application complexity increases, selected workflows may migrate toward dedicated use cases and richer domain models.
 
 Example:
 
 ```
-RegisterVehicleUseCase
-CreateMaintenanceRecordUseCase
+RegisterUserUseCase
+CreateResourceUseCase
+ProcessBusinessWorkflowUseCase
 ```
 
-This allows complex business behavior to exist closer to the domain while keeping application orchestration separate.
+This allows complex behavior to exist closer to the domain while keeping application orchestration separate.
+
+---
+
+# Security Architecture
+
+## Decision
+
+Authentication and authorization are implemented as reusable infrastructure concerns.
+
+The security foundation includes:
+
+* JWT authentication.
+* Spring Security integration.
+* Protected endpoint authorization.
+* User identity management.
+
+---
+
+## Reasoning
+
+Security should remain independent from individual business domains.
+
+The authentication foundation should support different applications without requiring domain ownership concepts or business-specific relationships.
+
+---
+
+# Example Domain Strategy
+
+## Decision
+
+Maintain a complete example domain while extracting reusable infrastructure.
+
+The Fleet Management domain remains in the repository to demonstrate:
+
+* REST API design.
+* DTO usage.
+* Validation.
+* Persistence patterns.
+* Integration testing.
+* Business workflow implementation.
+
+The example domain is separated from the reusable foundation and can be replaced or extended by future applications.
+
+---
+
+# Summary
+
+The architecture follows these principles:
+
+* Start simple with clear separation.
+* Introduce complexity only when justified.
+* Protect reusable infrastructure from business-specific coupling.
+* Maintain strong API boundaries.
+* Use testing to support incremental architectural evolution.
+
+The current result is a production-oriented Spring Boot foundation with a practical example domain and a clear path toward further architectural refinement.

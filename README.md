@@ -1,33 +1,37 @@
-# Fleet Management API
+# Spring Boot API Template
 
-![Build Status](https://github.com/Dclarke96/Fleet-Management-API/actions/workflows/build.yml/badge.svg)
+![Build Status](https://github.com/Dclarke96/SpringbootAPITemplate/actions/workflows/build.yml/badge.svg)
 ![Java](https://img.shields.io/badge/Java-17-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.2-brightgreen)
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-green)
 
 ## Overview
 
-Fleet Management API is a backend service designed to help businesses track vehicles, manage maintenance records, and maintain operational visibility across their fleet.
+Spring Boot API Template is a production-oriented backend foundation designed to accelerate the development of secure, maintainable REST APIs.
 
-The API provides secure, scalable RESTful endpoints for managing fleet data, including vehicle management, maintenance tracking, authentication, authorization, search functionality, pagination, and validation.
+The template provides a reusable Spring Boot architecture including authentication, authorization, DTO-based API boundaries, validation, centralized exception handling, standardized API responses, OpenAPI documentation, integration testing, continuous integration, and containerized deployment workflows.
 
-The project is designed to demonstrate production-oriented backend development practices, including layered architecture, DTO-based API boundaries, security implementation, centralized exception handling, OpenAPI documentation, integration testing, continuous integration, and containerized deployment workflows.
+The repository includes an example application domain demonstrating how business functionality can be built on top of the reusable API foundation.
 
-## Quick Start
+The current example implementation uses fleet management workflows to demonstrate resource management, relational data operations, authentication, and API design patterns.
 
-### Run with Docker
+---
+
+# Quick Start
+
+## Run with Docker
 
 ```bash
 docker compose up --build
-```
+````
 
 The application will be available at:
 
-- API: http://localhost:8080
-- Swagger UI: http://localhost:8080/swagger-ui/index.html
-- Health Endpoint: http://localhost:8080/actuator/health
+* API: [http://localhost:8080](http://localhost:8080)
+* Swagger UI: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+* Health Endpoint: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
 
-### Run Locally
+## Run Locally
 
 ```bash
 ./gradlew bootRun
@@ -35,18 +39,19 @@ The application will be available at:
 
 Once the application starts, access:
 
-- API: http://localhost:8080
-- Swagger UI: http://localhost:8080/swagger-ui/index.html
-- Health Endpoint: http://localhost:8080/actuator/health
+* API: [http://localhost:8080](http://localhost:8080)
+* Swagger UI: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+* Health Endpoint: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
 
 ---
 
-## Features
+# Features
 
 * JWT Authentication
-* Company-level data isolation
-* Vehicle Management
-* Maintenance Tracking
+* Role-based security foundation
+* Example application domain implementation
+* CRUD application patterns
+* Relational data workflow examples
 * Search functionality
 * Pagination
 * Jakarta Validation
@@ -61,7 +66,7 @@ Once the application starts, access:
 
 ---
 
-## Tech Stack
+# Tech Stack
 
 * **Language:** Java 17
 * **Framework:** Spring Boot 3.4.2
@@ -77,9 +82,11 @@ Once the application starts, access:
 
 ---
 
-## Architecture
+# Architecture
 
-The backend follows a layered architecture with clear separation between application responsibilities:
+The backend currently follows a layered architecture with clear separation between application responsibilities.
+
+This structure provides a maintainable foundation while allowing future evolution toward additional architectural patterns.
 
 ```
 Controller Layer
@@ -113,13 +120,15 @@ For a detailed overview, see:
 
 ---
 
-## API Documentation
+# API Documentation
 
-The API exposes endpoints for managing:
+The example implementation exposes endpoints demonstrating:
 
 * User authentication
-* Vehicles
-* Maintenance records
+* Resource management workflows
+* Relational data operations
+
+The current example domain demonstrates these patterns using fleet management resources.
 
 Supported operations include:
 
@@ -136,17 +145,17 @@ Detailed endpoint documentation with request and response examples:
 
 ---
 
-## OpenAPI Documentation
+# OpenAPI Documentation
 
 Interactive API documentation is available through Swagger UI after starting the application.
 
-### Swagger UI
+## Swagger UI
 
 ```
 http://localhost:8080/swagger-ui/index.html
 ```
 
-### OpenAPI JSON
+## OpenAPI JSON
 
 ```
 http://localhost:8080/v3/api-docs
@@ -161,7 +170,7 @@ Swagger UI allows developers to:
 
 ---
 
-## Health Monitoring
+# Health Monitoring
 
 Spring Boot Actuator is included to provide application health monitoring for local development and production deployments.
 
@@ -181,21 +190,23 @@ The endpoint reports application and database health and can be used by deployme
 
 ---
 
-## Logging
+# Logging
 
 The application uses structured request logging to improve troubleshooting and operational visibility.
 
-Each incoming request is assigned a unique trace identifier that is included throughout the request lifecycle and in standardized error responses. This allows application logs and client-facing errors to be correlated during debugging.
+Each incoming request is assigned a unique trace identifier that is included throughout the request lifecycle and in standardized error responses.
+
+This allows application logs and client-facing errors to be correlated during debugging.
 
 Application logs intentionally exclude sensitive information such as passwords and JWT tokens.
 
 ---
 
-## Authentication
+# Authentication
 
 The API uses JWT-based authentication.
 
-### Registration
+## Registration
 
 Create a new account:
 
@@ -203,7 +214,7 @@ Create a new account:
 POST /api/auth/register
 ```
 
-### Login
+## Login
 
 Authenticate and receive a JWT token:
 
@@ -219,7 +230,7 @@ Authorization: Bearer <JWT_TOKEN>
 
 Protected resources require a valid authentication token.
 
-### Using Swagger UI
+## Using Swagger UI
 
 1. Register a new user or log in using:
 
@@ -247,7 +258,7 @@ Bearer <JWT_TOKEN>
 
 ---
 
-## Design Decisions
+# Design Decisions
 
 Major architecture and implementation decisions are documented, including:
 
@@ -256,7 +267,7 @@ Major architecture and implementation decisions are documented, including:
 * Authentication and authorization strategy
 * Validation approach
 * Exception handling design
-* Repository query design
+* Repository design
 * Testing strategy
 
 See:
@@ -265,48 +276,46 @@ See:
 
 ---
 
-## Project Roadmap
+# Project Roadmap
 
-This project has evolved through multiple development phases.
+This repository follows a staged evolution from extracted application foundation to reusable production template.
 
-### Version 1.0
-
-Completed:
-
-* Vehicle CRUD operations
-* Maintenance CRUD operations
-* DTO mapping
-* Validation
-* Search functionality
-* Pagination
-
-### Version 2.0
+## Version 0.1.0 — Repository Foundation
 
 Completed:
 
-* JWT authentication
-* User registration and login
-* Role-based security foundation
-* Company-level data isolation
-* Centralized exception handling
-* Production-oriented configuration
-* Integration testing coverage
-* OpenAPI / Swagger documentation
-* GitHub Actions CI pipeline
-* Docker containerization
-* Docker Compose local development environment
+* Created standalone Spring Boot template repository
+* Established Gradle build configuration
+* Configured testing foundation
+* Established CI pipeline foundation
 
-### Future Ideas
+## Version 0.2.0 — Domain Extraction
 
-Potential future enhancements:
+Completed:
 
-* Maintenance reminders
-* Fleet analytics dashboard
-* Reporting
-* Driver assignments
-* Data import/export
-* Notifications
-* Additional operational insights
+* Removed company-specific domain dependencies
+* Decoupled authentication from business ownership concepts
+* Preserved JWT authentication foundation
+* Preserved API standards and infrastructure components
+* Verified application build and integration tests
+
+## Version 0.3.0 — Template Generalization
+
+Planned:
+
+* Remove remaining project-specific naming
+* Improve template documentation
+* Generalize configuration defaults
+* Improve developer onboarding
+
+## Future Enhancements
+
+Potential improvements:
+
+* Additional example domains
+* Expanded architecture examples
+* Additional deployment patterns
+* Advanced observability examples
 
 Detailed roadmap:
 
@@ -327,7 +336,7 @@ Before running the application, ensure you have:
 
 ---
 
-## Environment Configuration
+# Environment Configuration
 
 The application uses Spring profiles:
 
@@ -340,16 +349,16 @@ Sensitive configuration values should be provided through environment variables.
 
 Required environment variables vary by active Spring profile.
 
-Copy .env.example to .env (or configure the equivalent environment variables) before starting the application.
+Copy `.env.example` to `.env` (or configure the equivalent environment variables) before starting the application.
 
-### Local Profile
+## Local Profile
 
 ```
 DB_PASSWORD=<database-password>
 JWT_SECRET=<jwt-secret-key>
 ```
 
-### Production / Docker Profiles
+## Production / Docker Profiles
 
 ```
 DB_URL=<jdbc-url>
@@ -360,9 +369,9 @@ JWT_SECRET=<jwt-secret-key>
 
 ---
 
-## Docker Environment
+# Docker Environment
 
-The project includes Docker support for running the Fleet Management API and PostgreSQL database together in a reproducible local environment.
+The project includes Docker support for running the Spring Boot API and PostgreSQL database together in a reproducible local environment.
 
 Docker Compose provides:
 
@@ -395,16 +404,15 @@ Stop the containers:
 docker compose down
 ```
 
-
 ---
 
-## Running the Project Locally
+# Running the Project Locally
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Dclarke96/Fleet-Management-API.git
-cd Fleet-Management-API
+git clone https://github.com/Dclarke96/SpringbootAPITemplate.git
+cd SpringbootAPITemplate
 ```
 
 2. Configure PostgreSQL and environment variables.
@@ -435,7 +443,7 @@ http://localhost:8080/v3/api-docs
 
 ---
 
-## Running Tests
+# Running Tests
 
 Execute the automated test suite:
 
@@ -445,21 +453,20 @@ Execute the automated test suite:
 
 The project includes integration tests covering:
 
-* Authentication flows
+* Authentication workflows
 * Authorization rules
 * Data integrity scenarios
 * Exception handling
-* Vehicle workflows
-* Maintenance workflows
+* Example domain workflows
 
-Continuous integration is provided through GitHub Actions. Every push and pull request to the `main` and `dev` branches automatically executes the Gradle build and test suite to verify application stability.
+Continuous integration is provided through GitHub Actions.
+
+Every push and pull request to the `main` and `dev` branches automatically executes the Gradle build and test suite to verify application stability.
 
 ---
 
-## Deployment
+# Deployment
 
 Deployment guidance, required environment variables, and production configuration are documented in:
 
 * [Deployment Guide](docs/deployment-guide.md)
-
----

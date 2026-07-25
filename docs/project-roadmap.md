@@ -1,133 +1,228 @@
 # Project Roadmap
 
-## Version 1.0 — Foundation Release (Completed)
+This repository represents a reusable Spring Boot API foundation extracted from a production-style application.
 
-The initial release focused on establishing the core fleet management functionality.
+The roadmap focuses on transforming the original application foundation into a generic, maintainable, and reusable backend template.
+
+---
+
+# Version 0.1.0 — Repository Foundation (Completed)
+
+## Purpose
+
+Establish a clean standalone repository for extracting a reusable Spring Boot API foundation.
+
+## Completed
+
+### Repository Setup
+
+* Created standalone Spring Boot template repository
+* Established Gradle build configuration
+* Configured project structure
+* Verified application startup
+
+### Development Foundation
+
+* Configured automated testing framework
+* Established GitHub Actions CI foundation
+* Verified build pipeline execution
+* Created extraction documentation
+
+### Outcome
+
+The repository became an independent foundation capable of evolving separately from the original application.
+
+---
+
+# Version 0.2.0 — Domain Extraction (Completed)
+
+## Purpose
+
+Remove Fleet Management business dependencies while preserving reusable application infrastructure.
+
+The goal was to separate product-specific functionality from the underlying backend foundation.
+
+---
+
+## Authentication Foundation
 
 Completed:
 
-* Vehicle management CRUD operations
-* Maintenance record management
-* DTO-based API contracts
-* Input validation
-* Repository and service layer separation
-* Initial API design and documentation
-
-Purpose:
-
-Establish a working application foundation and validate the core business domain.
+* Removed company ownership concepts
+* Removed tenant-specific authentication behavior
+* Removed company relationships from user workflows
+* Generalized user registration and login flows
+* Preserved JWT authentication foundation
+* Preserved authorization capabilities
 
 ---
 
-# Version 2.0 — Production Readiness Release (Completed)
-
-Version 2 focused on transforming the application from a functional prototype into a production-oriented backend service.
+## Domain Removal
 
 Completed:
 
-## Authentication & Security
-
-* JWT-based authentication
-* Stateless Spring Security configuration
-* Password encryption using BCrypt
-* Protected API endpoints
-* User authentication workflows
-
-## API Reliability
-
-* Standardized API response format
-* Centralized exception handling
-* Consistent error responses
-* Validation error handling
-* Trace ID support for troubleshooting
-
-## Testing
-
-* Integration testing for API workflows
-* Authentication testing
-* Authorization testing
-* Exception handling verification
-* Data integrity testing
-
-## Operational Improvements
-
-* Environment-specific configuration profiles
-* Production database configuration
-* Structured logging improvements
-* Request logging support
-* Production-safe Hibernate configuration
-
-## Architecture Improvements
-
-* Documented transition from layered architecture toward Clean Architecture principles
-* Established incremental migration strategy
-* Improved separation between API contracts and persistence models
+* Removed company domain dependencies
+* Removed company-scoped authorization logic
+* Removed company ownership relationships
+* Removed tenant-specific repository queries
+* Generalized remaining application boundaries
 
 ---
 
-# Version 2.x — Hardening & Developer Experience
+## Verification
 
-Planned improvements:
+Completed:
 
-## API Documentation
-
-* OpenAPI / Swagger documentation
-* Interactive API exploration
-* Automated API contract generation
-
-## Security Hardening
-
-* Rate limiting
-* Secure HTTP headers
-* Additional authentication protections
-* Security auditing
-
-## Developer Experience
-
-* Improved local development setup
-* Automated environment configuration
-* Additional test coverage
+* Application builds successfully
+* Integration tests pass
+* Authentication workflows verified
+* Security configuration verified
+* API foundation remains operational
 
 ---
 
-# Version 3.0 — Template & Product Expansion
+## Outcome
 
-Future evolution toward a reusable production template.
+The repository now represents a reusable Spring Boot API foundation rather than a Fleet Management application.
+
+---
+
+# Version 0.3.0 — Template Generalization (Planned)
+
+## Purpose
+
+Transform the extracted foundation into a polished reusable Spring Boot application template.
+
+---
+
+## Project Identity
 
 Planned:
 
-## Architecture
-
-* Continue Clean Architecture migration
-* Extract reusable domain patterns
-* Create project templates for future applications
-
-## Infrastructure
-
-* Docker containerization
-* CI/CD pipeline
-* Deployment automation
-* Monitoring and observability improvements
-
-## Product Features
-
-* Reporting capabilities
-* Notifications
-* Analytics dashboard
-* Data export/import workflows
+* Replace remaining Fleet-specific naming
+* Generalize package structure
+* Update application metadata
+* Update configuration naming
+* Improve repository presentation
 
 ---
 
-# Future Domain Expansion
+## Developer Experience
 
-Potential future bounded contexts:
+Planned:
 
-* Trips
-* Drivers
-* Fuel Management
-* Fleet Analytics
-* Maintenance Scheduling
-* External integrations
+* Add template setup instructions
+* Improve local development documentation
+* Provide environment configuration examples
+* Document recommended customization workflow
 
-```
-```
+---
+
+## API Foundation
+
+Planned:
+
+* Finalize common API response patterns
+* Finalize exception handling standards
+* Improve OpenAPI defaults
+* Establish reusable API conventions
+
+---
+
+# Version 0.4.0 — Example Application (Planned)
+
+## Purpose
+
+Demonstrate how the template can be extended into a complete application.
+
+---
+
+## Planned
+
+* Add example domain module
+* Demonstrate recommended architecture patterns
+* Provide example CRUD workflow
+* Demonstrate DTO usage
+* Demonstrate testing strategy
+* Provide example API documentation
+
+---
+
+# Version 0.5.0 — Hardening Release (Planned)
+
+## Purpose
+
+Prepare the template for real-world production usage.
+
+---
+
+## Security Improvements
+
+Planned:
+
+* Additional security defaults
+* Secure HTTP headers
+* Authentication improvements
+* Security configuration examples
+
+---
+
+## Operations
+
+Planned:
+
+* Improved logging patterns
+* Monitoring examples
+* Deployment improvements
+* Production configuration guidance
+
+---
+
+## Testing
+
+Planned:
+
+* Expanded integration testing foundation
+* Additional testing utilities
+* Improved test documentation
+
+---
+
+# Version 1.0.0 — Production Template Release (Future)
+
+## Purpose
+
+Release a stable reusable Spring Boot API foundation.
+
+---
+
+## Target Capabilities
+
+The production template should provide:
+
+* Production-ready Spring Boot structure
+* Secure authentication foundation
+* Standardized API patterns
+* DTO-based API contracts
+* Centralized exception handling
+* Validation framework
+* Testing foundation
+* OpenAPI documentation
+* Docker support
+* CI/CD support
+* Deployment guidance
+* Reusable project structure
+
+---
+
+# Future Evolution
+
+Potential future improvements:
+
+* Additional architecture patterns
+* Modular application examples
+* Event-driven architecture examples
+* Background processing patterns
+* Messaging integrations
+* Observability improvements
+* Cloud deployment examples

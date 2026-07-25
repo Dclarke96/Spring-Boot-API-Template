@@ -2,7 +2,9 @@
 
 ## Overview
 
-The Fleet Management API provides RESTful endpoints for managing fleet vehicles, maintenance records, and user authentication.
+The Spring Boot API Template provides a production-oriented REST API foundation with authentication, authorization, standardized responses, validation, exception handling, and example domain endpoints.
+
+The current implementation includes a Fleet Management example domain to demonstrate API patterns and architectural practices.
 
 The API follows these principles:
 
@@ -11,22 +13,29 @@ The API follows these principles:
 * Consistent response envelopes.
 * Centralized error handling.
 * JWT-based authentication for protected resources.
+* Clear separation between API, business logic, persistence, and infrastructure concerns.
 
 ---
 
 # Authentication
 
+The authentication system provides user registration, login, and JWT-based access control.
+
+Authentication is designed as a reusable foundation that can support different application domains.
+
+---
+
 ## POST `/api/auth/register`
 
-Creates a new user account and company.
+Creates a new user account.
 
 ### Request
 
 ```json
 {
-  "username": "fleetadmin",
-  "password": "password123",
-  "companyName": "Example Fleet Company"
+  "username": "exampleuser",
+  "email": "user@example.com",
+  "password": "password123"
 }
 ```
 
@@ -51,7 +60,7 @@ Authenticates a user and returns a JWT token.
 
 ```json
 {
-  "username": "fleetadmin",
+  "username": "exampleuser",
   "password": "password123"
 }
 ```
@@ -76,6 +85,31 @@ Protected endpoints require:
 ```
 Authorization: Bearer <JWT_TOKEN>
 ```
+
+JWT authentication is handled through Spring Security infrastructure.
+
+The security foundation includes:
+
+* JWT token generation.
+* JWT validation.
+* Request authentication filtering.
+* User identity extraction.
+* Protected endpoint authorization.
+
+---
+
+# Example Domain Endpoints
+
+The current template includes Fleet Management as an example domain.
+
+These endpoints demonstrate:
+
+* CRUD operations.
+* DTO-based request and response handling.
+* Validation.
+* Pagination.
+* Search functionality.
+* Relationship-based workflows.
 
 ---
 
@@ -145,7 +179,7 @@ Creates a new vehicle.
 ```json
 {
   "title": "Truck 1",
-  "VIN": "1HGBH41JXMN109186",
+  "vin": "1HGBH41JXMN109186",
   "licensePlate": "ABC123",
   "make": "Ford",
   "model": "F-150",
@@ -219,13 +253,13 @@ Retrieves maintenance records with pagination.
 
 ## GET `/api/maintenance/{id}`
 
-Retrieves maintenance record by ID.
+Retrieves a maintenance record by ID.
 
 ---
 
 ## GET `/api/maintenance/vehicle/{vehicleId}`
 
-Retrieves maintenance history for a vehicle.
+Retrieves maintenance history associated with a vehicle.
 
 Supports pagination.
 
@@ -291,7 +325,9 @@ All errors follow:
 }
 ```
 
-Common HTTP status codes:
+---
+
+# Common HTTP Status Codes
 
 | Status | Meaning                  |
 | ------ | ------------------------ |
@@ -301,3 +337,21 @@ Common HTTP status codes:
 | 404    | Resource not found       |
 | 409    | Data conflict            |
 | 500    | Unexpected server error  |
+
+---
+
+# Design Notes
+
+The API design intentionally separates reusable infrastructure from example business functionality.
+
+Reusable foundation components include:
+
+* Authentication and authorization.
+* JWT security.
+* DTO-based API contracts.
+* Validation framework.
+* Exception handling.
+* Standardized response formats.
+* Logging and traceability.
+
+The Fleet Management endpoints serve as an example implementation demonstrating how additional domains can be built on top of the foundation.
