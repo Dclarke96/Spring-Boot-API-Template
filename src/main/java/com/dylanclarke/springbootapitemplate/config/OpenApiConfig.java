@@ -45,7 +45,7 @@ public class OpenApiConfig {
                         .description(
                                 "REST API template for building secure, maintainable Spring Boot services."
                         )
-                        .version("2.0.0")
+                        .version("0.3.0")
                         .contact(new Contact()
                                 .name("Dylan Clarke")
                                 .url("https://github.com/Dclarke96"))
