@@ -1,8 +1,8 @@
 # Project Roadmap
 
-This repository represents a reusable Spring Boot API foundation extracted from a production-style application.
+This repository is a reusable Spring Boot API template built from a production-style application. Its purpose is to provide a clean, opinionated foundation that developers can clone and extend when building secure, maintainable REST APIs.
 
-The roadmap focuses on transforming the original application foundation into a generic, maintainable, and reusable backend template.
+The roadmap reflects the evolution of the template from an extracted application into a production-ready engineering asset.
 
 ---
 
@@ -10,181 +10,180 @@ The roadmap focuses on transforming the original application foundation into a g
 
 ## Purpose
 
-Establish a clean standalone repository for extracting a reusable Spring Boot API foundation.
+Establish a standalone Spring Boot repository that can evolve independently from the original Fleet Management application.
 
 ## Completed
 
-### Repository Setup
+### Repository Foundation
 
-* Created standalone Spring Boot template repository
-* Established Gradle build configuration
-* Configured project structure
-* Verified application startup
+- Created standalone Spring Boot project
+- Configured Gradle build
+- Established project structure
+- Verified application startup
 
 ### Development Foundation
 
-* Configured automated testing framework
-* Established GitHub Actions CI foundation
-* Verified build pipeline execution
-* Created extraction documentation
-
-### Outcome
-
-The repository became an independent foundation capable of evolving separately from the original application.
-
----
-
-# Version 0.2.0 — Domain Extraction (Completed)
-
-## Purpose
-
-Remove domain-specific business dependencies while preserving reusable application infrastructure.
-
-The goal was to separate product-specific functionality from the underlying backend foundation.
-
----
-
-## Authentication Foundation
-
-Completed:
-
-* Removed company ownership concepts
-* Removed tenant-specific authentication behavior
-* Removed company relationships from user workflows
-* Generalized user registration and login flows
-* Preserved JWT authentication foundation
-* Preserved authorization capabilities
-
----
-
-## Domain Removal
-
-Completed:
-
-* Removed company domain dependencies
-* Removed company-scoped authorization logic
-* Removed company ownership relationships
-* Removed tenant-specific repository queries
-* Generalized remaining application boundaries
-
----
-
-## Verification
-
-Completed:
-
-* Application builds successfully
-* Integration tests pass
-* Authentication workflows verified
-* Security configuration verified
-* API foundation remains operational
-
----
+- Configured automated testing
+- Established GitHub Actions CI pipeline
+- Verified build pipeline
+- Created extraction documentation
 
 ## Outcome
 
-The repository now represents a reusable Spring Boot API foundation rather than a specific business application.
+A stable standalone repository capable of evolving into a reusable backend template.
 
 ---
 
-# Version 0.3.0 — Template Generalization (Planned)
+# Version 0.2.0 — Architecture Foundation (Completed)
 
 ## Purpose
 
-Transform the extracted foundation into a polished reusable Spring Boot application template.
+Separate reusable backend infrastructure from business-specific implementation while establishing consistent architectural patterns.
+
+## Completed
+
+### Application Architecture
+
+- Layered architecture
+- DTO boundaries
+- Service layer
+- Repository pattern
+- Validation framework
+- Centralized exception handling
+
+### Security
+
+- JWT authentication
+- Spring Security configuration
+- User authentication workflow
+- Role-based authorization foundation
+
+### API Standards
+
+- Standardized API responses
+- Structured error responses
+- Trace ID support
+- Pagination models
+
+### Testing
+
+- Integration testing foundation
+- Authentication workflow tests
+- Exception handling verification
+
+## Outcome
+
+The repository became a reusable backend foundation with clearly defined architectural patterns.
 
 ---
 
-## Project Identity
-
-Planned:
-
-* Replace remaining Fleet-specific naming
-* Generalize package structure
-* Update application metadata
-* Update configuration naming
-* Improve repository presentation
-
----
-
-## Developer Experience
-
-Planned:
-
-* Add template setup instructions
-* Improve local development documentation
-* Provide environment configuration examples
-* Document recommended customization workflow
-
----
-
-## API Foundation
-
-Planned:
-
-* Finalize common API response patterns
-* Finalize exception handling standards
-* Improve OpenAPI defaults
-* Establish reusable API conventions
-
----
-
-# Version 0.4.0 — Example Application (Planned)
+# Version 0.3.0 — Template Generalization (Completed)
 
 ## Purpose
 
-Demonstrate how the template can be extended into a complete application.
+Transform the reusable backend foundation into a generic Spring Boot API template.
+
+## Completed
+
+### Project Identity
+
+- Renamed packages and application classes
+- Removed Fleet-specific branding
+- Updated configuration naming
+- Generalized Docker configuration
+- Generalized OpenAPI documentation
+
+### Documentation
+
+- Updated README
+- Updated architecture documentation
+- Updated deployment documentation
+- Updated API documentation
+- Updated design decisions
+- Updated project roadmap
+
+### CI/CD
+
+- Updated GitHub Actions configuration
+- Generalized database configuration for CI
+
+## Outcome
+
+The repository now represents a reusable Spring Boot API Template instead of a Fleet Management application.
 
 ---
+
+# Version 0.4.0 — Template Hardening (In Progress)
+
+## Purpose
+
+Improve developer experience and prepare the template for real-world usage.
 
 ## Planned
 
-* Add example domain module
-* Demonstrate recommended architecture patterns
-* Provide example CRUD workflow
-* Demonstrate DTO usage
-* Demonstrate testing strategy
-* Provide example API documentation
+### Developer Experience
+
+- Template setup guide
+- Environment configuration guide
+- Improved onboarding documentation
+- Customization guide
+- Improved `.env.example`
+
+### Testing
+
+- Migrate integration tests to Testcontainers
+- Add service-layer unit test examples
+- Add controller test examples
+- Expand testing documentation
+
+### CI/CD
+
+- Add JaCoCo code coverage
+- Add dependency vulnerability scanning
+- Improve build reporting
+
+### Observability
+
+- Improve Actuator configuration
+- Optional Prometheus metrics endpoint
+- Refine logging configuration
+
+## Outcome
+
+A developer should be able to clone the repository, configure it, and begin building with minimal setup.
 
 ---
 
-# Version 0.5.0 — Hardening Release (Planned)
+# Version 0.5.0 — Repository Polish & Extensibility (Planned)
 
 ## Purpose
 
-Prepare the template for real-world production usage.
+Elevate the template into a professional open-source quality repository.
 
----
+## Planned
 
-## Security Improvements
+### Documentation
 
-Planned:
+- Architecture diagrams
+- Architectural Decision Records (ADRs)
+- CHANGELOG
+- Contribution guide
 
-* Additional security defaults
-* Secure HTTP headers
-* Authentication improvements
-* Security configuration examples
+### Repository Standards
 
----
+- LICENSE
+- GitHub Issue Templates
+- Pull Request Template
 
-## Operations
+### Extensibility
 
-Planned:
+- Example customization guide
+- Extension point documentation
+- Optional example domain organization
 
-* Improved logging patterns
-* Monitoring examples
-* Deployment improvements
-* Production configuration guidance
+## Outcome
 
----
-
-## Testing
-
-Planned:
-
-* Expanded integration testing foundation
-* Additional testing utilities
-* Improved test documentation
+A polished repository that demonstrates professional engineering practices and is suitable for public release.
 
 ---
 
@@ -192,37 +191,67 @@ Planned:
 
 ## Purpose
 
-Release a stable reusable Spring Boot API foundation.
-
----
+Release a stable, production-ready Spring Boot API template.
 
 ## Target Capabilities
 
-The production template should provide:
+### Foundation
 
-* Production-ready Spring Boot structure
-* Secure authentication foundation
-* Standardized API patterns
-* DTO-based API contracts
-* Centralized exception handling
-* Validation framework
-* Testing foundation
-* OpenAPI documentation
-* Docker support
-* CI/CD support
-* Deployment guidance
-* Reusable project structure
+- Spring Boot configuration
+- PostgreSQL support
+- JWT authentication
+- Spring Security
+- DTO architecture
+- Validation
+- Centralized exception handling
+
+### Developer Experience
+
+- Complete setup documentation
+- Template customization guide
+- Environment documentation
+- Architecture documentation
+
+### Quality
+
+- Testcontainers
+- Unit testing examples
+- Integration testing
+- Controller testing
+- Code coverage reporting
+- Dependency scanning
+
+### Deployment
+
+- Docker support
+- GitHub Actions CI/CD
+- Production configuration
+- Health checks
+- OpenAPI documentation
+
+### Repository
+
+- Architecture diagrams
+- ADRs
+- CHANGELOG
+- LICENSE
+- Professional documentation
+
+## Outcome
+
+A production-ready Spring Boot API template that developers can confidently use as the starting point for real-world applications.
 
 ---
 
 # Future Evolution
 
-Potential future improvements:
+Potential future enhancements include:
 
-* Additional architecture patterns
-* Modular application examples
-* Event-driven architecture examples
-* Background processing patterns
-* Messaging integrations
-* Observability improvements
-* Cloud deployment examples
+- Modular architecture options
+- Multiple example domains
+- Event-driven architecture examples
+- Background processing patterns
+- Messaging integrations
+- Kubernetes deployment examples
+- Cloud deployment reference architectures
+- Repository template generation tools

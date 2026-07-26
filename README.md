@@ -17,6 +17,36 @@ The current example implementation uses a reusable API template structure to dem
 
 ---
 
+# Who Is This Template For?
+
+This template is intended for developers who want a production-oriented starting point for Spring Boot REST APIs.
+
+Typical use cases include:
+
+- New backend projects
+- Portfolio applications
+- Internal business tools
+- Microservices
+- Learning modern Spring Boot architecture
+- Rapid API prototyping
+
+The included example domain demonstrates the recommended architectural patterns and can be replaced with your own business domain.
+
+---
+
+# Documentation
+
+| Document | Description |
+|----------|-------------|
+| Template Guide | Getting started with the template |
+| Architecture Overview | Layered architecture and project organization |
+| API Design | API conventions and design standards |
+| Deployment Guide | Deployment and environment configuration |
+| Design Decisions | Architectural rationale |
+| Project Roadmap | Planned releases and milestones |
+
+---
+
 # Quick Start
 
 ## Run with Docker
@@ -260,7 +290,7 @@ Bearer <JWT_TOKEN>
 
 # Design Decisions
 
-Major architecture and implementation decisions are documented, including:
+Major architectural and implementation decisions are documented to explain the reasoning behind the template's design. These documents describe not only *what* was implemented, but *why* each decision was made.
 
 * Why layered architecture was selected
 * Why DTOs are used
@@ -278,48 +308,13 @@ See:
 
 # Project Roadmap
 
-This repository follows a staged evolution from extracted application foundation to reusable production template.
+The template follows a structured release roadmap that incrementally evolves the project from a standalone repository into a production-ready Spring Boot API template.
 
-## Version 0.1.0 — Repository Foundation
+Each release focuses on a specific milestone, including architecture, developer experience, testing, CI/CD, documentation, and repository quality.
 
-Completed:
+See:
 
-* Created standalone Spring Boot template repository
-* Established Gradle build configuration
-* Configured testing foundation
-* Established CI pipeline foundation
-
-## Version 0.2.0 — Domain Extraction
-
-Completed:
-
-* Removed company-specific domain dependencies
-* Decoupled authentication from business ownership concepts
-* Preserved JWT authentication foundation
-* Preserved API standards and infrastructure components
-* Verified application build and integration tests
-
-## Version 0.3.0 — Template Generalization
-
-Planned:
-
-* Remove remaining project-specific naming
-* Improve template documentation
-* Generalize configuration defaults
-* Improve developer onboarding
-
-## Future Enhancements
-
-Potential improvements:
-
-* Additional example domains
-* Expanded architecture examples
-* Additional deployment patterns
-* Advanced observability examples
-
-Detailed roadmap:
-
-* [Project Roadmap](docs/project-roadmap.md)
+- [Project Roadmap](docs/project-roadmap.md)
 
 ---
 
@@ -329,10 +324,10 @@ Detailed roadmap:
 
 Before running the application, ensure you have:
 
-* Java 17
-* PostgreSQL database
-* Gradle
-* Docker Desktop (optional, for containerized setup)
+* Java 21
+* Git
+* Docker Desktop (recommended)
+* PostgreSQL (only if not using Docker)
 
 ---
 
@@ -350,6 +345,8 @@ Sensitive configuration values should be provided through environment variables.
 Required environment variables vary by active Spring profile.
 
 Copy `.env.example` to `.env` (or configure the equivalent environment variables) before starting the application.
+
+The template includes an `.env.example` file that documents the expected environment variables for local development.
 
 ## Local Profile
 
@@ -371,7 +368,7 @@ JWT_SECRET=<jwt-secret-key>
 
 # Docker Environment
 
-The project includes Docker support for running the Spring Boot API and PostgreSQL database together in a reproducible local environment.
+Docker Compose provides a complete local development environment, allowing the application and PostgreSQL database to be started with a single command..
 
 Docker Compose provides:
 
