@@ -13,7 +13,7 @@ The template provides a reusable Spring Boot architecture including authenticati
 
 The repository includes an example application domain demonstrating how business functionality can be built on top of the reusable API foundation.
 
-The current example implementation uses fleet management workflows to demonstrate resource management, relational data operations, authentication, and API design patterns.
+The current example implementation uses a reusable API template structure to demonstrate resource management, relational data operations, authentication, and API design patterns.
 
 ---
 
@@ -128,7 +128,7 @@ The example implementation exposes endpoints demonstrating:
 * Resource management workflows
 * Relational data operations
 
-The current example domain demonstrates these patterns using fleet management resources.
+The current example domain demonstrates these patterns using template resources and example CRUD workflows.
 
 Supported operations include:
 

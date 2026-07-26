@@ -19,7 +19,7 @@ The completed foundation should provide:
 * CI/CD workflow.
 * OpenAPI documentation.
 
-The current Fleet Management functionality remains as an example domain demonstrating how additional applications can be built using the foundation.
+The current example functionality remains as a demonstration domain showing how additional applications can be built using the foundation.
 
 ---
 
@@ -245,4 +245,4 @@ Future phases may address:
 
 The v0.2.0 milestone successfully separates reusable application infrastructure from company-specific business logic.
 
-The project is no longer dependent on Fleet Management ownership concepts while retaining a functional example domain that demonstrates how the foundation can be extended.
+The project is no longer dependent on the previous domain-specific concepts while retaining a functional example domain that demonstrates how the foundation can be extended.

@@ -4,7 +4,7 @@
 
 The Spring Boot API Template provides a production-oriented REST API foundation with authentication, authorization, standardized responses, validation, exception handling, and example domain endpoints.
 
-The current implementation includes a Fleet Management example domain to demonstrate API patterns and architectural practices.
+The current implementation includes an example domain to demonstrate API patterns and architectural practices.
 
 The API follows these principles:
 
@@ -100,7 +100,7 @@ The security foundation includes:
 
 # Example Domain Endpoints
 
-The current template includes Fleet Management as an example domain.
+The current template includes an example domain to illustrate how additional business functionality can be added on top of the foundation.
 
 These endpoints demonstrate:
 
@@ -354,4 +354,4 @@ Reusable foundation components include:
 * Standardized response formats.
 * Logging and traceability.
 
-The Fleet Management endpoints serve as an example implementation demonstrating how additional domains can be built on top of the foundation.
+The example endpoints serve as an implementation reference demonstrating how additional domains can be built on top of the foundation.

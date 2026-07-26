@@ -38,7 +38,7 @@ The repository became an independent foundation capable of evolving separately f
 
 ## Purpose
 
-Remove Fleet Management business dependencies while preserving reusable application infrastructure.
+Remove domain-specific business dependencies while preserving reusable application infrastructure.
 
 The goal was to separate product-specific functionality from the underlying backend foundation.
 
@@ -83,7 +83,7 @@ Completed:
 
 ## Outcome
 
-The repository now represents a reusable Spring Boot API foundation rather than a Fleet Management application.
+The repository now represents a reusable Spring Boot API foundation rather than a specific business application.
 
 ---
 

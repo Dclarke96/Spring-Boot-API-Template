@@ -66,7 +66,7 @@ Examples:
 * `MaintenanceRequestDTO`
 * `MaintenanceResponseDTO`
 
-The current Fleet Management implementation serves as the example domain demonstrating these patterns.
+The current example implementation serves as the domain demonstration for these patterns.
 
 ---
 
@@ -151,7 +151,7 @@ Examples:
 * `MaintenanceRepository`
 * `UserRepository`
 
-The Fleet Management domain currently demonstrates repository usage patterns.
+The example domain currently demonstrates repository usage patterns.
 
 ---
 
@@ -253,7 +253,7 @@ The authentication foundation should support different applications without requ
 
 Maintain a complete example domain while extracting reusable infrastructure.
 
-The Fleet Management domain remains in the repository to demonstrate:
+The example domain remains in the repository to demonstrate:
 
 * REST API design.
 * DTO usage.
