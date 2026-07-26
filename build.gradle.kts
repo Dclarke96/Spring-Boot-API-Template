@@ -5,8 +5,8 @@ plugins {
 }
 
 group = "com.dylanclarke"
-version = "2.0.0"
-description = "Fleet Management REST API"
+version = "0.3.0"
+description = "Production-ready Spring Boot REST API Template"
 
 java {
     toolchain {

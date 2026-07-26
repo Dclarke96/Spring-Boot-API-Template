@@ -2,7 +2,7 @@ services:
 
   postgres:
     image: postgres:16
-    container_name: fleet-postgres
+    container_name: template-postgres
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -14,14 +14,14 @@ services:
 
   api:
     build: .
-    container_name: fleet-api
+    container_name: springboot-api-template
     depends_on:
       - postgres
     ports:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      DB_URL: jdbc:postgresql://postgres:5432/fleetdb
+      DB_URL: jdbc:postgresql://postgres:5432/springboot_template
       DB_USERNAME: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}

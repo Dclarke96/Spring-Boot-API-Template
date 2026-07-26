@@ -1,1 +1,1 @@
-rootProject.name = "FleetManagementAPI"
+rootProject.name = "SpringBootApiTemplate"
