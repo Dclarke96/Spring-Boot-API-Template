@@ -5,18 +5,21 @@ plugins {
 }
 
 group = "com.dylanclarke"
-version = "0.3.0"
+version = "0.4.0"
 description = "Production-ready Spring Boot REST API Template"
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
 repositories {
     mavenCentral()
 }
+
+// Override Spring Boot dependency management for Testcontainers
+ext["testcontainers.version"] = "2.0.2"
 
 dependencies {
 
@@ -28,19 +31,24 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // --- JWT Authentication ---
-    implementation ("io.jsonwebtoken:jjwt-api:0.12.5")
-    runtimeOnly ("io.jsonwebtoken:jjwt-impl:0.12.5")
-    runtimeOnly ("io.jsonwebtoken:jjwt-jackson:0.12.5")
+    implementation("io.jsonwebtoken:jjwt-api:0.12.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
 
     // --- Database Drivers ---
     runtimeOnly("org.postgresql:postgresql")
 
     // --- Testing ---
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 
+    // --- Testcontainers ---
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter:2.0.2")
+    testImplementation("org.testcontainers:testcontainers-postgresql:2.0.2")
+
     // --- Documentation ---
-    implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
 }
 
 tasks.withType<Test> {

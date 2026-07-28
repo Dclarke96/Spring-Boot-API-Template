@@ -2,10 +2,11 @@ package com.dylanclarke.springbootapitemplate.integration;
 
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -15,16 +16,23 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 
+import com.dylanclarke.springbootapitemplate.repository.MaintenanceRepository;
+import com.dylanclarke.springbootapitemplate.repository.UserRepository;
+import com.dylanclarke.springbootapitemplate.repository.VehicleRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 /**
  * Base class for all integration tests.
  *
  * Provides:
  * - Shared Spring Boot test configuration
+ * - Testcontainers PostgreSQL database
  * - Common authentication helpers
  * - Common vehicle helpers
  * - Common maintenance helpers
@@ -35,8 +43,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@Transactional
+@Testcontainers
 public abstract class BaseIntegrationTest {
+
+
+    // =========================================================
+    // TEST DATABASE
+    // =========================================================
+
+    @ServiceConnection
+    static PostgreSQLContainer postgres =
+            new PostgreSQLContainer("postgres:16")
+                    .withDatabaseName("springboot_template_test")
+                    .withUsername("postgres")
+                    .withPassword("postgres");
+
+    static {
+        postgres.start();
+    }
+
 
     @Autowired
     protected MockMvc mockMvc;
@@ -44,15 +69,35 @@ public abstract class BaseIntegrationTest {
     @Autowired
     protected ObjectMapper objectMapper;
 
+    @Autowired
+    protected UserRepository userRepository;
+
+    @Autowired
+    protected VehicleRepository vehicleRepository;
+
+    @Autowired
+    protected MaintenanceRepository maintenanceRepository;
+
+    @BeforeEach
+    protected void cleanDatabase() {
+
+        maintenanceRepository.deleteAll();
+
+        vehicleRepository.deleteAll();
+
+        userRepository.deleteAll();
+    }
+
+
     // =========================================================
     // AUTHENTICATION HELPERS
     // =========================================================
 
     /**
-    * Registers a user with default test credentials.
-    */
+     * Registers a user with default test credentials.
+     */
     protected void register(
-             String username
+            String username
     ) throws Exception {
 
         register(
@@ -61,7 +106,8 @@ public abstract class BaseIntegrationTest {
                 "password"
         );
     }
-    
+
+
     /**
      * Registers a user with explicit credentials.
      */
@@ -84,10 +130,11 @@ public abstract class BaseIntegrationTest {
         );
 
         mockMvc.perform(post("/api/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType("application/json")
                         .content(json))
                 .andExpect(status().isCreated());
     }
+
 
     protected String login(
             String username
@@ -100,18 +147,22 @@ public abstract class BaseIntegrationTest {
         }
         """.formatted(username);
 
-        String response = mockMvc.perform(post("/api/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+
+        String response =
+                mockMvc.perform(post("/api/auth/login")
+                                .contentType("application/json")
+                                .content(json))
+                        .andExpect(status().isOk())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
 
         JsonNode node = objectMapper.readTree(response);
 
         return node.get("data").asText();
     }
+
 
     // =========================================================
     // VEHICLE HELPERS
@@ -129,6 +180,7 @@ public abstract class BaseIntegrationTest {
         );
     }
 
+
     protected Long createVehicle(
             String token,
             String title
@@ -142,12 +194,14 @@ public abstract class BaseIntegrationTest {
         );
     }
 
+
     protected Long createVehicle(
             String token,
             String title,
             LocalDate startDate,
             LocalDate endDate
     ) throws Exception {
+
 
         String json = """
         {
@@ -168,23 +222,29 @@ public abstract class BaseIntegrationTest {
                 endDate
         );
 
-        String response = mockMvc.perform(post("/api/vehicles")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andDo(print())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
 
-                System.out.println(response);
+        String response =
+                mockMvc.perform(post("/api/vehicles")
+                                .header(
+                                        "Authorization",
+                                        "Bearer " + token
+                                )
+                                .contentType("application/json")
+                                .content(json))
+                        .andDo(print())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
 
         JsonNode node = objectMapper.readTree(response);
+
 
         return node.get("data")
                 .get("id")
                 .asLong();
     }
+
 
     protected void getVehicle(
             String token,
@@ -192,10 +252,14 @@ public abstract class BaseIntegrationTest {
     ) throws Exception {
 
         mockMvc.perform(get("/api/vehicles/" + vehicleId)
-                        .header("Authorization", "Bearer " + token))
+                        .header(
+                                "Authorization",
+                                "Bearer " + token
+                        ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true));
     }
+
 
     // =========================================================
     // MAINTENANCE HELPERS
@@ -206,7 +270,9 @@ public abstract class BaseIntegrationTest {
             Long vehicleId
     ) throws Exception {
 
+
         LocalDate serviceDate = LocalDate.now().plusDays(1);
+
 
         String json = """
         {
@@ -220,21 +286,29 @@ public abstract class BaseIntegrationTest {
                 serviceDate
         );
 
-        String response = mockMvc.perform(post("/api/maintenance")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+
+        String response =
+                mockMvc.perform(post("/api/maintenance")
+                                .header(
+                                        "Authorization",
+                                        "Bearer " + token
+                                )
+                                .contentType("application/json")
+                                .content(json))
+                        .andExpect(status().isCreated())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
 
         JsonNode node = objectMapper.readTree(response);
+
 
         return node.get("data")
                 .get("id")
                 .asLong();
     }
+
 
     protected void getMaintenance(
             String token,
@@ -242,10 +316,14 @@ public abstract class BaseIntegrationTest {
     ) throws Exception {
 
         mockMvc.perform(get("/api/maintenance/" + maintenanceId)
-                        .header("Authorization", "Bearer " + token))
+                        .header(
+                                "Authorization",
+                                "Bearer " + token
+                        ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true));
     }
+
 
     protected void updateMaintenance(
             String token,
@@ -253,7 +331,9 @@ public abstract class BaseIntegrationTest {
             Long vehicleId
     ) throws Exception {
 
+
         LocalDate updatedDate = LocalDate.now().plusDays(2);
+
 
         String json = """
         {
@@ -267,21 +347,30 @@ public abstract class BaseIntegrationTest {
                 updatedDate
         );
 
+
         mockMvc.perform(put("/api/maintenance/" + maintenanceId)
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(
+                                "Authorization",
+                                "Bearer " + token
+                        )
+                        .contentType("application/json")
                         .content(json))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true));
     }
+
 
     protected void deleteMaintenance(
             String token,
             Long maintenanceId
     ) throws Exception {
 
+
         mockMvc.perform(delete("/api/maintenance/" + maintenanceId)
-                        .header("Authorization", "Bearer " + token))
+                        .header(
+                                "Authorization",
+                                "Bearer " + token
+                        ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true));
     }
