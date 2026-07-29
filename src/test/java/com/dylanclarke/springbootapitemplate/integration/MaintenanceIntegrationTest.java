@@ -1,17 +1,17 @@
 package com.dylanclarke.springbootapitemplate.integration;
 
+import com.dylanclarke.springbootapitemplate.dto.MaintenanceRequestDTO;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import com.dylanclarke.springbootapitemplate.dto.MaintenanceRequestDTO;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 
 class MaintenanceIntegrationTest extends BaseIntegrationTest {
@@ -22,7 +22,7 @@ class MaintenanceIntegrationTest extends BaseIntegrationTest {
     // =========================================================
 
     @Test
-    @DisplayName("Should create maintenance record")
+    @DisplayName("Should create maintenance")
     void shouldCreateMaintenance() throws Exception {
 
         // Arrange
@@ -150,7 +150,7 @@ class MaintenanceIntegrationTest extends BaseIntegrationTest {
     // =========================================================
 
     @Test
-    @DisplayName("Should update maintenance record")
+    @DisplayName("Should update maintenance")
     void shouldUpdateMaintenance() throws Exception {
 
         // Arrange

@@ -1,7 +1,7 @@
 # Spring Boot API Template
 
 ![Build Status](https://github.com/Dclarke96/SpringbootAPITemplate/actions/workflows/build.yml/badge.svg)
-![Java](https://img.shields.io/badge/Java-17-blue)
+![Java](https://img.shields.io/badge/Java-21-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.2-brightgreen)
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-green)
 
@@ -9,7 +9,7 @@
 
 Spring Boot API Template is a production-oriented backend foundation designed to accelerate the development of secure, maintainable REST APIs.
 
-The template provides a reusable Spring Boot architecture including authentication, authorization, DTO-based API boundaries, validation, centralized exception handling, standardized API responses, OpenAPI documentation, integration testing, continuous integration, and containerized deployment workflows.
+The template provides a reusable Spring Boot architecture including authentication, authorization, DTO-based API boundaries, validation, centralized exception handling, standardized API responses, OpenAPI documentation, integration testing, continuous integration, and containerized application workflows.
 
 The repository includes an example application domain demonstrating how business functionality can be built on top of the reusable API foundation.
 
@@ -90,7 +90,8 @@ Once the application starts, access:
 * Request logging with trace IDs
 * Spring Boot Actuator health monitoring
 * OpenAPI / Swagger documentation
-* Integration testing
+* PostgreSQL Testcontainers integration testing
+* Reusable integration testing framework
 * GitHub Actions CI pipeline
 * Docker containerization
 
@@ -98,7 +99,7 @@ Once the application starts, access:
 
 # Tech Stack
 
-* **Language:** Java 17
+* **Language:** Java 21
 * **Framework:** Spring Boot 3.4.2
 * **Database:** PostgreSQL
 * **Validation:** Jakarta Validation
@@ -107,7 +108,7 @@ Once the application starts, access:
 * **Build Tool:** Gradle
 * **Containerization:** Docker + Docker Compose
 * **Architecture:** Layered Architecture with separated API, business logic, persistence, security, and cross-cutting concerns
-* **Testing:** JUnit 5 + Spring Boot Test
+* **Testing:** JUnit 5 + Spring Boot Test + Testcontainers
 * **CI/CD:** GitHub Actions
 
 ---
@@ -120,6 +121,8 @@ This structure provides a maintainable foundation while allowing future evolutio
 
 ```
 Controller Layer
+        ↓
+DTO/API Models
         ↓
 Service Layer
         ↓
@@ -326,8 +329,8 @@ Before running the application, ensure you have:
 
 * Java 21
 * Git
-* Docker Desktop (recommended)
-* PostgreSQL (only if not using Docker)
+* Docker Desktop (required for integration tests and recommended for local development)
+* PostgreSQL (only required for running locally without Docker)
 
 ---
 
@@ -368,14 +371,13 @@ JWT_SECRET=<jwt-secret-key>
 
 # Docker Environment
 
-Docker Compose provides a complete local development environment, allowing the application and PostgreSQL database to be started with a single command..
+Docker Compose provides a complete local development environment, allowing the application and PostgreSQL database to be started with a single command.
 
 Docker Compose provides:
 
 * Spring Boot API container
 * PostgreSQL database container
 * Internal container networking
-* Persistent database storage through Docker volumes
 
 Start the application:
 
@@ -412,7 +414,7 @@ git clone https://github.com/Dclarke96/SpringbootAPITemplate.git
 cd SpringbootAPITemplate
 ```
 
-2. Configure PostgreSQL and environment variables.
+2. Configure PostgreSQL and environment variables. PostgreSQL is not required when running integration tests because Testcontainers creates an isolated database automatically.
 
 3. Build and run:
 
@@ -445,7 +447,7 @@ http://localhost:8080/v3/api-docs
 Execute the automated test suite:
 
 ```bash
-./gradlew test
+./gradlew clean build
 ```
 
 The project includes integration tests covering:

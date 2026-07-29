@@ -243,8 +243,8 @@ class AuthIntegrationTest extends BaseIntegrationTest {
 
 
     @Test
-    @DisplayName("Should reject expired JWT")
-    void shouldRejectExpiredJwt() throws Exception {
+    @DisplayName("Should reject malformed JWT")
+    void shouldRejectMalformedJwt() throws Exception {
 
         // Arrange
 
