@@ -1,4 +1,4 @@
-FROM gradle:8-jdk17 AS build
+FROM gradle:8-jdk21 AS build
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN chmod +x ./gradlew
 RUN ./gradlew clean build -x test
 
 
-FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
