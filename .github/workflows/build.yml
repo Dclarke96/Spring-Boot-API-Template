@@ -22,8 +22,8 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_DB: springboot_template_test
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: root
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         options: >-
@@ -42,7 +42,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
 
@@ -54,6 +54,6 @@ jobs:
         env:
           SPRING_PROFILES_ACTIVE: test
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/springboot_template_test
-          SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: root
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: postgres
         run: ./gradlew clean build

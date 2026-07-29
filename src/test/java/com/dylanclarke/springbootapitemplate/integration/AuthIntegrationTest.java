@@ -3,10 +3,7 @@ package com.dylanclarke.springbootapitemplate.integration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-
-import com.dylanclarke.springbootapitemplate.repository.UserRepository;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -14,9 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 class AuthIntegrationTest extends BaseIntegrationTest {
-
-    @Autowired
-    private UserRepository userRepository;
 
 
     // =========================================================
@@ -27,14 +21,24 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should register a new user")
     void shouldRegisterUserSuccessfully() throws Exception {
 
-        register("user1");
+        // Arrange
+
+        String username = "user1";
+
+
+        // Act
+
+        register(username);
+
+
+        // Assert
 
         Assertions.assertTrue(
                 userRepository.findAll()
                         .stream()
                         .anyMatch(user ->
                                 user.getUsername()
-                                        .equals("user1"))
+                                        .equals(username))
         );
     }
 
@@ -43,8 +47,9 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should reject duplicate username")
     void shouldRejectDuplicateUsername() throws Exception {
 
-        register("duplicate");
+        // Arrange
 
+        register("duplicate");
 
         String json = """
         {
@@ -55,9 +60,15 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         """;
 
 
+        // Act
+
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+
+
+                // Assert
+
                 .andExpect(status().isConflict());
     }
 
@@ -66,12 +77,13 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should reject duplicate email")
     void shouldRejectDuplicateEmail() throws Exception {
 
+        // Arrange
+
         register(
                 "user1",
                 "shared@example.com",
                 "password"
         );
-
 
         String json = """
         {
@@ -82,9 +94,15 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         """;
 
 
+        // Act
+
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+
+
+                // Assert
+
                 .andExpect(status().isConflict());
     }
 
@@ -98,11 +116,17 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should login successfully")
     void shouldLoginSuccessfully() throws Exception {
 
+        // Arrange
+
         register("loginuser");
 
 
+        // Act
+
         String token = login("loginuser");
 
+
+        // Assert
 
         Assertions.assertNotNull(token);
         Assertions.assertFalse(token.isEmpty());
@@ -113,8 +137,9 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should reject invalid password")
     void shouldRejectInvalidPassword() throws Exception {
 
-        register("badpass");
+        // Arrange
 
+        register("badpass");
 
         String json = """
         {
@@ -124,9 +149,15 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         """;
 
 
+        // Act
+
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+
+
+                // Assert
+
                 .andExpect(status().isUnauthorized());
     }
 
@@ -134,6 +165,8 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Should reject unknown user")
     void shouldRejectUnknownUser() throws Exception {
+
+        // Arrange
 
         String json = """
         {
@@ -143,9 +176,15 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         """;
 
 
+        // Act
+
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+
+
+                // Assert
+
                 .andExpect(status().isUnauthorized());
     }
 
@@ -159,17 +198,22 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should allow authenticated request")
     void shouldAllowAuthenticatedRequest() throws Exception {
 
-        register("authuser");
+        // Arrange
+
+        String token = authenticate("authuser");
 
 
-        String token = login("authuser");
-
+        // Act
 
         mockMvc.perform(get("/api/vehicles")
                         .header(
                                 "Authorization",
                                 "Bearer " + token
                         ))
+
+
+                // Assert
+
                 .andExpect(status().isOk());
     }
 
@@ -178,28 +222,47 @@ class AuthIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should reject invalid JWT")
     void shouldRejectInvalidJwt() throws Exception {
 
+        // Arrange
+
+        String token = "invalidtoken";
+
+
+        // Act
+
         mockMvc.perform(get("/api/vehicles")
                         .header(
                                 "Authorization",
-                                "Bearer invalidtoken"
+                                "Bearer " + token
                         ))
+
+
+                // Assert
+
                 .andExpect(status().isUnauthorized());
     }
 
 
     @Test
-    @DisplayName("Should reject expired JWT")
-    void shouldRejectExpiredJwt() throws Exception {
+    @DisplayName("Should reject malformed JWT")
+    void shouldRejectMalformedJwt() throws Exception {
 
-        String fakeExpiredToken =
+        // Arrange
+
+        String expiredToken =
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.expired.signature";
 
+
+        // Act
 
         mockMvc.perform(get("/api/vehicles")
                         .header(
                                 "Authorization",
-                                "Bearer " + fakeExpiredToken
+                                "Bearer " + expiredToken
                         ))
+
+
+                // Assert
+
                 .andExpect(status().isUnauthorized());
     }
 }

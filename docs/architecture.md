@@ -1,45 +1,50 @@
 # Architecture Overview
 
-## Current State & Target Architecture
+## Current State & Future Architecture Direction
 
-The Spring Boot API Template began with a **classic layered architecture**:
+The Spring Boot API Template currently follows a **layered architecture** designed to provide a maintainable, testable, and reusable foundation for Spring Boot REST API development.
+
+The current structure:
 
 ```
-Controller → Service → Repository → Database
+Controller → DTO Boundary → Service → Repository → Database
 ```
 
-This structure supported rapid development, feature delivery, and early validation of application functionality.
+This architecture provides clear separation between API concerns, business workflows, persistence operations, and cross-cutting application concerns.
 
-As the project has matured, the architecture is evolving toward a **Clean Architecture / Domain-Centric approach** to improve long-term maintainability, testability, and reusability as a foundation for future applications.
+As applications grow in complexity, the template can evolve toward stronger **Clean Architecture and Domain-Centric patterns** to further improve maintainability, testability, and separation of responsibilities.
 
-The migration is intentionally incremental. The goal is not to rewrite the application, but to gradually improve boundaries while maintaining working functionality.
+The goal is not to introduce unnecessary complexity early, but to provide a foundation that can scale as application requirements increase.
 
 ---
 
-# Why the Architecture Is Evolving
+# Why the Architecture Is Designed to Evolve
 
-The transition toward a domain-centric architecture is driven by several goals:
+The template architecture is designed with future expansion in mind.
 
-* Protect business logic from framework and infrastructure concerns.
-* Reduce coupling between Spring, persistence technologies, and application rules.
-* Improve testability of core business behavior.
-* Create reusable patterns that can support future applications.
-* Establish clearer boundaries as additional capabilities are introduced:
+Potential future improvements may include:
 
-  * Authentication and authorization
+* Stronger separation between business rules and infrastructure concerns.
+* Increased independence from framework-specific implementations.
+* Additional domain-driven patterns.
+* More explicit application use cases.
+* Support for additional business capabilities:
+
   * Background processing
   * Reporting
   * Notifications
   * Additional business domains
 
+The architecture intentionally balances practical development speed with long-term maintainability.
+
 ---
 
-# Target Architecture (Future State)
+# Future Architecture Direction
 
-The intended architecture follows Clean Architecture principles:
+Future iterations of the template may adopt additional Clean Architecture principles:
 
 ```
-src/main/java/com/template/
+src/main/java/
 
 ├── domain/
 │   ├── model/
@@ -62,9 +67,11 @@ src/main/java/com/template/
 └── Application.java
 ```
 
+This structure represents a future direction rather than the current implementation.
+
 ---
 
-# Target Responsibilities
+# Future Layer Responsibilities
 
 ## Domain Layer
 
@@ -96,7 +103,7 @@ Responsible for:
 
 ## Infrastructure Layer
 
-Responsible for external concerns:
+Responsible for external technical concerns:
 
 * Database persistence
 * REST adapters
@@ -106,38 +113,39 @@ Responsible for external concerns:
 
 ---
 
-# Migration Strategy
+# Architecture Evolution Strategy
 
-The migration follows a **Strangler Fig approach**.
+The architecture is designed to evolve incrementally as application complexity increases.
 
-Instead of rebuilding the entire application, functionality is migrated incrementally by business capability.
+Future architectural improvements should be introduced by capability rather than through large-scale rewrites.
 
-Example migration path:
+This approach allows:
 
-1. Authentication foundation
-2. Core business capability migration
-3. Additional application domains
+1. Existing functionality to remain stable.
+2. New patterns to be introduced gradually.
+3. Architectural improvements to be validated through working features.
 
-Existing layered components remain functional until their replacement is introduced.
-
-This approach reduces risk while allowing architectural improvements over time.
+The template prioritizes practical maintainability while allowing future adoption of more advanced architectural patterns.
 
 ---
 
-# Current Architecture (Version 0.2.0)
+# Current Architecture
 
 The current implementation follows a layered architecture with additional separation for cross-cutting concerns.
 
 ```
-API Layer
-    |
-    ↓
+Controller Layer
+        |
+        ↓
+DTO Boundary
+        |
+        ↓
 Service Layer
-    |
-    ↓
+        |
+        ↓
 Repository Layer
-    |
-    ↓
+        |
+        ↓
 Database
 ```
 
@@ -149,6 +157,7 @@ Security Layer
 Exception Handling
 Logging
 Configuration
+Testing Infrastructure
 ```
 
 ---
@@ -162,13 +171,36 @@ Responsible for:
 * Handling HTTP requests and responses
 * Request validation
 * API contract management
-* Mapping requests/responses through DTOs
+* Mapping requests and responses through DTOs
 
 Examples:
 
 * `VehicleController`
 * `MaintenanceController`
 * `AuthController`
+
+---
+
+## DTO Layer
+
+Responsible for:
+
+* Defining external API contracts
+* Separating API models from persistence entities
+* Controlling request and response structures
+
+Examples:
+
+* `VehicleRequestDTO`
+* `VehicleResponseDTO`
+* `MaintenanceRequestDTO`
+* `MaintenanceResponseDTO`
+
+Benefits:
+
+* Prevent direct exposure of persistence models.
+* Allow API contracts to evolve independently.
+* Reduce coupling between clients and internal implementation details.
 
 ---
 
@@ -207,7 +239,7 @@ Examples:
 
 # Cross-Cutting Concerns
 
-The application separates shared technical concerns:
+The application separates shared technical concerns that support all application layers.
 
 ---
 
@@ -250,13 +282,39 @@ Responsible for:
 * Operational troubleshooting
 * Application diagnostics
 
+The application uses structured request logging with trace identifiers to support debugging and operational visibility.
+
+---
+
+# Testing Architecture
+
+The template includes integration testing infrastructure designed to provide a reusable foundation for future API resources.
+
+Integration testing uses:
+
+* JUnit 5
+* Spring Boot Test
+* MockMvc
+* Testcontainers
+* PostgreSQL containerized test database
+
+The integration testing framework provides:
+
+* Isolated database testing environments.
+* HTTP-level API validation.
+* Authentication workflow testing.
+* Resource lifecycle testing.
+* Database cleanup between tests.
+
+The testing infrastructure is designed to allow new resources to follow consistent testing patterns.
+
 ---
 
 # Example Domain Entities
 
-The current repository includes example business entities used to validate the template architecture.
+The repository includes example business entities used to demonstrate the template architecture.
 
-These domains are intentionally included as reference implementations and can be replaced by application-specific models when using this template.
+These domains are intentionally included as reference implementations and can be replaced with application-specific models when using this template.
 
 Current entities represent persistence models mapped to database tables.
 
@@ -271,7 +329,7 @@ Represents an example business resource including:
 * Lifecycle information
 * Domain-specific attributes
 
-Future architecture iterations may move business rules from persistence entities into dedicated domain models.
+Future architecture iterations may move additional business rules from persistence entities into dedicated domain models.
 
 ---
 
@@ -283,26 +341,7 @@ Represents an example related resource including:
 * Resource relationships
 * Operational records
 
-Future domain migration may introduce richer business rules and lifecycle behavior.
-
----
-
-# Data Transfer Objects (DTOs)
-
-DTOs provide a boundary between external API contracts and internal application models.
-
-Examples:
-
-* `VehicleRequestDTO`
-* `VehicleResponseDTO`
-* `MaintenanceRequestDTO`
-* `MaintenanceResponseDTO`
-
-Benefits:
-
-* Prevent direct exposure of persistence models.
-* Allow API contracts to evolve independently.
-* Reduce coupling between clients and internal implementation details.
+Future domain evolution may introduce richer business rules and lifecycle behavior.
 
 ---
 
@@ -310,9 +349,11 @@ Benefits:
 
 Validation currently occurs at multiple levels.
 
+---
+
 ## API Boundary Validation
 
-Uses Jakarta Validation for structural validation:
+Uses Jakarta Validation for structural validation.
 
 Examples:
 
@@ -324,7 +365,7 @@ Examples:
 
 ## Application Business Validation
 
-Business rules are currently enforced within service workflows.
+Business rules are enforced within service workflows.
 
 Examples:
 
@@ -332,7 +373,7 @@ Examples:
 * Resource existence checks
 * Relationship validation
 
-Future domain migration will move appropriate business rules into domain models and use cases.
+Future architecture improvements may move appropriate business rules into dedicated domain models and use cases.
 
 ---
 
@@ -342,6 +383,9 @@ The current implementation follows a layered architecture:
 
 ```
 Controller
+    |
+    ↓
+DTO Boundary
     |
     ↓
 Service
@@ -356,10 +400,11 @@ Database
 Supporting components:
 
 ```
-- DTOs
 - Security
 - Exception Handling
 - Logging
+- Configuration
+- Testing Infrastructure
 ```
 
-Future architecture diagrams should represent the target Clean Architecture structure as migration progresses.
+Future architecture diagrams should represent additional domain and application boundaries as the template evolves.

@@ -1,7 +1,7 @@
 # Spring Boot API Template
 
 ![Build Status](https://github.com/Dclarke96/SpringbootAPITemplate/actions/workflows/build.yml/badge.svg)
-![Java](https://img.shields.io/badge/Java-17-blue)
+![Java](https://img.shields.io/badge/Java-21-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.2-brightgreen)
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-green)
 
@@ -9,11 +9,41 @@
 
 Spring Boot API Template is a production-oriented backend foundation designed to accelerate the development of secure, maintainable REST APIs.
 
-The template provides a reusable Spring Boot architecture including authentication, authorization, DTO-based API boundaries, validation, centralized exception handling, standardized API responses, OpenAPI documentation, integration testing, continuous integration, and containerized deployment workflows.
+The template provides a reusable Spring Boot architecture including authentication, authorization, DTO-based API boundaries, validation, centralized exception handling, standardized API responses, OpenAPI documentation, integration testing, continuous integration, and containerized application workflows.
 
 The repository includes an example application domain demonstrating how business functionality can be built on top of the reusable API foundation.
 
 The current example implementation uses a reusable API template structure to demonstrate resource management, relational data operations, authentication, and API design patterns.
+
+---
+
+# Who Is This Template For?
+
+This template is intended for developers who want a production-oriented starting point for Spring Boot REST APIs.
+
+Typical use cases include:
+
+- New backend projects
+- Portfolio applications
+- Internal business tools
+- Microservices
+- Learning modern Spring Boot architecture
+- Rapid API prototyping
+
+The included example domain demonstrates the recommended architectural patterns and can be replaced with your own business domain.
+
+---
+
+# Documentation
+
+| Document | Description |
+|----------|-------------|
+| Template Guide | Getting started with the template |
+| Architecture Overview | Layered architecture and project organization |
+| API Design | API conventions and design standards |
+| Deployment Guide | Deployment and environment configuration |
+| Design Decisions | Architectural rationale |
+| Project Roadmap | Planned releases and milestones |
 
 ---
 
@@ -60,7 +90,8 @@ Once the application starts, access:
 * Request logging with trace IDs
 * Spring Boot Actuator health monitoring
 * OpenAPI / Swagger documentation
-* Integration testing
+* PostgreSQL Testcontainers integration testing
+* Reusable integration testing framework
 * GitHub Actions CI pipeline
 * Docker containerization
 
@@ -68,7 +99,7 @@ Once the application starts, access:
 
 # Tech Stack
 
-* **Language:** Java 17
+* **Language:** Java 21
 * **Framework:** Spring Boot 3.4.2
 * **Database:** PostgreSQL
 * **Validation:** Jakarta Validation
@@ -77,7 +108,7 @@ Once the application starts, access:
 * **Build Tool:** Gradle
 * **Containerization:** Docker + Docker Compose
 * **Architecture:** Layered Architecture with separated API, business logic, persistence, security, and cross-cutting concerns
-* **Testing:** JUnit 5 + Spring Boot Test
+* **Testing:** JUnit 5 + Spring Boot Test + Testcontainers
 * **CI/CD:** GitHub Actions
 
 ---
@@ -90,6 +121,8 @@ This structure provides a maintainable foundation while allowing future evolutio
 
 ```
 Controller Layer
+        ↓
+DTO/API Models
         ↓
 Service Layer
         ↓
@@ -260,7 +293,7 @@ Bearer <JWT_TOKEN>
 
 # Design Decisions
 
-Major architecture and implementation decisions are documented, including:
+Major architectural and implementation decisions are documented to explain the reasoning behind the template's design. These documents describe not only *what* was implemented, but *why* each decision was made.
 
 * Why layered architecture was selected
 * Why DTOs are used
@@ -278,48 +311,13 @@ See:
 
 # Project Roadmap
 
-This repository follows a staged evolution from extracted application foundation to reusable production template.
+The template follows a structured release roadmap that incrementally evolves the project from a standalone repository into a production-ready Spring Boot API template.
 
-## Version 0.1.0 — Repository Foundation
+Each release focuses on a specific milestone, including architecture, developer experience, testing, CI/CD, documentation, and repository quality.
 
-Completed:
+See:
 
-* Created standalone Spring Boot template repository
-* Established Gradle build configuration
-* Configured testing foundation
-* Established CI pipeline foundation
-
-## Version 0.2.0 — Domain Extraction
-
-Completed:
-
-* Removed company-specific domain dependencies
-* Decoupled authentication from business ownership concepts
-* Preserved JWT authentication foundation
-* Preserved API standards and infrastructure components
-* Verified application build and integration tests
-
-## Version 0.3.0 — Template Generalization
-
-Planned:
-
-* Remove remaining project-specific naming
-* Improve template documentation
-* Generalize configuration defaults
-* Improve developer onboarding
-
-## Future Enhancements
-
-Potential improvements:
-
-* Additional example domains
-* Expanded architecture examples
-* Additional deployment patterns
-* Advanced observability examples
-
-Detailed roadmap:
-
-* [Project Roadmap](docs/project-roadmap.md)
+- [Project Roadmap](docs/project-roadmap.md)
 
 ---
 
@@ -329,10 +327,10 @@ Detailed roadmap:
 
 Before running the application, ensure you have:
 
-* Java 17
-* PostgreSQL database
-* Gradle
-* Docker Desktop (optional, for containerized setup)
+* Java 21
+* Git
+* Docker Desktop (required for integration tests and recommended for local development)
+* PostgreSQL (only required for running locally without Docker)
 
 ---
 
@@ -350,6 +348,8 @@ Sensitive configuration values should be provided through environment variables.
 Required environment variables vary by active Spring profile.
 
 Copy `.env.example` to `.env` (or configure the equivalent environment variables) before starting the application.
+
+The template includes an `.env.example` file that documents the expected environment variables for local development.
 
 ## Local Profile
 
@@ -371,14 +371,13 @@ JWT_SECRET=<jwt-secret-key>
 
 # Docker Environment
 
-The project includes Docker support for running the Spring Boot API and PostgreSQL database together in a reproducible local environment.
+Docker Compose provides a complete local development environment, allowing the application and PostgreSQL database to be started with a single command.
 
 Docker Compose provides:
 
 * Spring Boot API container
 * PostgreSQL database container
 * Internal container networking
-* Persistent database storage through Docker volumes
 
 Start the application:
 
@@ -415,7 +414,7 @@ git clone https://github.com/Dclarke96/SpringbootAPITemplate.git
 cd SpringbootAPITemplate
 ```
 
-2. Configure PostgreSQL and environment variables.
+2. Configure PostgreSQL and environment variables. PostgreSQL is not required when running integration tests because Testcontainers creates an isolated database automatically.
 
 3. Build and run:
 
@@ -448,7 +447,7 @@ http://localhost:8080/v3/api-docs
 Execute the automated test suite:
 
 ```bash
-./gradlew test
+./gradlew clean build
 ```
 
 The project includes integration tests covering:
