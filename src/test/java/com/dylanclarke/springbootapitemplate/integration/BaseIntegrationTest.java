@@ -23,6 +23,8 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 import com.dylanclarke.springbootapitemplate.repository.MaintenanceRepository;
 import com.dylanclarke.springbootapitemplate.repository.UserRepository;
 import com.dylanclarke.springbootapitemplate.repository.VehicleRepository;
+import com.dylanclarke.springbootapitemplate.dto.VehicleRequestDTO;
+import com.dylanclarke.springbootapitemplate.dto.MaintenanceRequestDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -68,6 +70,16 @@ public abstract class BaseIntegrationTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    /**
+    * Converts an object into a JSON string for HTTP requests.
+    */
+    protected String toJson(
+            Object object
+    ) throws Exception {
+
+        return objectMapper.writeValueAsString(object);
+    }
 
     @Autowired
     protected UserRepository userRepository;
@@ -163,10 +175,46 @@ public abstract class BaseIntegrationTest {
         return node.get("data").asText();
     }
 
+    /**
+    * Registers and authenticates a user using the default test credentials.
+    *
+    * @param username Username to register and authenticate.
+    * @return JWT authentication token.
+    */
+    protected String authenticate(
+            String username
+    ) throws Exception {
+
+        register(username);
+
+        return login(username);
+    }
+
 
     // =========================================================
     // VEHICLE HELPERS
     // =========================================================
+
+    /**
+    * Creates a valid vehicle request with default test data.
+    */
+    protected VehicleRequestDTO createVehicleRequest() {
+
+        VehicleRequestDTO request = new VehicleRequestDTO();
+
+        request.setTitle("Fleet Truck");
+        request.setVin("VIN123");
+        request.setLicensePlate("ABC123");
+        request.setMake("Ford");
+        request.setModel("F150");
+        request.setYear(2024);
+        request.setLocation("Yard");
+        request.setMaintenanceAlertsEnabled(true);
+        request.setStartDate(LocalDate.now());
+        request.setEndDate(LocalDate.now().plusYears(1));
+
+        return request;
+    }
 
     protected Long createVehicle(
             String token
@@ -202,26 +250,11 @@ public abstract class BaseIntegrationTest {
             LocalDate endDate
     ) throws Exception {
 
+        VehicleRequestDTO request = createVehicleRequest();
 
-        String json = """
-        {
-          "title":"%s",
-          "vin":"VIN123",
-          "licensePlate":"ABC123",
-          "make":"Ford",
-          "model":"F150",
-          "vehicleYear":2024,
-          "location":"Yard",
-          "maintenanceAlertsEnabled":true,
-          "startDate":"%s",
-          "endDate":"%s"
-        }
-        """.formatted(
-                title,
-                startDate,
-                endDate
-        );
-
+        request.setTitle(title);
+        request.setStartDate(startDate);
+        request.setEndDate(endDate);
 
         String response =
                 mockMvc.perform(post("/api/vehicles")
@@ -230,15 +263,12 @@ public abstract class BaseIntegrationTest {
                                         "Bearer " + token
                                 )
                                 .contentType("application/json")
-                                .content(json))
-                        .andDo(print())
+                                .content(toJson(request)))
                         .andReturn()
                         .getResponse()
                         .getContentAsString();
 
-
         JsonNode node = objectMapper.readTree(response);
-
 
         return node.get("data")
                 .get("id")
@@ -265,27 +295,29 @@ public abstract class BaseIntegrationTest {
     // MAINTENANCE HELPERS
     // =========================================================
 
+    /**
+    * Creates a valid maintenance request with default test data.
+    */
+    protected MaintenanceRequestDTO createMaintenanceRequest(
+            Long vehicleId
+    ) {
+
+        MaintenanceRequestDTO request = new MaintenanceRequestDTO();
+
+        request.setVehicleId(vehicleId);
+        request.setDescription("Oil Change");
+        request.setDate(LocalDate.now().plusDays(1));
+        request.setCost(125.50);
+
+        return request;
+    }
+
     protected Long createMaintenance(
             String token,
             Long vehicleId
     ) throws Exception {
 
-
-        LocalDate serviceDate = LocalDate.now().plusDays(1);
-
-
-        String json = """
-        {
-          "vehicleId":%d,
-          "description":"Oil Change",
-          "date":"%s",
-          "cost":125.50
-        }
-        """.formatted(
-                vehicleId,
-                serviceDate
-        );
-
+        MaintenanceRequestDTO request = createMaintenanceRequest(vehicleId);
 
         String response =
                 mockMvc.perform(post("/api/maintenance")
@@ -294,15 +326,13 @@ public abstract class BaseIntegrationTest {
                                         "Bearer " + token
                                 )
                                 .contentType("application/json")
-                                .content(json))
+                                .content(toJson(request)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
                         .getContentAsString();
 
-
         JsonNode node = objectMapper.readTree(response);
-
 
         return node.get("data")
                 .get("id")
