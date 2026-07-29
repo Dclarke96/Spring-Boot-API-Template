@@ -4,7 +4,7 @@
 
 This guide describes the deployment requirements and recommended practices for applications built from the Spring Boot API Template foundation.
 
-The application is designed around externalized configuration, environment-specific Spring profiles, containerized deployment, and health monitoring to support modern cloud hosting platforms.
+The application is designed around externalized configuration, environment-specific Spring profiles, containerized deployment, and health monitoring to support modern deployment environments.
 
 The deployment approach focuses on keeping infrastructure configuration separate from application code while providing a consistent foundation for local, staging, and production environments.
 
@@ -16,7 +16,7 @@ Before deploying the application, ensure the following requirements are availabl
 
 ## Java
 
-- Java 17+
+- Java 21+
 
 ## Database
 

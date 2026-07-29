@@ -2,72 +2,119 @@
 
 ## Purpose
 
-The Spring Boot API Template is a reusable foundation for building secure, maintainable REST APIs with Spring Boot. It provides a production-oriented starting point that includes common architectural patterns, authentication, testing, documentation, and deployment support.
+The Spring Boot API Template is a reusable foundation for building secure, maintainable REST APIs with Spring Boot.
 
-Rather than starting every project from scratch, this template allows you to focus on implementing business logic while relying on a proven application structure.
+The template provides a production-oriented starting point including:
+
+- Application architecture
+- Authentication and authorization
+- DTO-based API boundaries
+- Validation
+- Exception handling
+- Integration testing
+- API documentation
+- Containerized development workflows
+- CI pipeline support
+
+Rather than rebuilding common backend infrastructure for every project, developers can start with an established foundation and focus on implementing application-specific business functionality.
+
+The repository includes an example domain implementation that demonstrates how business features can be built using the provided architecture patterns.
 
 ---
 
 # What's Included
 
-The template includes the following foundations out of the box:
+The template includes the following foundations out of the box.
+
+---
 
 ## Core Framework
 
-* Spring Boot
-* Spring Security
-* Spring Data JPA
-* PostgreSQL
-* Gradle
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- PostgreSQL support
+- Gradle build system
+
+---
 
 ## Security
 
-* JWT Authentication
-* Role-based authorization foundation
-* Password encryption using BCrypt
-* Authentication and registration workflows
+- JWT authentication
+- Spring Security integration
+- Role-based authorization foundation
+- BCrypt password encryption
+- User registration workflow
+- Login workflow
+- Protected endpoint authorization
+
+---
 
 ## Architecture
 
-* Layered architecture
-* DTO-based API contracts
-* Service layer
-* Repository pattern
-* Validation
-* Centralized exception handling
-* Standardized API responses
+- Layered architecture
+- DTO-based API contracts
+- Service layer
+- Repository pattern
+- Jakarta Validation
+- Centralized exception handling
+- Standardized API responses
+- Request trace ID support
+- Logging foundation
+
+---
 
 ## Documentation
 
-* OpenAPI / Swagger UI
-* Architecture documentation
-* Design decisions
-* Project roadmap
+The repository includes:
+
+- OpenAPI / Swagger UI documentation
+- Architecture overview
+- API design documentation
+- Design decisions
+- Project roadmap
+- Deployment guidance
+
+---
 
 ## Testing
 
-* Integration testing foundation
-* Authentication workflow tests
-* Exception handling tests
+The template includes a reusable testing foundation:
+
+- JUnit 5
+- Spring Boot Test
+- MockMvc integration testing
+- PostgreSQL Testcontainers
+- Shared integration test utilities
+- Authentication workflow tests
+- Exception handling tests
+- Example resource lifecycle tests
+
+The testing structure is designed so new application domains can follow consistent integration testing patterns.
+
+---
 
 ## Deployment
 
-* Docker support
-* Docker Compose
-* GitHub Actions CI
-* Environment-specific Spring profiles
+The template includes:
+
+- Docker support
+- Docker Compose configuration
+- GitHub Actions CI pipeline
+- Environment-specific Spring profiles
+- Health monitoring through Spring Boot Actuator
 
 ---
 
 # Project Structure
 
-The project follows a standard layered architecture.
+The project follows a layered architecture with clear separation between application responsibilities.
 
 ```text
 src
 ├── main
 │   ├── java
-│   │   └── com.example.springbootapitemplate
+│   │   └── com.dylanclarke.springbootapitemplate
 │   │       ├── config
 │   │       ├── controller
 │   │       ├── dto
@@ -77,16 +124,19 @@ src
 │   │       ├── security
 │   │       ├── service
 │   │       └── util
+│   │
 │   └── resources
 │       ├── application.properties
 │       ├── application-local.properties
 │       ├── application-test.properties
 │       ├── application-prod.properties
 │       └── application-docker.properties
+│
 └── test
+    └── integration
 ```
 
-> **Note:** Your package structure may vary depending on how you customize the template.
+> The package structure can be customized when using the template for a new application.
 
 ---
 
@@ -96,52 +146,57 @@ src
 
 Before running the project, ensure you have:
 
-* Java 21
-* Gradle (or use the included Gradle Wrapper)
-* Docker Desktop (recommended)
-* PostgreSQL (if not using Docker)
-* Git
+- Java 21
+- Git
+- Gradle (or use the included Gradle Wrapper)
+- Docker Desktop (recommended)
+- PostgreSQL (only if not using Docker)
 
 ---
 
-## Clone the Repository
+# Clone the Repository
 
 ```bash
 git clone <repository-url>
+
 cd springboot-api-template
 ```
 
 ---
 
-## Configure Environment Variables
+# Configure Environment Variables
 
-Copy the example environment file.
+Copy the example environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-Update the values to match your local environment.
+Update the values based on your environment.
 
-At a minimum, review:
+Review:
 
-* PostgreSQL configuration
-* JWT secret
-* Active Spring profile
+- Database configuration
+- JWT secret
+- Active Spring profile
+
+Sensitive values should not be committed to source control.
 
 ---
 
-## Start Supporting Services
+# Start Supporting Services
 
-If using Docker:
+For Docker-based development:
 
 ```bash
 docker compose up -d
 ```
 
+This starts the required application dependencies.
+
 ---
 
-## Run the Application
+# Run the Application
 
 Using the Gradle Wrapper:
 
@@ -149,21 +204,27 @@ Using the Gradle Wrapper:
 ./gradlew bootRun
 ```
 
-Or from your IDE by running:
+Or run:
 
 ```
 SpringBootApiTemplateApplication
 ```
 
+from your IDE.
+
 ---
 
-## Run the Tests
+# Run Tests
 
-Execute the full test suite with:
+Execute the automated test suite:
 
 ```bash
 ./gradlew test
 ```
+
+The integration tests use PostgreSQL Testcontainers to provide an isolated database environment.
+
+Docker Desktop must be running when executing integration tests.
 
 ---
 
@@ -171,26 +232,32 @@ Execute the full test suite with:
 
 The template includes multiple configuration profiles.
 
-| Profile | Purpose               |
-| ------- | --------------------- |
-| local   | Local development     |
-| test    | Automated testing     |
-| docker  | Docker environment    |
-| prod    | Production deployment |
+| Profile | Purpose |
+| ------- | ------- |
+| local | Local development |
+| test | Automated testing |
+| docker | Docker-based development |
+| prod | Production deployment |
 
-Activate the desired profile using environment variables or your IDE configuration.
+Activate profiles using:
+
+- Environment variables
+- IDE configuration
+- Deployment platform settings
 
 ---
 
 # Customizing the Template
 
-This repository is intended to be used as a starting point for new projects.
+The repository is designed to be cloned and adapted for new applications.
 
-Typical customization steps include:
+The recommended customization process is:
+
+---
 
 ## 1. Rename the Package
 
-Rename the base package to match your organization or project.
+Update the base package to match the new application.
 
 Example:
 
@@ -198,31 +265,42 @@ Example:
 com.example.inventoryapi
 ```
 
+Update:
+
+- Java package declarations
+- Application class package
+- Component scanning configuration
+- Test packages
+
 ---
 
-## 2. Update Application Information
+## 2. Update Application Identity
 
 Modify:
 
-* Application name
-* Project description
-* OpenAPI information
-* Docker image names
-* Environment variables
+- Application name
+- Project description
+- OpenAPI metadata
+- Docker image names
+- Environment variable names
+- Repository information
 
 ---
 
 ## 3. Replace the Example Domain
 
-The included example domain demonstrates the recommended application architecture.
+The included example domain demonstrates recommended implementation patterns.
 
-When starting a new project:
+When creating a new application:
 
-* Replace entities with your own domain models.
-* Create new repositories.
-* Create new services.
-* Create new controllers.
-* Keep the architectural patterns unchanged.
+- Replace example entities with application-specific models.
+- Create new repositories.
+- Implement business services.
+- Add new controllers.
+- Create DTOs for external API contracts.
+- Add integration tests.
+
+The reusable infrastructure should remain separate from business-specific functionality.
 
 ---
 
@@ -230,78 +308,120 @@ When starting a new project:
 
 Update:
 
-* Database name
-* Username
-* Password
-* Connection URL
+- Database name
+- Database username
+- Database password
+- JDBC connection URL
+
+Database credentials should be provided through environment variables.
 
 ---
 
-## 5. Generate a Secure JWT Secret
+## 5. Configure Authentication
 
-Never use the default JWT secret in production.
+The template includes JWT authentication as a reusable security foundation.
 
-Generate a strong random secret and store it securely using environment variables or a secrets management solution.
+Before production usage:
+
+- Replace development secrets.
+- Configure secure JWT keys.
+- Review authorization requirements.
+- Add application-specific roles if needed.
 
 ---
 
 # API Documentation
 
-Once the application is running, OpenAPI documentation is available through Swagger UI.
+After starting the application, interactive API documentation is available through Swagger UI.
 
-Refer to the project README for the current endpoint URL.
+Swagger UI allows developers to:
+
+- View available endpoints.
+- Review request and response models.
+- Authenticate using JWT.
+- Execute API requests directly.
+
+Refer to the README for the current Swagger endpoint.
 
 ---
 
 # Testing Strategy
 
-The project currently includes:
+The testing approach validates application behavior across the full request lifecycle.
 
-* Integration tests
-* Authentication workflow testing
-* Exception handling verification
+Current testing includes:
 
-Future versions of the template will also include:
+- Authentication workflows.
+- Authorization behavior.
+- Validation failures.
+- Exception handling.
+- Resource creation.
+- Resource retrieval.
+- Resource updates.
+- Resource deletion.
+- Database interactions.
 
-* Testcontainers
-* Service-layer unit tests
-* Controller tests
-* Code coverage reporting
+The shared integration testing framework allows additional domains to follow the same testing structure.
 
 ---
 
 # Docker Support
 
-Docker Compose can be used to start the application and supporting services for local development.
+Docker Compose provides a consistent local development environment.
 
-The Docker configuration mirrors the expected production environment as closely as practical while remaining easy to use during development.
+The Docker workflow supports:
+
+- Running the API application.
+- Running PostgreSQL.
+- Internal service communication.
+- Persistent database storage.
+
+Start the environment:
+
+```bash
+docker compose up --build
+```
+
+Stop the environment:
+
+```bash
+docker compose down
+```
 
 ---
 
 # Deployment
 
-The repository includes:
+The repository provides deployment foundations including:
 
-* Docker configuration
-* GitHub Actions CI pipeline
-* Environment-specific configuration
-* Production-ready project structure
+- Docker configuration.
+- GitHub Actions CI.
+- Externalized configuration.
+- Environment-specific Spring profiles.
+- Health monitoring endpoints.
 
-Additional deployment examples may be added in future releases.
+Production deployment guidance is documented separately in:
+
+```
+docs/deployment-guide.md
+```
 
 ---
 
 # Recommended Development Workflow
 
-1. Clone the repository.
+A recommended workflow when starting a new project:
+
+1. Clone the template repository.
 2. Configure environment variables.
-3. Start supporting services.
-4. Run the application.
-5. Verify the API using Swagger.
-6. Implement your domain model.
-7. Add tests for new functionality.
-8. Commit changes frequently.
-9. Push to GitHub to validate the CI pipeline.
+3. Start required services.
+4. Verify the application starts successfully.
+5. Review Swagger documentation.
+6. Replace the example domain.
+7. Implement application-specific functionality.
+8. Add integration tests.
+9. Commit changes frequently.
+10. Push changes and verify CI execution.
 
 ---
 
@@ -309,8 +429,13 @@ Additional deployment examples may be added in future releases.
 
 The template follows semantic versioning.
 
-* Major versions introduce significant architectural or compatibility changes.
-* Minor versions add features and improvements while maintaining compatibility.
-* Patch versions provide bug fixes and small refinements.
+- Major versions introduce significant architectural or compatibility changes.
+- Minor versions introduce features and improvements.
+- Patch versions provide bug fixes and refinements.
 
-Refer to the project roadmap and CHANGELOG for release history and future plans.
+Refer to:
+
+- `docs/project-roadmap.md`
+- `CHANGELOG.md`
+
+for release history and future development plans.

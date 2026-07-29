@@ -21,7 +21,7 @@ The API follows these principles:
 
 The authentication system provides user registration, login, and JWT-based access control.
 
-Authentication is designed as a reusable foundation that can support different application domains.
+Authentication is designed as a reusable infrastructure component that can support different application domains.
 
 ---
 
@@ -337,6 +337,23 @@ All errors follow:
 | 404    | Resource not found       |
 | 409    | Data conflict            |
 | 500    | Unexpected server error  |
+
+---
+
+# API Testing
+
+The API is verified through integration testing using Spring Boot Test, MockMvc, and PostgreSQL Testcontainers.
+
+Integration tests validate:
+
+* Authentication workflows.
+* Protected endpoint behavior.
+* Request validation.
+* Resource lifecycle operations.
+* Standardized error responses.
+* Database interactions.
+
+The shared integration testing framework provides reusable helpers for adding future resource coverage.
 
 ---
 

@@ -7,7 +7,7 @@
 The Spring Boot API Template began with a traditional layered architecture:
 
 ```
-Controller → Service → Repository → Database
+Controller → DTO Boundary → Service → Repository → Database
 ```
 
 This approach was selected because it supported rapid development, clear separation of responsibilities, and efficient validation of application patterns.
@@ -32,17 +32,17 @@ The goal is not to introduce unnecessary complexity, but to evolve the architect
 
 ---
 
-# ADR-001: Incremental Clean Architecture Migration
+# ADR-001: Incremental Architecture Evolution
 
 ## Decision
 
-Adopt Clean Architecture principles incrementally rather than rewriting the application.
+Evolve the application architecture incrementally by introducing stronger boundaries and improved separation of responsibilities as requirements justify additional complexity.
 
 ## Reasoning
 
 A complete rewrite introduces unnecessary risk and slows development.
 
-The project follows an incremental migration approach:
+The project follows an incremental evolution approach:
 
 * Maintain working functionality.
 * Improve boundaries gradually.
@@ -66,7 +66,7 @@ Examples:
 * `MaintenanceRequestDTO`
 * `MaintenanceResponseDTO`
 
-The current example implementation serves as the domain demonstration for these patterns.
+The included example domain demonstrates these patterns and provides reference implementations for future applications.
 
 ---
 
@@ -258,11 +258,45 @@ The example domain remains in the repository to demonstrate:
 * REST API design.
 * DTO usage.
 * Validation.
+* Authentication and authorization workflows.
 * Persistence patterns.
-* Integration testing.
 * Business workflow implementation.
+* Integration testing.
 
 The example domain is separated from the reusable foundation and can be replaced or extended by future applications.
+
+---
+
+# Testing Strategy
+
+## Decision
+
+Use integration testing with Spring Boot Test and Testcontainers to validate API behavior against an isolated database environment.
+
+The testing foundation includes:
+
+* JUnit 5.
+* Spring Boot Test.
+* MockMvc.
+* PostgreSQL Testcontainers.
+* Shared integration testing utilities.
+
+---
+
+## Reasoning
+
+Integration testing provides confidence that application components work together correctly.
+
+The approach verifies:
+
+* Authentication workflows.
+* API request and response behavior.
+* Validation rules.
+* Exception handling.
+* Resource lifecycle operations.
+* Database interactions.
+
+The shared testing framework allows new API resources to follow consistent testing patterns without duplicating infrastructure setup.
 
 ---
 

@@ -113,7 +113,7 @@ The repository now represents a reusable Spring Boot API Template instead of a F
 
 ---
 
-# Version 0.4.0 — Template Hardening (In Progress)
+# Version 0.4.0 — Template Hardening (Completed)
 
 ## Purpose
 
@@ -123,30 +123,30 @@ Improve developer experience and prepare the template for real-world usage.
 
 ### Developer Experience
 
-- Template setup guide
-- Environment configuration guide
-- Improved onboarding documentation
-- Customization guide
-- Improved `.env.example`
+- Updated project documentation
+- Improved environment configuration guidance
+- Updated README instructions
+- Improved developer onboarding information
+- Updated `.env.example` configuration guidance
 
 ### Testing
 
-- Migrate integration tests to Testcontainers
-- Add service-layer unit test examples
-- Add controller test examples
-- Expand testing documentation
+- Migrated integration tests to PostgreSQL Testcontainers
+- Created reusable BaseIntegrationTest framework
+- Added standardized CRUD integration testing patterns
+- Added authentication integration testing coverage
+- Added exception handling integration testing coverage
+- Expanded testing documentation
 
 ### CI/CD
 
-- Add JaCoCo code coverage
-- Add dependency vulnerability scanning
-- Improve build reporting
+- Verified GitHub Actions compatibility with generalized template structure
+- Verified automated build and test execution
 
 ### Observability
 
-- Improve Actuator configuration
-- Optional Prometheus metrics endpoint
-- Refine logging configuration
+- Verified existing Actuator health monitoring
+- Verified structured logging and trace ID support
 
 ## Outcome
 
@@ -168,6 +168,10 @@ Elevate the template into a professional open-source quality repository.
 - Architectural Decision Records (ADRs)
 - CHANGELOG
 - Contribution guide
+- Template setup guide
+- Customization guide
+- Additional architecture documentation
+- ADR improvements
 
 ### Repository Standards
 
@@ -180,6 +184,10 @@ Elevate the template into a professional open-source quality repository.
 - Example customization guide
 - Extension point documentation
 - Optional example domain organization
+- JaCoCo code coverage reporting
+- Dependency vulnerability scanning
+- Additional unit testing examples
+- Controller testing examples
 
 ## Outcome
 
@@ -214,7 +222,7 @@ Release a stable, production-ready Spring Boot API template.
 
 ### Quality
 
-- Testcontainers
+- Comprehensive Testcontainers coverage
 - Unit testing examples
 - Integration testing
 - Controller testing
