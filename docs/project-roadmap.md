@@ -6,6 +6,45 @@ The roadmap reflects the evolution of the template from an extracted application
 
 ---
 
+# Project Vision
+
+Spring Boot API Template is a production-ready starter template for building secure, maintainable REST APIs using modern Spring Boot best practices.
+
+The project focuses on providing a clean architectural foundation, production-quality engineering practices, and an excellent developer experience. It intentionally avoids application-specific features and enterprise integrations that are better implemented as extensions.
+
+---
+
+# Scope
+
+Included:
+
+- Authentication
+- Authorization foundation
+- Layered architecture
+- DTOs
+- Validation
+- Error handling
+- Logging
+- Testing
+- Documentation
+- Docker
+- CI/CD
+- OpenAPI
+- PostgreSQL
+
+Out of Scope:
+
+- Business domains
+- Kubernetes
+- Cloud-specific deployment
+- Messaging systems
+- Multi-tenancy
+- OAuth providers
+- Enterprise integrations
+- Microservices
+
+---
+
 # Version 0.1.0 — Repository Foundation (Completed)
 
 ## Purpose
@@ -199,7 +238,7 @@ A polished repository that demonstrates professional engineering practices and i
 
 ## Purpose
 
-Release a stable, production-ready Spring Boot API template.
+Release a stable, public-ready Spring Boot API template.
 
 ## Target Capabilities
 
