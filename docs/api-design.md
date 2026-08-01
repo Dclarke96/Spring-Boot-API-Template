@@ -2,18 +2,22 @@
 
 ## Overview
 
-The Spring Boot API Template provides a production-oriented REST API foundation with authentication, authorization, standardized responses, validation, exception handling, and example domain endpoints.
+The Spring Boot API Template provides a production-oriented REST API foundation with authentication, authorization, standardized responses, validation, exception handling, pagination, and example domain endpoints.
 
-The current implementation includes an example domain to demonstrate API patterns and architectural practices.
+The current implementation includes an example Fleet Management domain to demonstrate API patterns and architectural practices. The example domain is intended to serve as a reference implementation rather than a required part of applications built from the template.
 
 The API follows these principles:
 
 * JSON request and response payloads.
 * DTO-based API contracts.
-* Consistent response envelopes.
-* Centralized error handling.
+* Consistent success response envelopes.
+* Standardized error responses.
+* Centralized exception handling.
+* Request validation using Jakarta Bean Validation.
 * JWT-based authentication for protected resources.
+* Pagination for collection endpoints where appropriate.
 * Clear separation between API, business logic, persistence, and infrastructure concerns.
+* Conventional HTTP status codes.
 
 ---
 
@@ -21,9 +25,7 @@ The API follows these principles:
 
 The authentication system provides user registration, login, and JWT-based access control.
 
-Authentication is designed as a reusable infrastructure component that can support different application domains.
-
----
+Authentication is implemented as reusable infrastructure that can support different application domains.
 
 ## POST `/api/auth/register`
 
@@ -82,11 +84,11 @@ Authenticates a user and returns a JWT token.
 
 Protected endpoints require:
 
-```
+```text
 Authorization: Bearer <JWT_TOKEN>
 ```
 
-JWT authentication is handled through Spring Security infrastructure.
+JWT authentication is handled through the Spring Security infrastructure.
 
 The security foundation includes:
 
@@ -94,22 +96,28 @@ The security foundation includes:
 * JWT validation.
 * Request authentication filtering.
 * User identity extraction.
+* Authentication context population.
 * Protected endpoint authorization.
+
+Authentication endpoints are excluded from JWT authentication requirements so users can register and authenticate before obtaining a token.
 
 ---
 
 # Example Domain Endpoints
 
-The current template includes an example domain to illustrate how additional business functionality can be added on top of the foundation.
+The current template includes a Fleet Management example domain to illustrate how business functionality can be implemented on top of the reusable API foundation.
 
-These endpoints demonstrate:
+The example endpoints demonstrate:
 
 * CRUD operations.
 * DTO-based request and response handling.
-* Validation.
+* Request validation.
 * Pagination.
 * Search functionality.
 * Relationship-based workflows.
+* Standardized success and error responses.
+
+The example domain is not required for applications built from the template and can be replaced or removed when implementing a different business domain.
 
 ---
 
@@ -117,26 +125,28 @@ These endpoints demonstrate:
 
 Base Route:
 
-```
+```text
 /api/vehicles
 ```
+
+Protected endpoints require JWT authentication.
 
 ---
 
 ## GET `/api/vehicles`
 
-Retrieves vehicles with pagination.
+Retrieves vehicles using pagination.
 
 ### Query Parameters
 
 | Parameter | Description                |
 | --------- | -------------------------- |
-| page      | Page number                |
-| size      | Number of records per page |
+| `page`    | Zero-based page number     |
+| `size`    | Number of records per page |
 
 Example:
 
-```
+```text
 GET /api/vehicles?page=0&size=10
 ```
 
@@ -144,27 +154,25 @@ GET /api/vehicles?page=0&size=10
 
 ## GET `/api/vehicles/{id}`
 
-Retrieves a single vehicle.
+Retrieves a single vehicle by ID.
 
 ### Response
 
-Returns:
-
-`VehicleResponseDTO`
+Returns a `VehicleResponseDTO` within the standard success response structure.
 
 ### Errors
 
-* 404 - Vehicle not found
+* `404` - Vehicle not found
 
 ---
 
 ## GET `/api/vehicles/search`
 
-Searches vehicles.
+Searches vehicles using a query parameter and pagination.
 
 Example:
 
-```
+```text
 GET /api/vehicles/search?q=Ford&page=0&size=10
 ```
 
@@ -190,13 +198,11 @@ Creates a new vehicle.
 
 ### Response
 
-Returns:
+Returns a `VehicleResponseDTO` within the standard success response structure.
 
-`VehicleResponseDTO`
+### Status
 
-Status:
-
-```
+```text
 201 Created
 ```
 
@@ -212,18 +218,16 @@ Updates an existing vehicle.
 
 ### Errors
 
-* 404 - Vehicle not found
-* 400 - Validation failure
+* `400` - Validation failure
+* `404` - Vehicle not found
 
 ---
 
 ## DELETE `/api/vehicles/{id}`
 
-Deletes a vehicle.
+Deletes an existing vehicle.
 
 ### Response
-
-Returns:
 
 ```json
 {
@@ -239,15 +243,17 @@ Returns:
 
 Base Route:
 
-```
+```text
 /api/maintenance
 ```
+
+Protected endpoints require JWT authentication.
 
 ---
 
 ## GET `/api/maintenance`
 
-Retrieves maintenance records with pagination.
+Retrieves maintenance records using pagination.
 
 ---
 
@@ -265,7 +271,7 @@ Supports pagination.
 
 Example:
 
-```
+```text
 GET /api/maintenance/vehicle/1?page=0&size=10
 ```
 
@@ -275,9 +281,9 @@ GET /api/maintenance/vehicle/1?page=0&size=10
 
 Creates a maintenance record.
 
-Status:
+### Status
 
-```
+```text
 201 Created
 ```
 
@@ -291,13 +297,50 @@ Updates an existing maintenance record.
 
 ## DELETE `/api/maintenance/{id}`
 
-Deletes a maintenance record.
+Deletes an existing maintenance record.
+
+---
+
+# Request Validation
+
+Request DTOs use Jakarta Bean Validation to enforce input constraints at the API boundary.
+
+Invalid requests are rejected before reaching business logic and are converted into the standardized error response format through centralized exception handling.
+
+Typical validation failures return:
+
+```text
+400 Bad Request
+```
+
+Validation rules are defined on the request DTOs rather than directly on persistence entities, keeping API contracts separate from the database model.
+
+---
+
+# Pagination
+
+Collection endpoints use Spring's pagination support through `Pageable`.
+
+Pagination follows these conventions:
+
+* `page` is zero-based.
+* `size` specifies the requested number of records.
+* Pagination parameters are supplied as query parameters.
+* Collection endpoints can expose paginated results without requiring clients to retrieve the entire dataset.
+
+Example:
+
+```text
+GET /api/vehicles?page=0&size=10
+```
+
+The same pagination approach is used for vehicle searches and maintenance history.
 
 ---
 
 # Standard Success Response
 
-All successful API responses follow:
+Successful API responses use a consistent response envelope:
 
 ```json
 {
@@ -308,11 +351,13 @@ All successful API responses follow:
 }
 ```
 
+The `data` field contains the operation-specific response payload. For operations that do not return a resource, such as deletion, `data` may be `null`.
+
 ---
 
 # Standard Error Response
 
-All errors follow:
+Errors are handled centrally and returned using a standardized structure:
 
 ```json
 {
@@ -325,24 +370,46 @@ All errors follow:
 }
 ```
 
+The global exception handling layer is responsible for translating application and validation exceptions into this consistent API format.
+
+The `traceId` provides a correlation identifier that can be used to associate an API error with application logs.
+
 ---
 
 # Common HTTP Status Codes
 
-| Status | Meaning                  |
-| ------ | ------------------------ |
-| 400    | Invalid request          |
-| 401    | Authentication required  |
-| 403    | Insufficient permissions |
-| 404    | Resource not found       |
-| 409    | Data conflict            |
-| 500    | Unexpected server error  |
+| Status | Meaning                                          |
+| ------ | ------------------------------------------------ |
+| `200`  | Successful request                               |
+| `201`  | Resource created                                 |
+| `400`  | Invalid request or validation failure            |
+| `401`  | Authentication required or authentication failed |
+| `403`  | Insufficient permissions                         |
+| `404`  | Resource not found                               |
+| `409`  | Data conflict                                    |
+| `500`  | Unexpected server error                          |
+
+The API uses conventional HTTP status codes to communicate the outcome of requests.
 
 ---
 
 # API Testing
 
-The API is verified through integration testing using Spring Boot Test, MockMvc, and PostgreSQL Testcontainers.
+The API is verified through both unit and integration testing.
+
+## Unit Testing
+
+Unit tests validate individual components in isolation, including:
+
+* Service-layer business logic.
+* Authentication behavior.
+* Security filtering.
+* Controller behavior where appropriate.
+* Validation and error scenarios.
+
+## Integration Testing
+
+Integration tests use Spring Boot Test, MockMvc, and PostgreSQL Testcontainers to validate application behavior across multiple layers.
 
 Integration tests validate:
 
@@ -352,12 +419,13 @@ Integration tests validate:
 * Resource lifecycle operations.
 * Standardized error responses.
 * Database interactions.
+* Repository and persistence behavior.
 
-The shared integration testing framework provides reusable helpers for adding future resource coverage.
+The shared integration testing framework provides reusable infrastructure and helpers for adding coverage for future resources.
 
 ---
 
-# Design Notes
+# Design Principles
 
 The API design intentionally separates reusable infrastructure from example business functionality.
 
@@ -366,9 +434,13 @@ Reusable foundation components include:
 * Authentication and authorization.
 * JWT security.
 * DTO-based API contracts.
-* Validation framework.
-* Exception handling.
+* Request validation.
+* Centralized exception handling.
 * Standardized response formats.
+* Pagination support.
 * Logging and traceability.
+* Unit and integration testing infrastructure.
 
-The example endpoints serve as an implementation reference demonstrating how additional domains can be built on top of the foundation.
+The Fleet Management example domain serves as an implementation reference demonstrating how additional business domains can be built on top of the reusable foundation.
+
+Applications built from the template should preserve these API conventions while adapting the domain-specific resources, DTOs, services, and persistence models to their own requirements.
