@@ -1,42 +1,29 @@
-# Business Domain Decoupling
+# Business Domain Decoupling — v0.2.0
 
 ## Objective
 
-Decouple business-specific dependencies from the application foundation while preserving a production-ready Spring Boot API structure.
+The v0.2.0 milestone focused on decoupling business-specific dependencies from the application foundation while preserving a functional Spring Boot API structure.
 
-The goal of this phase is not to remove all example business functionality, but to separate reusable infrastructure from domain-specific concerns.
+The goal of this phase was not to remove all example business functionality, but to separate reusable infrastructure from domain-specific concerns.
 
-The completed foundation should provide:
-
-* Authentication and authorization infrastructure.
-* JWT security.
-* Standardized API responses.
-* Validation.
-* Exception handling.
-* Logging.
-* Integration testing foundation.
-* Docker support.
-* CI/CD workflow.
-* OpenAPI documentation.
-
-The current example functionality remains as a demonstration domain showing how additional applications can be built using the foundation.
+The resulting foundation retained the example Fleet Management domain while removing business-specific ownership concepts that were not appropriate for a reusable API template.
 
 ---
 
 # Success Criteria
 
-At completion:
+The milestone was considered complete when:
 
-* Authentication is independent from business domains.
-* No company or tenant ownership concepts remain.
-* Security does not depend on fleet-specific data.
-* Domain services do not influence authentication behavior.
-* Application builds successfully.
-* Tests pass.
-* Swagger loads correctly.
-* Docker starts successfully.
-* GitHub Actions passes.
-* The application represents a reusable Spring Boot foundation with an example domain.
+* Authentication was independent from business domains.
+* Company and tenant ownership concepts were removed from shared infrastructure.
+* Security no longer depended on fleet-specific data.
+* Domain services no longer influenced authentication behavior.
+* The application built successfully.
+* The test suite passed.
+* Swagger remained functional.
+* Docker remained functional.
+* GitHub Actions continued to pass.
+* The application represented a reusable Spring Boot foundation with an example domain.
 
 ---
 
@@ -52,10 +39,10 @@ Remove company-specific concepts from authentication and security infrastructure
 
 Completed:
 
-- [x] Removed Company relationship.
-- [x] Removed company ownership fields.
-- [x] Removed company-specific helper methods.
-- [x] User entity represents standalone authentication identity.
+* [x] Removed Company relationship.
+* [x] Removed company ownership fields.
+* [x] Removed company-specific helper methods.
+* [x] User entity represents standalone authentication identity.
 
 ---
 
@@ -63,13 +50,13 @@ Completed:
 
 Completed:
 
-- [x] Removed CompanyRepository dependency from AuthenticationService.
-- [x] Removed company creation during registration.
-- [x] Removed company assignment during user creation.
-- [x] Removed company-specific logging.
-- [x] Removed companyName from registration flow.
+* [x] Removed CompanyRepository dependency from AuthenticationService.
+* [x] Removed company creation during registration.
+* [x] Removed company assignment during user creation.
+* [x] Removed company-specific logging.
+* [x] Removed companyName from registration flow.
 
-Authentication now manages only:
+Authentication was reduced to managing:
 
 * User creation.
 * Password encoding.
@@ -82,10 +69,10 @@ Authentication now manages only:
 
 Completed:
 
-- [x] Removed company identifiers from security context.
-- [x] Removed company dependencies from JWT authentication flow.
-- [x] Verified JWT authentication continues functioning.
-- [x] Verified authorization continues functioning.
+* [x] Removed company identifiers from the security context.
+* [x] Removed company dependencies from the JWT authentication flow.
+* [x] Verified JWT authentication continued functioning.
+* [x] Verified authorization continued functioning.
 
 ---
 
@@ -93,11 +80,11 @@ Completed:
 
 Completed:
 
-- [x] Registration works.
-- [x] Login works.
-- [x] JWT authentication works.
-- [x] Build passes.
-- [x] Integration tests pass.
+* [x] Registration works.
+* [x] Login works.
+* [x] JWT authentication works.
+* [x] Build passes.
+* [x] Integration tests pass.
 
 ---
 
@@ -109,15 +96,13 @@ Remove business-domain coupling from shared application infrastructure.
 
 ---
 
-## Completed Cleanup
-
-### Services
+## Services
 
 Completed:
 
-- [x] Removed CompanyService.
-- [x] Removed company-related business workflows.
-- [x] Verified remaining services do not depend on authentication ownership concepts.
+* [x] Removed CompanyService.
+* [x] Removed company-related business workflows.
+* [x] Verified remaining services do not depend on authentication ownership concepts.
 
 ---
 
@@ -125,8 +110,8 @@ Completed:
 
 Completed:
 
-- [x] Removed CompanyRepository.
-- [x] Removed company-scoped repository queries.
+* [x] Removed CompanyRepository.
+* [x] Removed company-scoped repository queries.
 
 ---
 
@@ -134,16 +119,14 @@ Completed:
 
 Completed:
 
-- [x] Removed Company entity.
-- [x] Removed entity relationships tied to company ownership.
+* [x] Removed Company entity.
+* [x] Removed entity relationships tied to company ownership.
 
-Remaining example domain entities:
+The remaining example domain entities were intentionally retained to demonstrate API patterns and application structure:
 
 * Vehicle
 * MaintenanceRecord
 * User
-
-These remain intentionally to demonstrate API patterns and application structure.
 
 ---
 
@@ -151,7 +134,7 @@ These remain intentionally to demonstrate API patterns and application structure
 
 ## Goal
 
-Ensure repository documentation reflects the new reusable foundation.
+Ensure repository documentation reflected the transition from the original domain-specific application toward a reusable API foundation.
 
 ---
 
@@ -159,11 +142,11 @@ Ensure repository documentation reflects the new reusable foundation.
 
 Completed:
 
-- [x] Updated README to describe reusable API foundation.
-- [x] Removed company-level isolation references.
-- [x] Updated API documentation examples.
-- [x] Updated architecture documentation.
-- [x] Removed outdated authentication examples.
+* [x] Updated README to describe the reusable API foundation.
+* [x] Removed company-level isolation references.
+* [x] Updated API documentation examples.
+* [x] Updated architecture documentation.
+* [x] Removed outdated authentication examples.
 
 ---
 
@@ -171,32 +154,32 @@ Completed:
 
 Reviewed:
 
-- [x] Application properties.
-- [x] Test configuration.
-- [x] Docker configuration.
-- [x] Build configuration.
+* [x] Application properties.
+* [x] Test configuration.
+* [x] Docker configuration.
+* [x] Build configuration.
 
-Remaining fleet naming in application metadata is considered branding cleanup and will be addressed in future generalization phases.
+Some Fleet Management naming remained in application metadata at the completion of v0.2.0. This was intentionally deferred to later generalization and template-professionalization work.
 
 ---
 
 # Verification Gate
 
-The application must provide:
+The application was required to provide the following capabilities at the completion of the milestone.
 
 ## Infrastructure
 
 Completed:
 
-- [x] Spring Boot application starts.
-- [x] JWT authentication.
-- [x] Role-based authorization foundation.
-- [x] Global exception handling.
-- [x] Request validation.
-- [x] Logging.
-- [x] OpenAPI / Swagger.
-- [x] Docker support.
-- [x] GitHub Actions CI.
+* [x] Spring Boot application starts.
+* [x] JWT authentication.
+* [x] Role-based authorization foundation.
+* [x] Global exception handling.
+* [x] Request validation.
+* [x] Logging.
+* [x] OpenAPI / Swagger.
+* [x] Docker support.
+* [x] GitHub Actions CI.
 
 ---
 
@@ -204,45 +187,57 @@ Completed:
 
 Completed:
 
-- [x] No Company dependency remains.
-- [x] No tenant ownership assumptions remain.
-- [x] No authentication/business domain coupling remains.
-- [x] Clean build.
-- [x] Passing test suite.
+* [x] No Company dependency remains.
+* [x] No tenant ownership assumptions remain.
+* [x] No authentication/business-domain coupling remains.
+* [x] Clean build.
+* [x] Passing test suite.
 
 ---
 
-# Current State
+# Milestone Outcome
 
-The repository now represents:
+The v0.2.0 milestone established the separation between reusable application infrastructure and the original business-specific domain.
 
-```
+The repository transitioned from:
+
+```text
+Domain-Specific Application
+            ↓
+Business Domain Decoupling
+            ↓
 Reusable Spring Boot Foundation
             +
 Example Business Domain
-            +
-Production Development Practices
 ```
 
-The foundation is ready for future generalization phases.
+The example Fleet Management domain remained intentionally in the repository as a reference implementation demonstrating how application-specific functionality can be built on top of the reusable foundation.
 
 ---
 
-# Future Work
+# Subsequent Evolution
 
-Future phases may address:
+The work initiated by v0.2.0 was followed by additional milestones that continued transforming the repository into a reusable engineering asset.
 
-* Package name generalization.
-* Application branding cleanup.
-* Example domain extraction strategy.
-* More generic templates.
-* Additional reusable modules.
-* Public template preparation.
+Subsequent milestones addressed:
+
+* Package and application identity generalization.
+* Template hardening.
+* Expanded unit and integration testing.
+* Repository professionalization.
+* Architecture and API documentation.
+* Architecture Decision Records.
+* Contribution and issue-management workflows.
+* Licensing and release documentation.
+
+Refer to [`project-roadmap.md`](project-roadmap.md) for the complete repository evolution.
 
 ---
 
-# Outcome
+# Historical Significance
 
-The v0.2.0 milestone successfully separates reusable application infrastructure from company-specific business logic.
+The v0.2.0 domain-decoupling milestone established an important architectural boundary that continues to shape the template:
 
-The project is no longer dependent on the previous domain-specific concepts while retaining a functional example domain that demonstrates how the foundation can be extended.
+> Reusable infrastructure should remain independent from example business functionality.
+
+This separation allows the example domain to demonstrate the architecture without making the template dependent on the original application's business concepts.
