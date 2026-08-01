@@ -19,6 +19,8 @@ The repository also includes cross-cutting components for:
 * Logging
 * Configuration
 * Testing infrastructure
+* API documentation
+* CI/CD and containerized development
 
 The architecture is intentionally practical rather than overly complex. It provides clear boundaries while keeping the template approachable for developers who need a solid starting point for building REST APIs.
 
@@ -66,6 +68,7 @@ Responsibilities include:
 * Request validation
 * API contract management
 * Mapping requests and responses through DTOs
+* OpenAPI documentation
 
 Examples include:
 
@@ -151,12 +154,18 @@ Responsibilities include:
 * JWT authentication
 * Authorization checks
 * User context handling
+* Authentication failure handling
+* Integration with the Spring Security context
 
 Examples include:
 
 * `JwtAuthFilter`
 * `JwtService`
+* `CustomUserDetails`
 * `CurrentUserService`
+* `RestAuthenticationEntryPoint`
+
+JWT processing is isolated within the security layer so that application services do not need to manage token parsing or HTTP authentication concerns directly.
 
 ---
 
@@ -168,6 +177,7 @@ Responsibilities include:
 
 * Centralized exception management
 * Consistent API error responses
+* Validation error handling
 * Traceability
 
 Examples include:
@@ -183,6 +193,8 @@ Logging provides application and request visibility for troubleshooting and oper
 
 The application uses structured request logging with trace identifiers to support debugging and request traceability.
 
+Sensitive information such as passwords and JWT tokens is intentionally excluded from application logs.
+
 ---
 
 ## Configuration
@@ -191,19 +203,80 @@ Configuration centralizes environment-specific and application-level settings.
 
 This allows the same application to be configured for different environments without coupling the application code to a specific deployment environment.
 
+Environment-specific configuration is managed through Spring profiles and environment variables.
+
+---
+
+## API Documentation
+
+OpenAPI documentation provides an interactive description of the API contract.
+
+Swagger UI allows developers to:
+
+* Browse available endpoints
+* Review request and response models
+* Authenticate using JWT bearer tokens
+* Execute API requests during development
+
+API documentation is maintained alongside the controllers and API contracts.
+
+---
+
+## CI/CD and Containerization
+
+The repository includes supporting infrastructure for consistent development and automated verification.
+
+### CI/CD
+
+GitHub Actions automatically builds and tests the application on pushes and pull requests to the configured branches.
+
+The CI pipeline verifies that the application continues to compile and that the automated test suite passes.
+
+### Containerization
+
+Docker and Docker Compose provide a repeatable local environment for the application and PostgreSQL database.
+
+This allows developers to start the application and its database dependencies without requiring a manually configured PostgreSQL environment.
+
+These capabilities support the application architecture but remain separate from the application business layers.
+
 ---
 
 # Testing Architecture
 
-The template includes integration testing infrastructure designed to provide a reusable foundation for future API resources.
+Testing is treated as part of the template architecture rather than as an afterthought.
 
-Integration testing uses:
+The template includes both unit and integration testing infrastructure.
+
+Testing uses:
 
 * JUnit 5
 * Spring Boot Test
+* Mockito
 * MockMvc
 * Testcontainers
 * PostgreSQL
+* JaCoCo
+
+## Unit Testing
+
+Unit tests provide focused verification of application components without requiring the full application context or database.
+
+Current testing examples include:
+
+* Service-layer testing
+* Security component testing
+* JWT processing
+* Current-user resolution
+* Controller testing
+
+The tests follow a consistent **Arrange / Act / Assert** structure where appropriate.
+
+## Integration Testing
+
+Integration testing uses PostgreSQL Testcontainers and Spring Boot's integration testing infrastructure.
+
+The reusable `BaseIntegrationTest` provides a common foundation for API integration tests.
 
 The integration testing framework provides:
 
@@ -212,10 +285,15 @@ The integration testing framework provides:
 * Authentication workflow testing
 * Resource lifecycle testing
 * Database cleanup between tests
+* Reusable testing patterns for additional resources
 
-The testing infrastructure establishes consistent patterns that can be followed when adding additional resources to the template.
+## Code Coverage
 
-Testing is intentionally treated as part of the template architecture rather than as an afterthought.
+JaCoCo is used to generate code coverage reports for the test suite.
+
+Coverage reporting is intended to provide visibility into tested application behavior and identify areas where additional testing may provide value.
+
+Coverage percentages are treated as a quality indicator rather than a target that drives unnecessary test implementation.
 
 ---
 
@@ -350,9 +428,10 @@ The template follows several core architectural principles:
 
 * **Separation of responsibilities** — API, application, and persistence concerns remain clearly separated.
 * **Explicit API boundaries** — DTOs prevent persistence models from becoming API contracts.
-* **Testability** — Application behavior is supported by a reusable integration testing foundation.
+* **Testability** — Unit and integration testing provide multiple levels of application verification.
 * **Practicality** — The architecture avoids unnecessary abstraction and complexity.
 * **Evolution** — Architectural patterns can become more sophisticated as application requirements grow.
 * **Reusability** — Example domains demonstrate patterns without defining the template's intended business domain.
+* **Operational awareness** — Logging, health monitoring, CI/CD, and containerization support the application without becoming coupled to business logic.
 
 The goal is not to prescribe a single architecture for every application. The goal is to provide a strong starting point that developers can understand, extend, and evolve.

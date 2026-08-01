@@ -11,9 +11,7 @@ Spring Boot API Template is a production-oriented backend foundation designed to
 
 The template provides a reusable Spring Boot architecture including authentication, authorization, DTO-based API boundaries, validation, centralized exception handling, standardized API responses, OpenAPI documentation, integration testing, continuous integration, and containerized application workflows.
 
-The repository includes an example application domain demonstrating how business functionality can be built on top of the reusable API foundation.
-
-The current example implementation uses a reusable API template structure to demonstrate resource management, relational data operations, authentication, and API design patterns.
+The repository includes an example application domain demonstrating how business functionality can be built on top of the reusable API foundation.The current example implementation demonstrates resource management, relational data operations, authentication, and API design patterns.
 
 ---
 
@@ -42,7 +40,7 @@ The included example domain demonstrates the recommended architectural patterns 
 | Architecture Overview | Layered architecture and project organization |
 | API Design | API conventions and design standards |
 | Deployment Guide | Deployment and environment configuration |
-| Design Decisions | Architectural rationale |
+| Architecture Decision Records | Significant architectural decisions and their rationale |
 | Project Roadmap | Planned releases and milestones |
 
 ---
@@ -261,7 +259,7 @@ Example authentication header for protected endpoints:
 Authorization: Bearer <JWT_TOKEN>
 ```
 
-Protected resources require a valid authentication token.
+Protected resources require a valid JWT authentication token, with authorization decisions based on the authenticated user's role where applicable.
 
 ## Using Swagger UI
 
@@ -291,27 +289,27 @@ Bearer <JWT_TOKEN>
 
 ---
 
-# Design Decisions
+# Architecture Decision Records
 
-Major architectural and implementation decisions are documented to explain the reasoning behind the template's design. These documents describe not only *what* was implemented, but *why* each decision was made.
+Significant architectural decisions are documented using focused Architecture Decision Records (ADRs). Each record captures the context, rationale, alternatives considered, and consequences of an architectural decision.
 
-* Why layered architecture was selected
-* Why DTOs are used
-* Authentication and authorization strategy
-* Validation approach
-* Exception handling design
-* Repository design
-* Testing strategy
+Current ADRs include:
+
+* Layered architecture
+* DTO-based API boundaries
+* JWT security architecture
+* Testcontainers-based integration testing
+* Domain removal and template decoupling history
 
 See:
 
-* [Design Decisions](docs/design-decisions.md)
+* [Architecture Decision Records](docs/adr/001-layered-architecture.md)
 
 ---
 
 # Project Roadmap
 
-The template follows a structured release roadmap that incrementally evolves the project from a standalone repository into a production-ready Spring Boot API template.
+The template follows a structured release roadmap that incrementally evolves the project from an extracted application into a professional, reusable Spring Boot API template.
 
 Each release focuses on a specific milestone, including architecture, developer experience, testing, CI/CD, documentation, and repository quality.
 
@@ -450,8 +448,11 @@ Execute the automated test suite:
 ./gradlew clean build
 ```
 
-The project includes integration tests covering:
+The project includes unit and integration tests covering:
 
+* Service-layer business logic
+* Security and authentication behavior
+* Controller behavior
 * Authentication workflows
 * Authorization rules
 * Data integrity scenarios
