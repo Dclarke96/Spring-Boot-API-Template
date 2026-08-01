@@ -1,11 +1,7 @@
 package com.dylanclarke.springbootapitemplate.service;
 
-import com.dylanclarke.springbootapitemplate.dto.VehicleRequestDTO;
-import com.dylanclarke.springbootapitemplate.dto.VehicleResponseDTO;
-import com.dylanclarke.springbootapitemplate.model.Vehicle;
-import com.dylanclarke.springbootapitemplate.exception.ResourceNotFoundException;
-import com.dylanclarke.springbootapitemplate.exception.ValidationException;
-import com.dylanclarke.springbootapitemplate.repository.VehicleRepository;
+import java.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -13,7 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import com.dylanclarke.springbootapitemplate.dto.VehicleRequestDTO;
+import com.dylanclarke.springbootapitemplate.dto.VehicleResponseDTO;
+import com.dylanclarke.springbootapitemplate.exception.ResourceNotFoundException;
+import com.dylanclarke.springbootapitemplate.exception.ValidationException;
+import com.dylanclarke.springbootapitemplate.model.Vehicle;
+import com.dylanclarke.springbootapitemplate.repository.VehicleRepository;
 
 @Service
 public class VehicleService {
@@ -249,10 +250,10 @@ public class VehicleService {
         int currentYear = LocalDate.now().getYear();
 
 
-        if (year < 1900 || year > currentYear) {
+        if (year < 1886 || year > currentYear) {
 
             throw new ValidationException(
-                    "Year must be between 1900 and " + currentYear,
+                    "Year must be between 1886 and " + currentYear,
                     "vehicleYear",
                     year
             );
