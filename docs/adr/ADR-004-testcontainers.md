@@ -30,8 +30,10 @@ The integration testing environment combines:
 
 The general test environment is:
 
-```text id="w0w6a2"
+```text id="n8h0j2"
 Integration Test
+      ↓
+MockMvc
       ↓
 Spring Boot Application
       ↓
@@ -40,7 +42,7 @@ Testcontainers
 PostgreSQL Container
 ```
 
-The containerized database is created for the integration test environment rather than relying on a developer's existing PostgreSQL installation.
+A PostgreSQL container is created for the integration test environment rather than relying on a developer's existing PostgreSQL installation.
 
 ---
 
@@ -58,6 +60,8 @@ The test framework supports:
 * Testing validation and exception handling.
 * Testing resource creation, retrieval, update, and deletion.
 * Cleaning database state between tests where required.
+
+The shared `BaseIntegrationTest` provides reusable integration testing infrastructure, including common Testcontainers configuration, application startup, database cleanup, authentication helpers, and request setup.
 
 The shared integration test infrastructure allows additional API resources to follow consistent testing patterns.
 
@@ -141,4 +145,4 @@ Additional infrastructure should only be introduced when required by the applica
 * [`architecture.md`](../architecture.md)
 * [`template-guide.md`](../template-guide.md)
 * [`ADR-001: Layered Architecture`](ADR-001-layered-architecture.md)
-* [`ADR-003: JWT Security`](ADR-003-jwt-security.md)
+* [`ADR-003: JWT Security Architecture`](ADR-003-jwt-security.md)

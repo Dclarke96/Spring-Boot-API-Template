@@ -20,7 +20,7 @@ The resulting security architecture needed to provide:
 * Credential validation.
 * JWT generation.
 * JWT validation.
-* Role-based authorization.
+* A role-based authorization foundation.
 * Current user context.
 * Protection of API endpoints.
 
@@ -34,7 +34,7 @@ Authentication and authorization are implemented as infrastructure concerns and 
 
 The authentication flow is:
 
-```text
+```text id="0l9y3k"
 Authentication Request
         ↓
 AuthController
@@ -52,7 +52,7 @@ JWT
 
 Subsequent authenticated requests follow:
 
-```text
+```text id="m8n5a2"
 HTTP Request
         ↓
 JWT
@@ -90,7 +90,7 @@ The security foundation includes components such as:
 
 `CurrentUserService` provides access to the authenticated user within application workflows where required.
 
-Role-based authorization is used to control access to protected resources.
+A role-based authorization foundation is used to control access to protected resources.
 
 ---
 
@@ -123,6 +123,7 @@ Separating authentication from business-domain concepts provides additional bene
 * Authentication workflows remain consistent when example domains are replaced.
 * Authorization can be applied to different resources without changing the underlying authentication model.
 * The template remains independent from the original application's business ownership model.
+* The API does not require traditional server-side session state for authenticated requests.
 
 The approach provides a practical security foundation without requiring a more complex identity architecture.
 
@@ -197,6 +198,5 @@ These capabilities are outside the current template scope and should only be int
 
 * [`architecture.md`](../architecture.md)
 * [`api-design.md`](../api-design.md)
-* [`domain-removal.md`](../domain-removal.md)
 * [`ADR-001: Layered Architecture`](ADR-001-layered-architecture.md)
 * [`ADR-002: DTO Boundary`](ADR-002-dto-boundary.md)

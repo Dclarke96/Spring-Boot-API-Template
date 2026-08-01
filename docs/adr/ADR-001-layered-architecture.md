@@ -29,6 +29,8 @@ The template uses a **layered architecture** as its current architectural founda
 The primary application flow is:
 
 ```text
+Client
+    ↓
 Controller
     ↓
 DTO Boundary
@@ -40,7 +42,7 @@ Repository
 Database
 ```
 
-Each layer has a defined responsibility:
+Each component has a defined responsibility.
 
 ### Controller Layer
 
@@ -59,6 +61,8 @@ Provides separation between external API contracts and internal persistence mode
 
 DTOs define the data exposed through the API without directly exposing persistence entities.
 
+The DTO boundary is an API design convention rather than a standalone application layer.
+
 ### Service Layer
 
 Contains application workflows and coordinates operations between the API boundary and persistence layer.
@@ -66,7 +70,7 @@ Contains application workflows and coordinates operations between the API bounda
 Responsibilities include:
 
 * Application workflows.
-* Business validation.
+* Business rules and validation.
 * Repository coordination.
 * Transaction boundaries.
 * Domain-specific operations.
@@ -79,7 +83,9 @@ Repositories isolate database access from service-level application workflows.
 
 ### Database
 
-PostgreSQL provides the persistence layer for the application.
+PostgreSQL provides the persistence layer for the current example implementation.
+
+Applications built from the template may use a different relational database where appropriate, provided the persistence configuration and application requirements support it.
 
 ---
 
