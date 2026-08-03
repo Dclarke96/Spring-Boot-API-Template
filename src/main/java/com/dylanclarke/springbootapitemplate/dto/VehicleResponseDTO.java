@@ -2,9 +2,6 @@ package com.dylanclarke.springbootapitemplate.dto;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class VehicleResponseDTO {
 
     private Long id;
@@ -19,8 +16,6 @@ public class VehicleResponseDTO {
 
     private String model;
 
-    @JsonProperty("vehicleYear")
-    @JsonAlias("vehicleYear")
     private Integer vehicleYear;
 
     private String location;
