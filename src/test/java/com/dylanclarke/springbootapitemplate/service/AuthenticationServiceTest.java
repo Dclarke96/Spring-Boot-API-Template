@@ -103,7 +103,7 @@ class AuthenticationServiceTest {
         );
 
         assertEquals(
-                Role.ADMIN,
+                Role.USER,
                 savedUser.getRole()
         );
 
