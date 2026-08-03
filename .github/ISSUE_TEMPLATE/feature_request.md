@@ -5,7 +5,8 @@ about: Suggest an improvement to the Spring Boot API Template
 title: "[Feature]: "
 labels: enhancement
 assignees: ""
--------------
+
+---
 
 ## Problem
 

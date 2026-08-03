@@ -5,7 +5,8 @@ about: Report a reproducible problem with the Spring Boot API Template
 title: "[Bug]: "
 labels: bug
 assignees: ""
--------------
+
+---
 
 ## Description
 
