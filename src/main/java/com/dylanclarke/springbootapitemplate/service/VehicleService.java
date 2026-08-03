@@ -235,18 +235,6 @@ public class VehicleService {
     private void validateVehicle(Vehicle vehicle) {
 
         Integer year = vehicle.getVehicleYear();
-
-
-        if (year == null) {
-
-            throw new ValidationException(
-                    "Vehicle year is required",
-                    "vehicleYear",
-                    null
-            );
-        }
-
-
         int currentYear = LocalDate.now().getYear();
 
 

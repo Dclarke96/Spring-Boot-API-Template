@@ -75,10 +75,7 @@ public class AuthenticationService {
 
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> {
-                    log.warn(
-                            "Login failed: unknown username={}",
-                            request.getUsername()
-                    );
+                    log.warn("Login failed: unknown username={}", request.getUsername());
                     return new AuthenticationException("Invalid credentials");
                 });
 

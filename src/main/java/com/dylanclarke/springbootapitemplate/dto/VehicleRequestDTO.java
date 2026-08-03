@@ -27,7 +27,7 @@ public class VehicleRequestDTO {
     @NotNull(message = "Year cannot be null")
     @JsonProperty("vehicleYear")
     @JsonAlias("vehicleYear")
-    @Min(value = 1900, message = "Year must be after 1900")
+    @Min(value = 1886, message = "Year must be after 1886")
     private Integer year;
 
     @NotBlank(message = "Location cannot be blank")
