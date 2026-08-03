@@ -10,9 +10,39 @@ This project follows [Semantic Versioning](https://semver.org/) for release vers
 
 Changes currently being developed for the next release.
 
+---
+
+## [0.5.0] - 2026-08-02
+
 ### Added
 
 * MIT License
+* CONTRIBUTING.md with contribution workflow and development guidelines
+* GitHub issue templates for bug reports and feature requests
+* Pull request template
+* Architecture Decision Records documenting major architectural and engineering decisions
+* Expanded JaCoCo test coverage reporting
+* Updated architecture diagram and supporting documentation
+
+### Changed
+
+* Professionalized repository documentation and project structure
+* Updated README to reflect the current reusable Spring Boot API Template
+* Updated API design documentation
+* Updated deployment documentation
+* Updated template usage documentation
+* Updated architecture documentation
+* Added historical documentation for the v0.2.0 business domain decoupling milestone
+* Replaced centralized design-decision documentation with Architecture Decision Records
+* Expanded unit test coverage across security and authentication controllers
+* Updated GitHub Actions CI configuration and repository workflows
+* Improved contribution, issue reporting, and pull request guidance
+* Aligned project documentation with the current Java 21, Spring Boot, testing, Docker, and CI/CD configuration
+
+### Removed
+
+* Outdated design decision documentation and references
+* Obsolete documentation references that no longer reflect the current repository structure
 
 ---
 
@@ -20,7 +50,7 @@ Changes currently being developed for the next release.
 
 ### Added
 
-* Production-ready PostgreSQL integration testing foundation using Testcontainers
+* PostgreSQL integration testing foundation using Testcontainers
 * Shared `BaseIntegrationTest` framework and reusable test utilities
 * Authentication integration test coverage
 * Exception handling integration test coverage
@@ -69,10 +99,9 @@ Changes currently being developed for the next release.
 
 ### Added
 
-* Reusable Spring Boot API architecture foundation
-* Domain extraction documentation and implementation guidance
-* Generalized authentication foundation
-* Reusable API response and error-handling patterns
+* Business domain decoupling documentation
+* Reusable authentication foundation
+* Standardized API response and error-handling patterns
 * Expanded logging and security foundation
 
 ### Changed
@@ -112,6 +141,7 @@ Changes currently being developed for the next release.
 
 | Version   | Date       | Milestone                        |
 | --------- | ---------- | -------------------------------- |
+| **0.5.0** | 2026-08-02 | Repository Professionalization   |
 | **0.4.0** | 2026-07-28 | Template Hardening               |
 | **0.3.0** | 2026-07-26 | Template Generalization          |
 | **0.2.0** | 2026-07-25 | Architecture & Domain Extraction |

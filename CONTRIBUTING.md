@@ -32,8 +32,8 @@ Before contributing, review the project documentation, particularly:
 * `docs/template-guide.md` — Guidance for adapting the template
 * `docs/api-design.md` — API design conventions
 * `docs/deployment-guide.md` — Deployment and environment configuration
-* `docs/design-decisions.md` — Current architectural decisions
-* `CHANGELOG.md` — Release history and upcoming changes
+* `docs/adr/` — Architecture Decision Records
+* `CHANGELOG.md` — Release history
 
 The project is built using Gradle and requires Java 21.
 
@@ -46,7 +46,7 @@ The recommended development environment includes:
 * Java 21
 * Gradle Wrapper
 * Docker Desktop
-* PostgreSQL-compatible database support
+* PostgreSQL
 * Git
 
 Use the Gradle Wrapper included with the repository rather than relying on a system-wide Gradle installation.
@@ -372,6 +372,7 @@ Before submitting a Pull Request, verify:
 * [ ] `./gradlew clean build` passes
 * [ ] Integration tests pass when applicable
 * [ ] Docker/Testcontainers requirements were verified when applicable
+* [ ] CI passes successfully
 * [ ] Documentation has been updated where necessary
 * [ ] No secrets or sensitive configuration have been committed
 * [ ] Commit messages follow the project's conventions
@@ -444,7 +445,7 @@ Significant architectural changes should include:
 3. Consideration of alternatives
 4. Documentation of the resulting decision
 
-Architectural decisions should be documented using the project's architecture decision record process when applicable.
+Architectural decisions should be documented using the project's Architecture Decision Records (ADRs) when applicable.
 
 Avoid introducing major architectural patterns, frameworks, or infrastructure solely for the sake of adding complexity.
 

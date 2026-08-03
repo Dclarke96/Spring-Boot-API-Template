@@ -6,8 +6,8 @@ plugins {
 }
 
 group = "com.dylanclarke"
-version = "0.4.0"
-description = "Production-ready Spring Boot REST API Template"
+version = "0.5.0"
+description = "Reusable Spring Boot REST API Template"
 
 java {
     toolchain {
