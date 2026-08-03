@@ -265,7 +265,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         CustomUserDetails principal =
                 new CustomUserDetails(
                         user.getId(),
-                        user.getEmail(),
+                        user.getUsername(),
                         user.getPassword(),
                         authorities
                 );
