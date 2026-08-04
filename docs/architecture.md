@@ -20,7 +20,7 @@ The repository also includes cross-cutting components for:
 * Configuration
 * Testing infrastructure
 * API documentation
-* CI/CD and containerized development
+* CI and containerized development
 
 The architecture is intentionally practical rather than overly complex. It provides clear boundaries while keeping the template approachable for developers who need a solid starting point for building REST APIs.
 
@@ -30,12 +30,12 @@ The architecture is intentionally practical rather than overly complex. It provi
 
 The current implementation is represented by the following architecture diagram:
 
-![Spring Boot API Template Architecture](diagrams/architecture.png)
+![Spring Boot API Template Architecture](diagrams/v0.4.0%20Architecture.png)
 
 The editable source for the diagram is available at:
 
 ```text
-docs/diagrams/architecture.drawio
+docs/diagrams/v0.4.0 Architecture.drawio
 ```
 
 The primary application flow is:
@@ -222,11 +222,11 @@ API documentation is maintained alongside the controllers and API contracts.
 
 ---
 
-## CI/CD and Containerization
+## CI and Containerization
 
 The repository includes supporting infrastructure for consistent development and automated verification.
 
-### CI/CD
+### CI
 
 GitHub Actions automatically builds and tests the application on pushes and pull requests to the configured branches.
 
@@ -276,8 +276,6 @@ The tests follow a consistent **Arrange / Act / Assert** structure where appropr
 
 Integration testing uses PostgreSQL Testcontainers and Spring Boot's integration testing infrastructure.
 
-The reusable `BaseIntegrationTest` provides a common foundation for API integration tests.
-
 The integration testing framework provides:
 
 * Isolated database testing environments
@@ -286,6 +284,8 @@ The integration testing framework provides:
 * Resource lifecycle testing
 * Database cleanup between tests
 * Reusable testing patterns for additional resources
+
+Integration tests use shared testing infrastructure and helpers to provide consistent patterns for additional resources.
 
 ## Code Coverage
 
@@ -432,6 +432,6 @@ The template follows several core architectural principles:
 * **Practicality** — The architecture avoids unnecessary abstraction and complexity.
 * **Evolution** — Architectural patterns can become more sophisticated as application requirements grow.
 * **Reusability** — Example domains demonstrate patterns without defining the template's intended business domain.
-* **Operational awareness** — Logging, health monitoring, CI/CD, and containerization support the application without becoming coupled to business logic.
+* **Operational awareness** — Logging, health monitoring, CI, and containerization support the application without becoming coupled to business logic.
 
 The goal is not to prescribe a single architecture for every application. The goal is to provide a strong starting point that developers can understand, extend, and evolve.

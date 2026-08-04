@@ -421,7 +421,7 @@ Integration tests validate:
 * Database interactions.
 * Repository and persistence behavior.
 
-The shared integration testing framework provides reusable infrastructure and helpers for adding coverage for future resources.
+The integration tests provide reusable patterns and helpers that can be extended when additional resources are added to applications built from the template.
 
 ---
 

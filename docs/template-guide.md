@@ -89,6 +89,7 @@ The template includes a reusable testing foundation:
 
 * JUnit 5
 * Spring Boot Test
+* Mockito
 * MockMvc
 * PostgreSQL Testcontainers
 * Shared integration test infrastructure
@@ -97,6 +98,7 @@ The template includes a reusable testing foundation:
 * Controller tests
 * Exception handling tests
 * Example resource lifecycle tests
+* JaCoCo code coverage reporting
 
 The testing structure is designed so new application domains can follow consistent unit and integration testing patterns.
 
@@ -126,15 +128,17 @@ src
 ├── main
 │   ├── java
 │   │   └── com.dylanclarke.springbootapitemplate
+│   │       ├── api
 │   │       ├── config
 │   │       ├── controller
+│   │       ├── documentation
 │   │       ├── dto
 │   │       ├── exception
+│   │       ├── logging
 │   │       ├── model
 │   │       ├── repository
 │   │       ├── security
-│   │       ├── service
-│   │       └── util
+│   │       └── service
 │   │
 │   └── resources
 │       ├── application.properties
@@ -157,14 +161,14 @@ src
 
 Before running the project, ensure you have:
 
-* Java 21 or later
+* Java 21
 * Git
 * Docker Desktop
 * Gradle, or use the included Gradle Wrapper
 
 A local PostgreSQL installation is optional when using the Docker-based development environment.
 
-Docker Desktop is also required when running integration tests because the tests use PostgreSQL Testcontainers.
+Docker Desktop is required when running integration tests because the tests use PostgreSQL Testcontainers.
 
 ---
 
@@ -213,7 +217,7 @@ For Docker-based development:
 docker compose up -d
 ```
 
-This starts the supporting services required by the configured Docker environment.
+This starts the application and supporting services defined by the Docker Compose configuration.
 
 Use:
 
@@ -414,6 +418,13 @@ docs/api-design.md
 docs/deployment-guide.md
 docs/adr/
 ```
+
+The current ADRs document:
+
+* Layered architecture
+* DTO-based API boundaries
+* JWT security architecture
+* Testcontainers-based integration testing
 
 Architecture Decision Records document significant architectural decisions and their rationale.
 

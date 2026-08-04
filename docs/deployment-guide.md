@@ -4,11 +4,11 @@
 
 This guide describes the deployment requirements and recommended practices for applications built from the Spring Boot API Template foundation.
 
-The application is designed around externalized configuration, environment-specific Spring profiles, containerized deployment, and health monitoring to support modern deployment environments.
+The application is designed around externalized configuration, environment-specific Spring profiles, containerized deployment, and health monitoring to provide a consistent deployment foundation for local and production environments.
 
-The deployment approach keeps infrastructure configuration separate from application code while providing a consistent foundation for local, staging, and production environments.
+The deployment approach keeps infrastructure configuration separate from application code while allowing applications built from the template to choose the hosting platform, database provider, and deployment strategy appropriate to their requirements.
 
-This guide focuses on deployment principles and the configuration required by the template rather than prescribing a specific cloud provider or hosting platform.
+This guide focuses on deployment principles and configuration supported by the template rather than prescribing a specific cloud provider or hosting platform.
 
 ---
 
@@ -18,7 +18,7 @@ Before deploying the application, ensure the following requirements are availabl
 
 ## Java
 
-* Java 21 or later
+* Java 21
 
 The project is configured and tested against Java 21.
 
@@ -32,7 +32,7 @@ The project is configured and tested against Java 21.
 ## Build Tool
 
 * Gradle
-* Gradle Wrapper (recommended)
+* Gradle Wrapper
 
 The Gradle Wrapper should be used for consistent builds across development and deployment environments.
 
@@ -42,7 +42,7 @@ Containerization is supported through Docker.
 
 Docker is recommended for environments where the application is deployed as a container.
 
-Docker Compose may be used for local development or environments requiring multiple coordinated services.
+Docker Compose is provided primarily for local development and environments requiring multiple coordinated services.
 
 ---
 
@@ -217,12 +217,26 @@ The exact environment variables should match those defined by the application's 
 
 Docker Compose can be used for local development environments where the application and supporting services need to run together.
 
-A typical development environment may include:
+A typical development environment includes:
 
 * Spring Boot application
 * PostgreSQL database
 
-Docker Compose should primarily be treated as a development and local infrastructure convenience unless the deployment environment specifically supports Compose-based deployments.
+Docker Compose provides a convenient way to run these services together while maintaining consistent local infrastructure.
+
+Start the environment with:
+
+```text
+docker compose up --build
+```
+
+Stop the environment with:
+
+```text
+docker compose down
+```
+
+Docker Compose should primarily be treated as a local development and infrastructure convenience unless the selected deployment platform specifically supports Compose-based deployments.
 
 Production deployments should use the deployment model appropriate for the selected hosting platform.
 
@@ -231,8 +245,6 @@ Production deployments should use the deployment model appropriate for the selec
 # Health Monitoring
 
 The application includes Spring Boot Actuator for application monitoring and health information.
-
-Health endpoints can be used by deployment platforms and monitoring systems to determine whether the application is available.
 
 The health endpoint is:
 
@@ -246,7 +258,7 @@ Example:
 GET /actuator/health
 ```
 
-A successful health response indicates that the application is running and able to report its current health status.
+The health endpoint can be used by deployment platforms and monitoring systems to determine whether the application is available.
 
 Production environments should use the health endpoint when configuring container health checks, load balancers, or platform-specific health monitoring.
 
@@ -275,19 +287,19 @@ The application currently relies on the configured JPA/Hibernate database schema
 
 For production systems, database schema changes should be managed deliberately and should not rely on destructive automatic schema recreation.
 
-As the template evolves toward production use, a dedicated database migration tool such as Flyway or Liquibase may be introduced.
+A dedicated database migration tool such as Flyway or Liquibase may be introduced in a future version of the template as production database management requirements evolve.
 
-Until then, production deployments should review schema changes carefully before applying a new application version.
+Until a dedicated migration strategy is provided, production deployments should review schema changes carefully before applying a new application version.
 
 ---
 
-# CI/CD
+# CI
 
 The repository includes GitHub Actions automation for building and testing the application.
 
 The CI pipeline provides an automated verification step before changes are merged or released.
 
-The deployment process should follow the general sequence:
+The general development and deployment workflow is:
 
 ```text
 Commit
@@ -307,7 +319,7 @@ Deploy
 Health Verification
 ```
 
-The repository's CI workflow is intended to provide a foundation that can be extended with deployment-specific steps for a chosen hosting platform.
+The repository's CI workflow provides the automated build and test foundation. Deployment-specific automation can be added based on the requirements of the selected hosting platform.
 
 ---
 
@@ -315,7 +327,7 @@ The repository's CI workflow is intended to provide a foundation that can be ext
 
 Before deploying a new application version, verify:
 
-* [ ] Java 21+ is available.
+* [ ] Java 21 is available.
 * [ ] PostgreSQL is available and reachable.
 * [ ] Production database credentials are configured securely.
 * [ ] JWT signing secret is configured securely.
@@ -338,7 +350,7 @@ The template follows several deployment principles:
 * **Externalized configuration** — Environment-specific values should not be hard-coded into the application.
 * **Environment separation** — Spring profiles provide a mechanism for separating local, test, Docker, and production configuration.
 * **Container readiness** — The application can be packaged and deployed as a Docker container.
-* **Automated verification** — CI should verify the application before deployment.
+* **Automated verification** — CI verifies that the application builds and tests successfully before changes are merged.
 * **Health monitoring** — Actuator provides health information for deployment and monitoring systems.
 * **Secure secrets management** — Credentials and cryptographic secrets should be supplied through secure environment configuration.
 * **Platform independence** — The template does not require a specific cloud provider or hosting platform.

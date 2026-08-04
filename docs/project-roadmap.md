@@ -2,7 +2,7 @@
 
 This repository is a reusable Spring Boot API template built from a production-style application. Its purpose is to provide a clean, opinionated foundation that developers can clone and extend when building secure, maintainable REST APIs.
 
-The roadmap reflects the evolution of the template from an extracted application into a professional, production-oriented engineering asset.
+The roadmap reflects the evolution of the template into a professional, production-oriented engineering asset.
 
 ---
 
@@ -28,7 +28,7 @@ Included:
 * Unit and integration testing
 * Documentation
 * Docker
-* CI/CD
+* CI
 * OpenAPI
 * PostgreSQL
 * Repository engineering standards
@@ -150,7 +150,7 @@ Transform the reusable backend foundation into a generic Spring Boot API templat
 
 ## Outcome
 
-The repository now represents a reusable Spring Boot API Template rather than a Fleet Management application.
+The repository now represents a reusable Spring Boot API Template with the Fleet Management domain retained as an example reference implementation.
 
 ---
 
@@ -210,8 +210,7 @@ Elevate the template from a hardened engineering project into a professional, do
 ### Documentation
 
 * Refined README documentation
-* Updated architecture documentation
-* Added architecture diagrams
+* Updated architecture documentation and diagrams
 * Established Architecture Decision Records (ADRs)
 * Added template setup guidance
 * Added customization and extension guidance
