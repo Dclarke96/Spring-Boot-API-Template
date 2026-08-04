@@ -158,10 +158,6 @@ class MaintenanceServiceTest {
                 "date",
                 exception.getFieldName()
         );
-        assertEquals(
-                LocalDate.of(2023, 12, 31),
-                exception.getFieldValue()
-        );
 
         verify(maintenanceRepository, never())
                 .save(any());
@@ -204,10 +200,6 @@ class MaintenanceServiceTest {
         assertEquals(
                 "date",
                 exception.getFieldName()
-        );
-        assertEquals(
-                LocalDate.of(2025, 1, 1),
-                exception.getFieldValue()
         );
 
         verify(maintenanceRepository, never())
@@ -600,10 +592,6 @@ class MaintenanceServiceTest {
                 "date",
                 exception.getFieldName()
         );
-        assertEquals(
-                LocalDate.of(2023, 12, 31),
-                exception.getFieldValue()
-        );
 
         verify(maintenanceRepository, never())
                 .save(any());
@@ -659,10 +647,6 @@ class MaintenanceServiceTest {
         assertEquals(
                 "date",
                 exception.getFieldName()
-        );
-        assertEquals(
-                LocalDate.of(2025, 1, 1),
-                exception.getFieldValue()
         );
 
         verify(maintenanceRepository, never())

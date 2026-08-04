@@ -146,31 +146,19 @@ public class ErrorResponse {
         )
         private String field;
 
-
         @Schema(
                 description = "Validation failure message",
                 example = "Username cannot be blank"
         )
         private String message;
 
-
-        @Schema(
-                description = "Rejected value",
-                example = " "
-        )
-        private Object rejectedValue;
-
-
         public FieldError(
                 String field,
-                String message,
-                Object rejectedValue
+                String message
         ) {
             this.field = field;
             this.message = message;
-            this.rejectedValue = rejectedValue;
         }
-
 
         public String getField() {
             return field;
@@ -180,22 +168,12 @@ public class ErrorResponse {
             this.field = field;
         }
 
-
         public String getMessage() {
             return message;
         }
 
         public void setMessage(String message) {
             this.message = message;
-        }
-
-
-        public Object getRejectedValue() {
-            return rejectedValue;
-        }
-
-        public void setRejectedValue(Object rejectedValue) {
-            this.rejectedValue = rejectedValue;
         }
     }
 }

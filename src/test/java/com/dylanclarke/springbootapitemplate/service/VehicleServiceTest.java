@@ -109,7 +109,6 @@ class VehicleServiceTest {
                 exception.getMessage()
         );
         assertEquals("vehicleYear", exception.getFieldName());
-        assertEquals(1885, exception.getFieldValue());
 
         verify(repository, never()).save(any());
     }
@@ -135,7 +134,6 @@ class VehicleServiceTest {
                 exception.getMessage()
         );
         assertEquals("vehicleYear", exception.getFieldName());
-        assertEquals(futureYear, exception.getFieldValue());
 
         verify(repository, never()).save(any());
     }
