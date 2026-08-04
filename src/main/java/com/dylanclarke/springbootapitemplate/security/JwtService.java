@@ -19,7 +19,8 @@ import jakarta.annotation.PostConstruct;
 @Service
 public class JwtService {
 
-    private static final String ISSUER = "fleet-management-api";
+    @Value("${jwt.issuer}")
+    private String issuer;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -43,7 +44,7 @@ public class JwtService {
     public String generateToken(User user) {
 
         return Jwts.builder()
-                .issuer(ISSUER)
+                .issuer(issuer)
                 .subject(user.getUsername())
                 .claim("role", user.getRole().name())
                 .issuedAt(new Date())

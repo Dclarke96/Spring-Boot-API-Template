@@ -55,7 +55,7 @@ public class AuthenticationService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.ADMIN);
+        user.setRole(Role.USER);
 
         userRepository.save(user);
 
@@ -75,10 +75,7 @@ public class AuthenticationService {
 
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> {
-                    log.warn(
-                            "Login failed: unknown username={}",
-                            request.getUsername()
-                    );
+                    log.warn("Login failed: unknown username={}", request.getUsername());
                     return new AuthenticationException("Invalid credentials");
                 });
 

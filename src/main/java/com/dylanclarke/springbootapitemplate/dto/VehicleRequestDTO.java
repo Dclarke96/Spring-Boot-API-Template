@@ -2,7 +2,6 @@ package com.dylanclarke.springbootapitemplate.dto;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Min;
@@ -26,8 +25,7 @@ public class VehicleRequestDTO {
 
     @NotNull(message = "Year cannot be null")
     @JsonProperty("vehicleYear")
-    @JsonAlias("vehicleYear")
-    @Min(value = 1900, message = "Year must be after 1900")
+    @Min(value = 1886, message = "Year must be 1886 or later")
     private Integer year;
 
     @NotBlank(message = "Location cannot be blank")

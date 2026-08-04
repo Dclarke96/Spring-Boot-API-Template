@@ -1,10 +1,11 @@
 package com.dylanclarke.springbootapitemplate.config;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -24,11 +25,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.dylanclarke.springbootapitemplate.logging.RequestLoggingFilter;
 import com.dylanclarke.springbootapitemplate.security.JwtAuthFilter;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private static final String AUTH_ENDPOINT = "/api/auth/**";
+
 
     private static final String[] SWAGGER_ENDPOINTS = {
             "/swagger-ui/**",
@@ -36,10 +39,23 @@ public class SecurityConfig {
             "/v3/api-docs/**"
     };
 
+
     private static final String[] ACTUATOR_ENDPOINTS = {
-        "/actuator/health",
-        "/actuator/health/**"
+            "/actuator/health",
+            "/actuator/health/**"
     };
+
+
+    private final String allowedOrigins;
+
+
+    public SecurityConfig(
+            @Value("${cors.allowed-origins:http://localhost:3000}")
+            String allowedOrigins
+    ) {
+        this.allowedOrigins = allowedOrigins;
+    }
+
 
     // =========================
     // AUTH MANAGER
@@ -51,6 +67,7 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+
     // =========================
     // USER DETAILS SERVICE
     // (Prevents Spring Boot from creating a default user)
@@ -60,9 +77,11 @@ public class SecurityConfig {
 
         return username -> {
             throw new UnsupportedOperationException(
-                    "JWT authentication only. No in-memory login.");
+                    "JWT authentication only. No in-memory login."
+            );
         };
     }
+
 
     // =========================
     // SECURITY FILTER CHAIN
@@ -72,7 +91,8 @@ public class SecurityConfig {
             HttpSecurity http,
             JwtAuthFilter jwtAuthFilter,
             RequestLoggingFilter requestLoggingFilter,
-            AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
+            AuthenticationEntryPoint authenticationEntryPoint
+    ) throws Exception {
 
         http
 
@@ -81,29 +101,38 @@ public class SecurityConfig {
                 // =========================
                 .cors(Customizer.withDefaults())
 
+
                 // =========================
                 // CSRF
                 // =========================
                 .csrf(csrf -> csrf.disable())
 
+
                 // =========================
                 // SESSION MANAGEMENT
                 // =========================
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
                 )
+
 
                 // =========================
                 // REST API ERROR HANDLING
                 // =========================
                 .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .authenticationEntryPoint(
+                                authenticationEntryPoint
+                        )
                 )
+
 
                 // =========================
                 // AUTHORIZATION
                 // =========================
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers(
                                 AUTH_ENDPOINT
                         ).permitAll()
@@ -119,6 +148,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
+
                 // =========================
                 // DISABLE DEFAULT LOGIN
                 // =========================
@@ -126,14 +156,6 @@ public class SecurityConfig {
 
                 .httpBasic(httpBasic -> httpBasic.disable())
 
-                // =========================
-                // SECURITY HEADERS
-                // =========================
-                .headers(headers -> headers
-                        // Allows embedded H2 console during local development.
-                        // Safe for production because the H2 console is not enabled.
-                        .frameOptions(frame -> frame.sameOrigin())
-                )
 
                 // =========================
                 // REQUEST LOGGING
@@ -143,6 +165,7 @@ public class SecurityConfig {
                         UsernamePasswordAuthenticationFilter.class
                 )
 
+
                 // =========================
                 // JWT AUTHENTICATION
                 // =========================
@@ -151,8 +174,10 @@ public class SecurityConfig {
                         UsernamePasswordAuthenticationFilter.class
                 );
 
+
         return http.build();
     }
+
 
     // =========================
     // CORS CONFIGURATION
@@ -160,11 +185,17 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
-        CorsConfiguration configuration = new CorsConfiguration();
+        CorsConfiguration configuration =
+                new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of(
-                "http://localhost:3000"
-        ));
+
+        configuration.setAllowedOrigins(
+                Arrays.stream(allowedOrigins.split(","))
+                        .map(String::trim)
+                        .filter(origin -> !origin.isBlank())
+                        .toList()
+        );
+
 
         configuration.setAllowedMethods(List.of(
                 "GET",
@@ -175,24 +206,35 @@ public class SecurityConfig {
                 "OPTIONS"
         ));
 
+
         configuration.setAllowedHeaders(List.of("*"));
+
 
         configuration.setExposedHeaders(List.of(
                 "Authorization"
         ));
 
+
         configuration.setAllowCredentials(true);
+
 
         // Cache preflight requests for one hour
         configuration.setMaxAge(3600L);
 
+
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
-        source.registerCorsConfiguration("/**", configuration);
+
+        source.registerCorsConfiguration(
+                "/**",
+                configuration
+        );
+
 
         return source;
     }
+
 
     // =========================
     // PASSWORD ENCODER
@@ -204,4 +246,5 @@ public class SecurityConfig {
         // while remaining performant for authentication workloads.
         return new BCryptPasswordEncoder(12);
     }
+
 }

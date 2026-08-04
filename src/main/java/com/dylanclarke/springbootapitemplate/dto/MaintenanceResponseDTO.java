@@ -8,7 +8,6 @@ public class MaintenanceResponseDTO {
 
     private Long id;
 
-    @JsonProperty("vehicleId")
     private Long vehicleId;
 
     private String description;

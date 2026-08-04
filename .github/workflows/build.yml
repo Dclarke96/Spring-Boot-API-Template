@@ -11,33 +11,13 @@ on:
       - main
       - dev
 
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_DB: springboot_template_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U root -d springboot_template_test"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
-
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -45,15 +25,8 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-
       - name: Build and Test
-        env:
-          SPRING_PROFILES_ACTIVE: test
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/springboot_template_test
-          SPRING_DATASOURCE_USERNAME: postgres
-          SPRING_DATASOURCE_PASSWORD: postgres
         run: ./gradlew clean build

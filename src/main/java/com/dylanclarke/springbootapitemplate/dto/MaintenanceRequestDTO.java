@@ -13,7 +13,6 @@ import jakarta.validation.constraints.Size;
 public class MaintenanceRequestDTO {
 
     @NotNull(message = "Vehicle ID is required")
-    @JsonProperty("vehicleId")
     private Long vehicleId;
 
     @NotBlank(message = "Description is required")
@@ -21,7 +20,7 @@ public class MaintenanceRequestDTO {
     private String description;
 
     @NotNull(message = "Service date is required")
-    @FutureOrPresent(message = "Service date cannot be in the past")
+    @NotNull(message = "Service date cannot be in the past")
     private LocalDate date;
 
     @NotNull(message = "Cost is required")

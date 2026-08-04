@@ -2,11 +2,12 @@ plugins {
     java
     id("org.springframework.boot") version "3.4.2"
     id("io.spring.dependency-management") version "1.1.7"
+    id("jacoco")
 }
 
 group = "com.dylanclarke"
-version = "0.4.0"
-description = "Production-ready Spring Boot REST API Template"
+version = "0.5.0"
+description = "Reusable Spring Boot REST API Template"
 
 java {
     toolchain {
@@ -53,4 +54,18 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+jacoco {
+    toolVersion = "0.8.13"
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
 }

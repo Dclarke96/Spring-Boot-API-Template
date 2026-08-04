@@ -1,5 +1,6 @@
 package com.dylanclarke.springbootapitemplate.security;
 
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,8 +19,14 @@ public class CurrentUserService {
                         .getAuthentication();
 
 
-        CustomUserDetails user =
-                (CustomUserDetails) auth.getPrincipal();
+        if (auth == null
+                || !auth.isAuthenticated()
+                || !(auth.getPrincipal() instanceof CustomUserDetails user)) {
+
+            throw new AuthenticationCredentialsNotFoundException(
+                    "No authenticated user found"
+            );
+        }
 
 
         return new CurrentUser(

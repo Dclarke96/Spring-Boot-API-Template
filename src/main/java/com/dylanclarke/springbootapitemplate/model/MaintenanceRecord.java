@@ -12,6 +12,8 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(
@@ -29,14 +31,13 @@ public class MaintenanceRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Description cannot be blank")
     @Column(nullable = false)
     private String description;
 
+    @NotNull(message = "Service date is required")
     @Column(name = "service_date", nullable = false)
     private LocalDate serviceDate;
-
-    @Column(name = "alerts_enabled")
-    private boolean alertsEnabled;
 
     @Column(name = "cost")
     private Double cost;
@@ -47,20 +48,17 @@ public class MaintenanceRecord {
 
     public MaintenanceRecord() {}
 
-    public MaintenanceRecord(String description,
-                             LocalDate serviceDate,
-                             boolean alertsEnabled,
-                             Double cost,
-                             Vehicle vehicle) {
-
+    public MaintenanceRecord(
+            String description,
+            LocalDate serviceDate,
+            Double cost,
+            Vehicle vehicle
+    ) {
         this.description = description;
         this.serviceDate = serviceDate;
-        this.alertsEnabled = alertsEnabled;
         this.cost = cost;
         this.vehicle = vehicle;
     }
-
-    // Getters & Setters
 
     public Long getId() {
         return id;
@@ -84,14 +82,6 @@ public class MaintenanceRecord {
 
     public void setServiceDate(LocalDate serviceDate) {
         this.serviceDate = serviceDate;
-    }
-
-    public boolean isAlertsEnabled() {
-        return alertsEnabled;
-    }
-
-    public void setAlertsEnabled(boolean alertsEnabled) {
-        this.alertsEnabled = alertsEnabled;
     }
 
     public Double getCost() {

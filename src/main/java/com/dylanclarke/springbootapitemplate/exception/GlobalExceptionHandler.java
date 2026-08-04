@@ -1,27 +1,28 @@
 package com.dylanclarke.springbootapitemplate.exception;
 
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import org.springframework.data.mapping.PropertyReferenceException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.dylanclarke.springbootapitemplate.dto.ErrorResponse;
 import com.dylanclarke.springbootapitemplate.exception.AuthenticationException;
-import com.dylanclarke.springbootapitemplate.exception.ValidationException;
-
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @RestControllerAdvice
@@ -29,6 +30,17 @@ public class GlobalExceptionHandler {
 
     private static final Logger logger =
             LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+
+    private static final Set<String> SENSITIVE_FIELDS = Set.of(
+            "password",
+            "currentPassword",
+            "newPassword",
+            "confirmPassword",
+            "token",
+            "accessToken",
+            "refreshToken"
+    );
 
 
     /**
@@ -44,6 +56,23 @@ public class GlobalExceptionHandler {
                 (String) request.getAttribute("traceId")
         )
         .orElse(UUID.randomUUID().toString());
+    }
+
+
+    /**
+     * Prevents sensitive request values from being exposed
+     * in validation responses or application logs.
+     */
+    private Object getSafeRejectedValue(
+            String field,
+            Object rejectedValue
+    ) {
+
+        if (field != null && SENSITIVE_FIELDS.contains(field)) {
+            return null;
+        }
+
+        return rejectedValue;
     }
 
 
@@ -73,7 +102,10 @@ public class GlobalExceptionHandler {
                 traceId
         );
 
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.NOT_FOUND
+        );
     }
 
 
@@ -103,7 +135,10 @@ public class GlobalExceptionHandler {
                 traceId
         );
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.BAD_REQUEST
+        );
     }
 
 
@@ -133,7 +168,10 @@ public class GlobalExceptionHandler {
                 traceId
         );
 
-        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.CONFLICT
+        );
     }
 
 
@@ -148,11 +186,13 @@ public class GlobalExceptionHandler {
         String traceId = getTraceId(request);
 
         logger.warn(
-                "DATA_INTEGRITY_VIOLATION traceId={} method={} uri={} message={}",
+                "DATA_INTEGRITY_VIOLATION traceId={} method={} uri={} cause={}",
                 traceId,
                 request.getMethod(),
                 request.getRequestURI(),
-                ex.getMostSpecificCause().getClass().getSimpleName()
+                ex.getMostSpecificCause()
+                        .getClass()
+                        .getSimpleName()
         );
 
         ErrorResponse response = new ErrorResponse(
@@ -185,8 +225,7 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(error -> new ErrorResponse.FieldError(
                         error.getField(),
-                        error.getDefaultMessage(),
-                        error.getRejectedValue()))
+                        error.getDefaultMessage()))
                 .collect(Collectors.toList());
 
         logger.warn(
@@ -207,7 +246,10 @@ public class GlobalExceptionHandler {
 
         response.setFieldErrors(fieldErrors);
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.BAD_REQUEST
+        );
     }
 
 
@@ -237,12 +279,16 @@ public class GlobalExceptionHandler {
                 traceId
         );
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.BAD_REQUEST
+        );
     }
 
+
     /**
-    * Handle invalid sort properties
-    */
+     * Handle invalid sort properties
+     */
     @ExceptionHandler(PropertyReferenceException.class)
     public ResponseEntity<ErrorResponse> handlePropertyReferenceException(
             PropertyReferenceException ex,
@@ -266,7 +312,10 @@ public class GlobalExceptionHandler {
                 traceId
         );
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.BAD_REQUEST
+        );
     }
 
 
@@ -290,16 +339,15 @@ public class GlobalExceptionHandler {
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 "Endpoint Not Found",
-                String.format(
-                        "No handler found for %s %s",
-                        ex.getHttpMethod(),
-                        ex.getRequestURL()
-                ),
+                "The requested endpoint was not found",
                 request.getRequestURI(),
                 traceId
         );
 
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.NOT_FOUND
+        );
     }
 
 
@@ -328,40 +376,9 @@ public class GlobalExceptionHandler {
                 traceId
         );
 
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-    }
-
-
-    /**
-     * Handle unexpected exceptions
-     */
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGenericException(
-            Exception ex,
-            HttpServletRequest request) {
-
-        String traceId = getTraceId(request);
-
-        logger.error(
-                "UNEXPECTED_ERROR traceId={} method={} uri={} message={}",
-                traceId,
-                request.getMethod(),
-                request.getRequestURI(),
-                ex.getMessage(),
-                ex
-        );
-
-        ErrorResponse response = new ErrorResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Internal Server Error",
-                "An unexpected error occurred. Please contact support with trace ID: " + traceId,
-                request.getRequestURI(),
-                traceId
-        );
-
         return new ResponseEntity<>(
                 response,
-                HttpStatus.INTERNAL_SERVER_ERROR
+                HttpStatus.UNAUTHORIZED
         );
     }
 
@@ -396,4 +413,40 @@ public class GlobalExceptionHandler {
                 HttpStatus.FORBIDDEN
         );
     }
+
+
+    /**
+     * Handle unexpected exceptions
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException(
+            Exception ex,
+            HttpServletRequest request) {
+
+        String traceId = getTraceId(request);
+
+        logger.error(
+                "UNEXPECTED_ERROR traceId={} method={} uri={} message={}",
+                traceId,
+                request.getMethod(),
+                request.getRequestURI(),
+                ex.getMessage(),
+                ex
+        );
+
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal Server Error",
+                "An unexpected error occurred. Please contact support with trace ID: "
+                        + traceId,
+                request.getRequestURI(),
+                traceId
+        );
+
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
 }

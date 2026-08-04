@@ -40,7 +40,7 @@ public class Vehicle {
 
     @Column(name = "vehicle_year", nullable = false)
     @Min(value = 1886, message = "Vehicle year must be 1886 or later")
-    private int vehicleYear;
+    private Integer vehicleYear;
 
     @NotBlank(message = "Location cannot be blank")
     private String location;
@@ -51,7 +51,6 @@ public class Vehicle {
     @NotNull(message = "Start date is required")
     private LocalDate startDate;
 
-    @NotNull(message = "End date is required")
     private LocalDate endDate;
 
     // -------------------------------

@@ -53,7 +53,7 @@ public class VehicleController {
 
     @Operation(
             summary = "Retrieve all vehicles",
-            description = "Returns a paginated list of vehicles accessible to the authenticated user."
+            description = "Returns a paginated list of vehicles."
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponses({
 

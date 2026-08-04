@@ -11,9 +11,7 @@ Spring Boot API Template is a production-oriented backend foundation designed to
 
 The template provides a reusable Spring Boot architecture including authentication, authorization, DTO-based API boundaries, validation, centralized exception handling, standardized API responses, OpenAPI documentation, integration testing, continuous integration, and containerized application workflows.
 
-The repository includes an example application domain demonstrating how business functionality can be built on top of the reusable API foundation.
-
-The current example implementation uses a reusable API template structure to demonstrate resource management, relational data operations, authentication, and API design patterns.
+The repository includes an example application domain demonstrating how business functionality can be built on top of the reusable API foundation. The example implementation demonstrates resource management, relational data operations, authentication, and common REST API design patterns.
 
 ---
 
@@ -23,27 +21,27 @@ This template is intended for developers who want a production-oriented starting
 
 Typical use cases include:
 
-- New backend projects
-- Portfolio applications
-- Internal business tools
-- Microservices
-- Learning modern Spring Boot architecture
-- Rapid API prototyping
+* New backend projects
+* Portfolio applications
+* Internal business tools
+* Microservices
+* Learning modern Spring Boot architecture
+* Rapid API prototyping
 
-The included example domain demonstrates the recommended architectural patterns and can be replaced with your own business domain.
+The included example domain demonstrates the recommended architectural patterns and can be replaced or removed when building a new application.
 
 ---
 
 # Documentation
 
-| Document | Description |
-|----------|-------------|
-| Template Guide | Getting started with the template |
-| Architecture Overview | Layered architecture and project organization |
-| API Design | API conventions and design standards |
-| Deployment Guide | Deployment and environment configuration |
-| Design Decisions | Architectural rationale |
-| Project Roadmap | Planned releases and milestones |
+| Document                      | Description                                             |
+| ----------------------------- | ------------------------------------------------------- |
+| Template Guide                | Getting started and customizing the template            |
+| Architecture Overview         | Layered architecture and project organization           |
+| API Design                    | API conventions and design standards                    |
+| Deployment Guide              | Deployment requirements and environment configuration   |
+| Architecture Decision Records | Significant architectural decisions and their rationale |
+| Project Roadmap               | Project evolution and release milestones                |
 
 ---
 
@@ -53,13 +51,13 @@ The included example domain demonstrates the recommended architectural patterns 
 
 ```bash
 docker compose up --build
-````
+```
 
 The application will be available at:
 
-* API: [http://localhost:8080](http://localhost:8080)
-* Swagger UI: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-* Health Endpoint: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
+* API: `http://localhost:8080`
+* Swagger UI: `http://localhost:8080/swagger-ui/index.html`
+* Health Endpoint: `http://localhost:8080/actuator/health`
 
 ## Run Locally
 
@@ -69,22 +67,22 @@ The application will be available at:
 
 Once the application starts, access:
 
-* API: [http://localhost:8080](http://localhost:8080)
-* Swagger UI: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-* Health Endpoint: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
+* API: `http://localhost:8080`
+* Swagger UI: `http://localhost:8080/swagger-ui/index.html`
+* Health Endpoint: `http://localhost:8080/actuator/health`
 
 ---
 
 # Features
 
-* JWT Authentication
+* JWT authentication
 * Role-based security foundation
 * Example application domain implementation
 * CRUD application patterns
 * Relational data workflow examples
 * Search functionality
 * Pagination
-* Jakarta Validation
+* Jakarta Bean Validation
 * Standardized API responses
 * Centralized exception handling
 * Request logging with trace IDs
@@ -102,14 +100,14 @@ Once the application starts, access:
 * **Language:** Java 21
 * **Framework:** Spring Boot 3.4.2
 * **Database:** PostgreSQL
-* **Validation:** Jakarta Validation
-* **Security:** Spring Security + JWT Authentication
+* **Validation:** Jakarta Bean Validation
+* **Security:** Spring Security + JWT authentication
 * **API Documentation:** SpringDoc OpenAPI / Swagger UI
 * **Build Tool:** Gradle
 * **Containerization:** Docker + Docker Compose
-* **Architecture:** Layered Architecture with separated API, business logic, persistence, security, and cross-cutting concerns
+* **Architecture:** Layered architecture with separated API, business logic, persistence, security, and cross-cutting concerns
 * **Testing:** JUnit 5 + Spring Boot Test + Testcontainers
-* **CI/CD:** GitHub Actions
+* **CI:** GitHub Actions
 
 ---
 
@@ -119,10 +117,10 @@ The backend currently follows a layered architecture with clear separation betwe
 
 This structure provides a maintainable foundation while allowing future evolution toward additional architectural patterns.
 
-```
+```text
 Controller Layer
         ↓
-DTO/API Models
+DTO Boundary
         ↓
 Service Layer
         ↓
@@ -131,21 +129,23 @@ Repository Layer
 Database
 ```
 
-Supporting layers include:
+Supporting concerns include:
 
 * **API Layer** - Provides standardized API responses and pagination models.
 * **DTO Layer** - Separates external API contracts from internal persistence models.
 * **Security Layer** - Handles JWT authentication, authorization, and current user context.
 * **Exception Layer** - Provides centralized exception handling and consistent error responses.
 * **Logging Layer** - Provides request logging and traceability.
+* **Configuration** - Provides environment-specific application configuration through Spring profiles and environment variables.
 
 Key architectural decisions:
 
 * Controllers remain thin and delegate business logic to services.
-* Services contain application rules and workflows.
+* Services contain application workflows and business rules.
 * Repositories manage database access through JPA.
 * DTOs protect API contracts from internal entity changes.
 * Security concerns are isolated from business logic.
+* Cross-cutting concerns such as logging and exception handling remain separate from business workflows.
 
 For a detailed overview, see:
 
@@ -160,8 +160,12 @@ The example implementation exposes endpoints demonstrating:
 * User authentication
 * Resource management workflows
 * Relational data operations
+* Request validation
+* Pagination
+* Search functionality
+* Standardized API responses
 
-The current example domain demonstrates these patterns using template resources and example CRUD workflows.
+The example domain demonstrates these patterns using representative resource and CRUD workflows.
 
 Supported operations include:
 
@@ -184,13 +188,13 @@ Interactive API documentation is available through Swagger UI after starting the
 
 ## Swagger UI
 
-```
+```text
 http://localhost:8080/swagger-ui/index.html
 ```
 
 ## OpenAPI JSON
 
-```
+```text
 http://localhost:8080/v3/api-docs
 ```
 
@@ -209,17 +213,17 @@ Spring Boot Actuator is included to provide application health monitoring for lo
 
 Health endpoint:
 
-```
+```text
 GET /actuator/health
 ```
 
 When the application is running locally:
 
-```
+```text
 http://localhost:8080/actuator/health
 ```
 
-The endpoint reports application and database health and can be used by deployment platforms, load balancers, or monitoring systems to verify service availability.
+The endpoint provides application health information and can be used by deployment platforms, load balancers, or monitoring systems to verify service availability.
 
 ---
 
@@ -229,7 +233,7 @@ The application uses structured request logging to improve troubleshooting and o
 
 Each incoming request is assigned a unique trace identifier that is included throughout the request lifecycle and in standardized error responses.
 
-This allows application logs and client-facing errors to be correlated during debugging.
+This allows application logs and client-facing errors to be correlated during debugging and troubleshooting.
 
 Application logs intentionally exclude sensitive information such as passwords and JWT tokens.
 
@@ -243,7 +247,7 @@ The API uses JWT-based authentication.
 
 Create a new account:
 
-```
+```text
 POST /api/auth/register
 ```
 
@@ -261,7 +265,7 @@ Example authentication header for protected endpoints:
 Authorization: Bearer <JWT_TOKEN>
 ```
 
-Protected resources require a valid authentication token.
+Protected resources require a valid JWT authentication token, with authorization decisions based on the authenticated user's role where applicable.
 
 ## Using Swagger UI
 
@@ -291,27 +295,27 @@ Bearer <JWT_TOKEN>
 
 ---
 
-# Design Decisions
+# Architecture Decision Records
 
-Major architectural and implementation decisions are documented to explain the reasoning behind the template's design. These documents describe not only *what* was implemented, but *why* each decision was made.
+Significant architectural decisions are documented using focused Architecture Decision Records (ADRs). Each record captures the context, rationale, alternatives considered, and consequences of an architectural decision.
 
-* Why layered architecture was selected
-* Why DTOs are used
-* Authentication and authorization strategy
-* Validation approach
-* Exception handling design
-* Repository design
-* Testing strategy
+Current ADRs include:
+
+* Layered architecture
+* DTO-based API boundaries
+* JWT security architecture
+* Testcontainers-based integration testing
+* Domain removal and template decoupling history
 
 See:
 
-* [Design Decisions](docs/design-decisions.md)
+* [Architecture Decision Records](docs/adr/ADR-001-layered-architecture.md)
 
 ---
 
 # Project Roadmap
 
-The template follows a structured release roadmap that incrementally evolves the project from a standalone repository into a production-ready Spring Boot API template.
+The template follows a structured release roadmap that incrementally evolves the project into a professional, reusable Spring Boot API template.
 
 Each release focuses on a specific milestone, including architecture, developer experience, testing, CI/CD, documentation, and repository quality.
 
@@ -450,8 +454,11 @@ Execute the automated test suite:
 ./gradlew clean build
 ```
 
-The project includes integration tests covering:
+The project includes unit and integration tests covering:
 
+* Service-layer business logic
+* Security and authentication behavior
+* Controller behavior
 * Authentication workflows
 * Authorization rules
 * Data integrity scenarios
