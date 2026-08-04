@@ -328,7 +328,7 @@ v1.0.0 should focus on **stability, completeness, and usability rather than addi
 
 * Docker support
 * Docker Compose development environment
-* GitHub Actions CI/CD
+* GitHub Actions CI
 * Production configuration guidance
 * Health checks
 * OpenAPI documentation
