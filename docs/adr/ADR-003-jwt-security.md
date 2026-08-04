@@ -34,7 +34,7 @@ Authentication and authorization are implemented as infrastructure concerns and 
 
 The authentication flow is:
 
-```text id="0l9y3k"
+```text
 Authentication Request
         ↓
 AuthController
@@ -52,7 +52,7 @@ JWT
 
 Subsequent authenticated requests follow:
 
-```text id="m8n5a2"
+```text
 HTTP Request
         ↓
 JWT

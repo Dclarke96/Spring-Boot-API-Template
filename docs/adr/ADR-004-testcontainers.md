@@ -30,7 +30,7 @@ The integration testing environment combines:
 
 The general test environment is:
 
-```text id="n8h0j2"
+```text
 Integration Test
       ↓
 MockMvc

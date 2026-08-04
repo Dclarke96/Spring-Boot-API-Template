@@ -24,7 +24,7 @@ The API does not directly expose persistence entities as request or response con
 
 The general request flow is:
 
-```text id="4a6m5r"
+```text
 HTTP Request
      ↓
 Controller
@@ -38,7 +38,7 @@ Persistence Entity
 
 The response flow is:
 
-```text id="q8q2n7"
+```text
 Persistence Entity
      ↓
 Service
@@ -134,7 +134,7 @@ The current DTO boundary provides separation between the API and persistence lay
 
 As application complexity increases, future architectures may introduce additional separation such as:
 
-```text id="drq7lq"
+```text
 API DTOs
     ↓
 Application Models
