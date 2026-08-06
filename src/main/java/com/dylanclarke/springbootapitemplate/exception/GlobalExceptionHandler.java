@@ -20,6 +20,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.dylanclarke.springbootapitemplate.dto.ErrorResponse;
 import com.dylanclarke.springbootapitemplate.exception.AuthenticationException;
@@ -350,6 +351,36 @@ public class GlobalExceptionHandler {
         );
     }
 
+    /**
+    * Handle NoResourceFoundException
+    */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFoundException(
+            NoResourceFoundException ex,
+            HttpServletRequest request) {
+
+        String traceId = getTraceId(request);
+
+        logger.warn(
+                "ENDPOINT_NOT_FOUND traceId={} method={} uri={}",
+                traceId,
+                request.getMethod(),
+                request.getRequestURI()
+        );
+
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "Endpoint Not Found",
+                "The requested endpoint was not found",
+                request.getRequestURI(),
+                traceId
+        );
+
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.NOT_FOUND
+        );
+    }
 
     /**
      * Handle AuthenticationException

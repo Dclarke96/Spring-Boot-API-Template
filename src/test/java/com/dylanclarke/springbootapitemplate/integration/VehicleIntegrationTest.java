@@ -210,4 +210,43 @@ class VehicleIntegrationTest extends BaseIntegrationTest {
                         .value(true));
     }
 
+    @Test
+    @DisplayName("Should return standardized error response when resource does not exist")
+    void shouldReturn404WhenResourceDoesNotExist() throws Exception {
+
+        // Arrange
+
+        String token = authenticate("missingresourceuser");
+
+        Long missingVehicleId = 99999L;
+
+        String endpoint = "/api/vehicles/" + missingVehicleId;
+
+
+        // Act
+
+        mockMvc.perform(get(endpoint)
+                        .header(
+                                "Authorization",
+                                "Bearer " + token
+                        ))
+
+
+                // Assert
+
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status")
+                        .value(404))
+                .andExpect(jsonPath("$.error")
+                        .value("Resource Not Found"))
+                .andExpect(jsonPath("$.message")
+                        .exists())
+                .andExpect(jsonPath("$.path")
+                        .value(endpoint))
+                .andExpect(jsonPath("$.timestamp")
+                        .exists())
+                .andExpect(jsonPath("$.traceId")
+                        .exists());
+    }
+
 }
