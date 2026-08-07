@@ -1,7 +1,6 @@
 package com.dylanclarke.springbootapitemplate.exception;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -33,17 +32,6 @@ public class GlobalExceptionHandler {
             LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 
-    private static final Set<String> SENSITIVE_FIELDS = Set.of(
-            "password",
-            "currentPassword",
-            "newPassword",
-            "confirmPassword",
-            "token",
-            "accessToken",
-            "refreshToken"
-    );
-
-
     /**
      * Retrieves the existing request trace ID.
      *
@@ -58,24 +46,6 @@ public class GlobalExceptionHandler {
         )
         .orElse(UUID.randomUUID().toString());
     }
-
-
-    /**
-     * Prevents sensitive request values from being exposed
-     * in validation responses or application logs.
-     */
-    private Object getSafeRejectedValue(
-            String field,
-            Object rejectedValue
-    ) {
-
-        if (field != null && SENSITIVE_FIELDS.contains(field)) {
-            return null;
-        }
-
-        return rejectedValue;
-    }
-
 
     /**
      * Handle ResourceNotFoundException
@@ -239,7 +209,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "Invalid Request",
+                "Validation Failed",
                 "Request validation failed",
                 request.getRequestURI(),
                 traceId

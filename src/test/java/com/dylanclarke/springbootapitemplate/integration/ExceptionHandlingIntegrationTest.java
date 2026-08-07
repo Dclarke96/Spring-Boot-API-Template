@@ -127,7 +127,7 @@ class ExceptionHandlingIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.status")
                         .value(400))
                 .andExpect(jsonPath("$.error")
-                        .value("Invalid Request"))
+                        .value("Validation Failed"))
                 .andExpect(jsonPath("$.message")
                         .value("Request validation failed"))
                 .andExpect(jsonPath("$.path")

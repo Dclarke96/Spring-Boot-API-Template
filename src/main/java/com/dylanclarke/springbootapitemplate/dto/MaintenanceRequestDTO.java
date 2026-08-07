@@ -2,8 +2,6 @@ package com.dylanclarke.springbootapitemplate.dto;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,7 +18,7 @@ public class MaintenanceRequestDTO {
     private String description;
 
     @NotNull(message = "Service date is required")
-    @NotNull(message = "Service date cannot be in the past")
+    @FutureOrPresent(message = "Service date cannot be in the past")
     private LocalDate date;
 
     @NotNull(message = "Cost is required")

@@ -2,8 +2,6 @@ package com.dylanclarke.springbootapitemplate.dto;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class MaintenanceResponseDTO {
 
     private Long id;
