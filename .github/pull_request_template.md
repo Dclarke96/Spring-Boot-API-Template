@@ -12,8 +12,7 @@
 
 <!-- Describe the testing and validation performed. Include relevant commands. -->
 
-* [ ] `./gradlew clean build`
-* [ ] `./gradlew test`
+* [ ] `./gradlew clean build` passes
 * [ ] Integration tests verified when applicable
 * [ ] Docker/Testcontainers verified when applicable
 

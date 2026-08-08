@@ -4,17 +4,13 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,7 +18,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.dylanclarke.springbootapitemplate.dto.ErrorResponse;
-import com.dylanclarke.springbootapitemplate.exception.AuthenticationException;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @RestControllerAdvice

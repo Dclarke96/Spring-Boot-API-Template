@@ -51,7 +51,7 @@ Handles HTTP requests and responses and provides the API boundary.
 Responsibilities include:
 
 * Request handling.
-* Request validation.
+* Structural request validation.
 * API contract management.
 * Mapping requests and responses through DTOs.
 
@@ -73,7 +73,7 @@ Responsibilities include:
 * Business rules and validation.
 * Repository coordination.
 * Transaction boundaries.
-* Domain-specific operations.
+* Application-specific operations.
 
 ### Repository Layer
 

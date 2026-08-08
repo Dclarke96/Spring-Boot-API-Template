@@ -191,7 +191,7 @@ Creates a new vehicle.
   "licensePlate": "ABC123",
   "make": "Ford",
   "model": "F-150",
-  "vehicleYear": 2020,
+  "year": 2020,
   "location": "Warehouse 1"
 }
 ```

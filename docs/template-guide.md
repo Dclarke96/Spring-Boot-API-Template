@@ -214,7 +214,7 @@ Sensitive values should never be committed to source control.
 For Docker-based development:
 
 ```bash
-docker compose up -d
+docker compose up --build
 ```
 
 This starts the application and supporting services defined by the Docker Compose configuration.
@@ -310,7 +310,7 @@ Profiles can be activated through:
 * IDE configuration
 * Deployment platform settings
 
-Production deployments should use the `prod` profile.
+Production deployments should use the `prod` profile. The base application.properties file provides shared configuration and activates the local profile by default.
 
 ---
 
@@ -399,6 +399,7 @@ Before production usage:
 
 * Replace development secrets.
 * Configure a secure JWT signing secret.
+* Review the JWT issuer and token expiration settings for the target application.
 * Review token expiration settings.
 * Review authorization requirements.
 * Add application-specific roles and permissions where required.
@@ -545,7 +546,7 @@ A recommended workflow when starting a new project:
 12. Add integration tests.
 13. Run the full build.
 14. Commit changes frequently.
-15. Push changes and verify CI execution.
+15. Push changes and verify CI execution through the repository's configured branches.
 16. Review deployment configuration before release.
 
 ---

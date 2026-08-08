@@ -21,7 +21,7 @@ Changes currently being developed for the next release.
 * GitHub issue templates for bug reports and feature requests
 * Pull request template
 * Architecture Decision Records documenting major architectural and engineering decisions
-* Expanded JaCoCo test coverage reporting
+* Added JaCoCo code coverage reporting
 * Updated architecture diagram and supporting documentation
 
 ### Changed
@@ -34,7 +34,7 @@ Changes currently being developed for the next release.
 * Updated architecture documentation
 * Added historical documentation for the v0.2.0 business domain decoupling milestone
 * Replaced centralized design-decision documentation with Architecture Decision Records
-* Expanded unit test coverage across security and authentication controllers
+* Expanded unit test coverage across security, authentication, and controller components
 * Updated GitHub Actions CI configuration and repository workflows
 * Improved contribution, issue reporting, and pull request guidance
 * Aligned project documentation with the current Java 21, Spring Boot, testing, Docker, and CI/CD configuration
@@ -56,7 +56,7 @@ Changes currently being developed for the next release.
 * Exception handling integration test coverage
 * Vehicle integration test coverage
 * Maintenance integration test coverage
-* Developer template guide
+* Spring Boot API Template Guide
 
 ### Changed
 
@@ -144,5 +144,5 @@ Changes currently being developed for the next release.
 | **0.5.0** | 2026-08-02 | Repository Professionalization   |
 | **0.4.0** | 2026-07-28 | Template Hardening               |
 | **0.3.0** | 2026-07-26 | Template Generalization          |
-| **0.2.0** | 2026-07-25 | Architecture & Domain Extraction |
+| **0.2.0** | 2026-07-25 | Architecture Foundation          |
 | **0.1.0** | 2026-07-20 | Repository Foundation            |

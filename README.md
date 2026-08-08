@@ -15,6 +15,12 @@ The repository includes an example application domain demonstrating how business
 
 ---
 
+# Why This Template?
+
+This template is designed to provide a production-oriented foundation rather than a minimal Spring Boot starter. It demonstrates clear separation of concerns, security boundaries, centralized error handling, automated testing, containerized development, CI validation, and documented architectural decisions.
+
+---
+
 # Who Is This Template For?
 
 This template is intended for developers who want a production-oriented starting point for Spring Boot REST APIs.
@@ -167,14 +173,11 @@ The example implementation exposes endpoints demonstrating:
 
 The example domain demonstrates these patterns using representative resource and CRUD workflows.
 
-Supported operations include:
+Supported API capabilities include:
 
-* GET
-* POST
-* PUT
-* DELETE
-* Search
-* Pagination
+- CRUD operations using GET, POST, PUT, and DELETE
+- Search
+- Pagination
 
 Detailed endpoint documentation with request and response examples:
 
@@ -418,7 +421,7 @@ git clone https://github.com/Dclarke96/SpringbootAPITemplate.git
 cd SpringbootAPITemplate
 ```
 
-2. Configure PostgreSQL and environment variables. PostgreSQL is not required when running integration tests because Testcontainers creates an isolated database automatically.
+2. Configure PostgreSQL and the required environment variables if running the application locally. PostgreSQL is not required for the integration test suite because Testcontainers creates an isolated PostgreSQL database automatically.
 
 3. Build and run:
 

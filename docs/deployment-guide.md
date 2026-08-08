@@ -76,6 +76,7 @@ Examples include:
 * Database URL
 * Database username
 * Database password
+* JWT issuer
 * JWT secret
 * JWT expiration settings
 * Application-specific configuration
@@ -114,14 +115,22 @@ The application uses JWT authentication for protected API resources.
 
 Production deployments must provide a secure JWT signing secret through environment configuration.
 
+The JWT configuration includes:
+
+- JWT issuer
+- JWT signing secret
+- JWT expiration
+
 The JWT secret should:
 
-* Be sufficiently long and unpredictable.
-* Be unique to the deployment environment.
-* Never be committed to source control.
-* Never be reused for development or testing environments.
+- Be sufficiently long and unpredictable.
+- Be unique to the deployment environment.
+- Never be committed to source control.
+- Never be reused for development or testing environments.
 
-JWT expiration settings should also be configured according to the security requirements of the application.
+JWT expiration settings should be configured according to the security requirements of the application.
+
+The JWT issuer should identify the application or deployment appropriately and remain consistent for tokens issued by the application.
 
 ---
 
