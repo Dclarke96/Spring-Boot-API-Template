@@ -6,14 +6,21 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+@Schema(
+        description = "Request payload used to register a new user account."
+)
 public class RegisterRequest {
 
     @Schema(
-            description = "Username for the new account",
+            description = "Username for the new account.",
             example = "admin"
     )
     @NotBlank(message = "Username cannot be blank")
-    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
+    @Size(
+            min = 3,
+            max = 20,
+            message = "Username must be between 3 and 20 characters"
+    )
     @Pattern(
             regexp = "^[a-zA-Z0-9_]+$",
             message = "Username can only contain letters, numbers, and underscores"
@@ -21,7 +28,7 @@ public class RegisterRequest {
     private String username;
 
     @Schema(
-            description = "Email address for the new account",
+            description = "Email address for the new account.",
             example = "admin@example.com"
     )
     @NotBlank(message = "Email cannot be blank")
@@ -29,11 +36,14 @@ public class RegisterRequest {
     private String email;
 
     @Schema(
-            description = "Password for the new account",
-            example = "Password123!"
+            description = "Password for the new account. Must be at least 8 characters.",
+            format = "password"
     )
     @NotBlank(message = "Password cannot be blank")
-    @Size(min = 8, message = "Password must be at least 8 characters")
+    @Size(
+            min = 8,
+            message = "Password must be at least 8 characters"
+    )
     private String password;
 
     public String getUsername() {
