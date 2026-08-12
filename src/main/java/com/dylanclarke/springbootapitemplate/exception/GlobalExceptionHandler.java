@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import org.hibernate.query.sqm.PathElementException;
 
 import com.dylanclarke.springbootapitemplate.dto.ErrorResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 
 
 @RestControllerAdvice
@@ -286,6 +289,50 @@ public class GlobalExceptionHandler {
         );
     }
 
+
+    /**
+    * Handle invalid sort properties that result in Hibernate query path errors
+    */
+    @ExceptionHandler(InvalidDataAccessApiUsageException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidDataAccessApiUsageException(
+            InvalidDataAccessApiUsageException ex,
+            HttpServletRequest request) {
+
+        String traceId = getTraceId(request);
+
+        Throwable cause = ex;
+
+        while (cause != null) {
+
+            if (cause instanceof PathElementException) {
+
+                logger.warn(
+                        "INVALID_SORT_PROPERTY traceId={} method={} uri={} message={}",
+                        traceId,
+                        request.getMethod(),
+                        request.getRequestURI(),
+                        cause.getMessage()
+                );
+
+                ErrorResponse response = new ErrorResponse(
+                        HttpStatus.BAD_REQUEST.value(),
+                        "Invalid Sort Property",
+                        cause.getMessage(),
+                        request.getRequestURI(),
+                        traceId
+                );
+
+                return new ResponseEntity<>(
+                        response,
+                        HttpStatus.BAD_REQUEST
+                );
+            }
+
+            cause = cause.getCause();
+        }
+
+        throw ex;
+    }
 
     /**
      * Handle NoHandlerFoundException
