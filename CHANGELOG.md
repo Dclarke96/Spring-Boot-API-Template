@@ -12,6 +12,41 @@ Changes currently being developed for the next release.
 
 ---
 
+## [1.0.0] - 2026-08-12
+
+### Added
+
+* Production-oriented Spring Boot API Template release
+* JWT-based authentication and authorization foundation
+* DTO-based API boundaries with standardized response and error handling
+* Bean Validation and centralized exception handling
+* OpenAPI / Swagger API documentation
+* Unit and integration testing with Testcontainers and PostgreSQL
+* Docker and Docker Compose support
+* Spring Boot Actuator health monitoring
+* JaCoCo code coverage reporting
+* Architecture Decision Records documenting major architectural decisions
+* Comprehensive architecture, API, deployment, and template usage documentation
+
+### Changed
+
+* Updated Spring Boot from 3.4.2 to 3.4.13
+* Updated SpringDoc OpenAPI to 2.8.17
+* Updated Testcontainers dependency resolution to 2.0.2
+* Finalized repository documentation and release structure
+* Finalized architecture diagrams and documentation references
+* Aligned README and project documentation with the v1.0.0 configuration
+* Finalized GitHub Actions CI workflow and repository presentation
+* Corrected GitHub Actions build status badge configuration
+
+### Fixed
+
+* Corrected API design documentation to reflect the actual registration response
+* Corrected deployment documentation to remove an inaccurate JWT configuration reference
+* Corrected GitHub Actions badge URL to reference the current repository
+
+---
+
 ## [0.5.0] - 2026-08-02
 
 ### Added
@@ -139,10 +174,10 @@ Changes currently being developed for the next release.
 
 ## Release History
 
-| Version   | Date       | Milestone                        |
-| --------- | ---------- | -------------------------------- |
-| **0.5.0** | 2026-08-02 | Repository Professionalization   |
-| **0.4.0** | 2026-07-28 | Template Hardening               |
-| **0.3.0** | 2026-07-26 | Template Generalization          |
-| **0.2.0** | 2026-07-25 | Architecture Foundation          |
-| **0.1.0** | 2026-07-20 | Repository Foundation            |
+| Version   | Date       | Milestone                      |
+| --------- | ---------- | ------------------------------ |
+| **0.5.0** | 2026-08-02 | Repository Professionalization |
+| **0.4.0** | 2026-07-28 | Template Hardening             |
+| **0.3.0** | 2026-07-26 | Template Generalization        |
+| **0.2.0** | 2026-07-25 | Architecture Foundation        |
+| **0.1.0** | 2026-07-20 | Repository Foundation          |
