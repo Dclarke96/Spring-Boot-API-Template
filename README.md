@@ -2,7 +2,7 @@
 
 ![Build Status](https://github.com/Dclarke96/SpringbootAPITemplate/actions/workflows/build.yml/badge.svg)
 ![Java](https://img.shields.io/badge/Java-21-blue)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.2-brightgreen)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.13-brightgreen)
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-green)
 
 ## Overview
@@ -104,7 +104,7 @@ Once the application starts, access:
 # Tech Stack
 
 * **Language:** Java 21
-* **Framework:** Spring Boot 3.4.2
+* **Framework:** Spring Boot 3.4.13
 * **Database:** PostgreSQL
 * **Validation:** Jakarta Bean Validation
 * **Security:** Spring Security + JWT authentication
