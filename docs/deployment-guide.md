@@ -78,7 +78,6 @@ Examples include:
 * Database password
 * JWT issuer
 * JWT secret
-* JWT expiration settings
 * Application-specific configuration
 
 The repository includes an `.env.example` file to document the expected environment configuration without exposing real credentials.

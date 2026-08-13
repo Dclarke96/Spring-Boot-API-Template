@@ -46,7 +46,7 @@ Creates a new user account.
 ```json
 {
   "success": true,
-  "data": "Registration successful",
+  "data": null,
   "message": "User registered successfully",
   "timestamp": "2026-07-12T19:00:00"
 }
