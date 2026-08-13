@@ -4,34 +4,33 @@ import java.time.LocalDateTime;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(
+        description = "Standardized API response wrapper for successful and unsuccessful responses."
+)
 public class ApiResponse<T> {
 
     @Schema(
-            description = "Indicates whether the request completed successfully",
+            description = "Indicates whether the request completed successfully.",
             example = "true"
     )
     private boolean success;
 
-
     @Schema(
-            description = "Response payload",
+            description = "Response payload. May be null when the response does not contain data.",
             nullable = true
     )
     private T data;
 
-
     @Schema(
-            description = "Human-readable response message",
+            description = "Human-readable message describing the result of the request.",
             example = "Vehicle retrieved successfully"
     )
     private String message;
 
-
     @Schema(
-            description = "Time the response was generated"
+            description = "Timestamp when the API response was generated."
     )
     private LocalDateTime timestamp;
-
 
     private ApiResponse(
             boolean success,
@@ -44,7 +43,6 @@ public class ApiResponse<T> {
         this.timestamp = LocalDateTime.now();
     }
 
-
     public static <T> ApiResponse<T> success(
             T data,
             String message
@@ -56,7 +54,6 @@ public class ApiResponse<T> {
         );
     }
 
-
     public static <T> ApiResponse<T> failure(
             String message
     ) {
@@ -66,7 +63,6 @@ public class ApiResponse<T> {
                 message
         );
     }
-
 
     public boolean isSuccess() {
         return success;

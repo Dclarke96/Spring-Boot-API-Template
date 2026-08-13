@@ -46,7 +46,7 @@ Creates a new user account.
 ```json
 {
   "success": true,
-  "data": "Registration successful",
+  "data": null,
   "message": "User registered successfully",
   "timestamp": "2026-07-12T19:00:00"
 }
@@ -191,7 +191,7 @@ Creates a new vehicle.
   "licensePlate": "ABC123",
   "make": "Ford",
   "model": "F-150",
-  "vehicleYear": 2020,
+  "year": 2020,
   "location": "Warehouse 1"
 }
 ```

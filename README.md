@@ -1,8 +1,8 @@
 # Spring Boot API Template
 
-![Build Status](https://github.com/Dclarke96/SpringbootAPITemplate/actions/workflows/build.yml/badge.svg)
+![Build Status](https://github.com/Dclarke96/Spring-Boot-API-Template/actions/workflows/build.yml/badge.svg)
 ![Java](https://img.shields.io/badge/Java-21-blue)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.2-brightgreen)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.13-brightgreen)
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-green)
 
 ## Overview
@@ -12,6 +12,12 @@ Spring Boot API Template is a production-oriented backend foundation designed to
 The template provides a reusable Spring Boot architecture including authentication, authorization, DTO-based API boundaries, validation, centralized exception handling, standardized API responses, OpenAPI documentation, integration testing, continuous integration, and containerized application workflows.
 
 The repository includes an example application domain demonstrating how business functionality can be built on top of the reusable API foundation. The example implementation demonstrates resource management, relational data operations, authentication, and common REST API design patterns.
+
+---
+
+# Why This Template?
+
+This template is designed to provide a production-oriented foundation rather than a minimal Spring Boot starter. It demonstrates clear separation of concerns, security boundaries, centralized error handling, automated testing, containerized development, CI validation, and documented architectural decisions.
 
 ---
 
@@ -98,7 +104,7 @@ Once the application starts, access:
 # Tech Stack
 
 * **Language:** Java 21
-* **Framework:** Spring Boot 3.4.2
+* **Framework:** Spring Boot 3.4.13
 * **Database:** PostgreSQL
 * **Validation:** Jakarta Bean Validation
 * **Security:** Spring Security + JWT authentication
@@ -167,14 +173,11 @@ The example implementation exposes endpoints demonstrating:
 
 The example domain demonstrates these patterns using representative resource and CRUD workflows.
 
-Supported operations include:
+Supported API capabilities include:
 
-* GET
-* POST
-* PUT
-* DELETE
-* Search
-* Pagination
+- CRUD operations using GET, POST, PUT, and DELETE
+- Search
+- Pagination
 
 Detailed endpoint documentation with request and response examples:
 
@@ -418,7 +421,7 @@ git clone https://github.com/Dclarke96/SpringbootAPITemplate.git
 cd SpringbootAPITemplate
 ```
 
-2. Configure PostgreSQL and environment variables. PostgreSQL is not required when running integration tests because Testcontainers creates an isolated database automatically.
+2. Configure PostgreSQL and the required environment variables if running the application locally. PostgreSQL is not required for the integration test suite because Testcontainers creates an isolated PostgreSQL database automatically.
 
 3. Build and run:
 

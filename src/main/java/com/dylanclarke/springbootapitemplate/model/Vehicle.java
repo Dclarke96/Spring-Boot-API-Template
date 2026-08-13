@@ -150,11 +150,11 @@ public class Vehicle {
     }
 
 
-    public int getVehicleYear() {
+    public Integer getVehicleYear() {
         return vehicleYear;
     }
 
-    public void setVehicleYear(int vehicleYear) {
+    public void setVehicleYear(Integer vehicleYear) {
         this.vehicleYear = vehicleYear;
     }
 

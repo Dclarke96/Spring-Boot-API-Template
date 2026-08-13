@@ -1,28 +1,28 @@
 package com.dylanclarke.springbootapitemplate.exception;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+import org.hibernate.query.sqm.PathElementException;
 
 import com.dylanclarke.springbootapitemplate.dto.ErrorResponse;
-import com.dylanclarke.springbootapitemplate.exception.AuthenticationException;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 
 
 @RestControllerAdvice
@@ -30,17 +30,6 @@ public class GlobalExceptionHandler {
 
     private static final Logger logger =
             LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
-
-    private static final Set<String> SENSITIVE_FIELDS = Set.of(
-            "password",
-            "currentPassword",
-            "newPassword",
-            "confirmPassword",
-            "token",
-            "accessToken",
-            "refreshToken"
-    );
 
 
     /**
@@ -57,24 +46,6 @@ public class GlobalExceptionHandler {
         )
         .orElse(UUID.randomUUID().toString());
     }
-
-
-    /**
-     * Prevents sensitive request values from being exposed
-     * in validation responses or application logs.
-     */
-    private Object getSafeRejectedValue(
-            String field,
-            Object rejectedValue
-    ) {
-
-        if (field != null && SENSITIVE_FIELDS.contains(field)) {
-            return null;
-        }
-
-        return rejectedValue;
-    }
-
 
     /**
      * Handle ResourceNotFoundException
@@ -238,7 +209,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "Invalid Request",
+                "Validation Failed",
                 "Request validation failed",
                 request.getRequestURI(),
                 traceId
@@ -320,6 +291,50 @@ public class GlobalExceptionHandler {
 
 
     /**
+    * Handle invalid sort properties that result in Hibernate query path errors
+    */
+    @ExceptionHandler(InvalidDataAccessApiUsageException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidDataAccessApiUsageException(
+            InvalidDataAccessApiUsageException ex,
+            HttpServletRequest request) {
+
+        String traceId = getTraceId(request);
+
+        Throwable cause = ex;
+
+        while (cause != null) {
+
+            if (cause instanceof PathElementException) {
+
+                logger.warn(
+                        "INVALID_SORT_PROPERTY traceId={} method={} uri={} message={}",
+                        traceId,
+                        request.getMethod(),
+                        request.getRequestURI(),
+                        cause.getMessage()
+                );
+
+                ErrorResponse response = new ErrorResponse(
+                        HttpStatus.BAD_REQUEST.value(),
+                        "Invalid Sort Property",
+                        cause.getMessage(),
+                        request.getRequestURI(),
+                        traceId
+                );
+
+                return new ResponseEntity<>(
+                        response,
+                        HttpStatus.BAD_REQUEST
+                );
+            }
+
+            cause = cause.getCause();
+        }
+
+        throw ex;
+    }
+
+    /**
      * Handle NoHandlerFoundException
      */
     @ExceptionHandler(NoHandlerFoundException.class)
@@ -350,6 +365,36 @@ public class GlobalExceptionHandler {
         );
     }
 
+    /**
+    * Handle NoResourceFoundException
+    */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFoundException(
+            NoResourceFoundException ex,
+            HttpServletRequest request) {
+
+        String traceId = getTraceId(request);
+
+        logger.warn(
+                "ENDPOINT_NOT_FOUND traceId={} method={} uri={}",
+                traceId,
+                request.getMethod(),
+                request.getRequestURI()
+        );
+
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "Endpoint Not Found",
+                "The requested endpoint was not found",
+                request.getRequestURI(),
+                traceId
+        );
+
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.NOT_FOUND
+        );
+    }
 
     /**
      * Handle AuthenticationException

@@ -3,25 +3,27 @@ package com.dylanclarke.springbootapitemplate.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
+@Schema(
+        description = "Credentials used to authenticate a user."
+)
 public class AuthRequest {
 
     @Schema(
-            description = "Username used for authentication",
+            description = "Username used for authentication.",
             example = "admin"
     )
     @NotBlank(message = "Username cannot be blank")
     private String username;
 
-
     @Schema(
-            description = "Password associated with the account",
-            example = "Password123!"
+            description = "Password associated with the account.",
+            example = "example-password",
+            format = "password"
     )
     @NotBlank(message = "Password cannot be blank")
     private String password;
 
-
-    // getters/setters
+    // Getters and Setters
 
     public String getUsername() {
         return username;

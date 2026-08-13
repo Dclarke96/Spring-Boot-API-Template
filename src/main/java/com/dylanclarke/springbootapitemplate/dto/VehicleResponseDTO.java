@@ -2,28 +2,78 @@ package com.dylanclarke.springbootapitemplate.dto;
 
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(
+        description = "Vehicle data returned by the API."
+)
 public class VehicleResponseDTO {
 
+    @Schema(
+            description = "Unique identifier of the vehicle.",
+            example = "1",
+            accessMode = Schema.AccessMode.READ_ONLY
+    )
     private Long id;
 
+    @Schema(
+            description = "User-defined title for the vehicle.",
+            example = "Company Truck 01"
+    )
     private String title;
 
+    @Schema(
+            description = "Vehicle identification number.",
+            example = "1HGCM82633A123456"
+    )
     private String vin;
 
+    @Schema(
+            description = "Vehicle license plate number.",
+            example = "ABC-1234"
+    )
     private String licensePlate;
 
+    @Schema(
+            description = "Vehicle manufacturer.",
+            example = "Ford"
+    )
     private String make;
 
+    @Schema(
+            description = "Vehicle model.",
+            example = "F-150"
+    )
     private String model;
 
+    @Schema(
+            description = "Manufacturing year of the vehicle.",
+            example = "2022"
+    )
     private Integer vehicleYear;
 
+    @Schema(
+            description = "Current location of the vehicle.",
+            example = "Washington, DC"
+    )
     private String location;
 
+    @Schema(
+            description = "Whether maintenance alerts are enabled for the vehicle.",
+            example = "true"
+    )
     private Boolean maintenanceAlertsEnabled;
 
+    @Schema(
+            description = "Start date associated with the vehicle.",
+            example = "2026-01-01"
+    )
     private LocalDate startDate;
 
+    @Schema(
+            description = "End date associated with the vehicle.",
+            example = "2026-12-31"
+    )
     private LocalDate endDate;
 
     public VehicleResponseDTO() {}

@@ -35,6 +35,7 @@ assignees: ""
 * Docker version:
 * Spring Boot version:
 * Gradle version:
+* Spring profile:
 
 ## Relevant Logs
 

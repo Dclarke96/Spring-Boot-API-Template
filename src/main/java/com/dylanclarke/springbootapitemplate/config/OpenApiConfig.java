@@ -1,5 +1,8 @@
 package com.dylanclarke.springbootapitemplate.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -7,14 +10,12 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
 
     @Bean
-    public OpenAPI springBootApiTemplateApi() {
+    public OpenAPI springBootApiTemplateOpenAPI() {
 
         final String securitySchemeName = "Bearer Authentication";
 
@@ -45,7 +46,7 @@ public class OpenApiConfig {
                         .description(
                                 "REST API template for building secure, maintainable Spring Boot services."
                         )
-                        .version("0.3.0")
+                        .version("1.0.0")
                         .contact(new Contact()
                                 .name("Dylan Clarke")
                                 .url("https://github.com/Dclarke96"))

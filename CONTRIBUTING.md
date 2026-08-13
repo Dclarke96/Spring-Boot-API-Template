@@ -268,7 +268,7 @@ Before submitting a Pull Request, run:
 ./gradlew clean build
 ```
 
-This verifies compilation, tests, and the project's build pipeline.
+This verifies compilation, tests, and the project's local build.
 
 ### Test Expectations
 
@@ -356,7 +356,6 @@ For example:
 
 ```text
 ./gradlew clean build
-./gradlew test
 ```
 
 ### Documentation
@@ -434,6 +433,7 @@ Logging
 Configuration
 Validation
 API Documentation
+Testing Infrastructure
 ```
 
 Contributors should understand the existing architecture before introducing structural changes.

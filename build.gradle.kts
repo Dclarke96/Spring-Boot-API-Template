@@ -1,6 +1,6 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.4.2"
+    id("org.springframework.boot") version "3.4.13"
     id("io.spring.dependency-management") version "1.1.7"
     id("jacoco")
 }
@@ -32,9 +32,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // --- JWT Authentication ---
-    implementation("io.jsonwebtoken:jjwt-api:0.12.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
+    implementation("io.jsonwebtoken:jjwt-api:0.13.0")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
 
     // --- Database Drivers ---
     runtimeOnly("org.postgresql:postgresql")
@@ -49,7 +49,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers-postgresql:2.0.2")
 
     // --- Documentation ---
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.17")
 }
 
 tasks.withType<Test> {

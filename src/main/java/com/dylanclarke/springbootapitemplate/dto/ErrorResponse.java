@@ -5,59 +5,54 @@ import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(
+        description = "Standardized error response returned by the API."
+)
 public class ErrorResponse {
 
     @Schema(
-            description = "HTTP status code",
+            description = "HTTP status code returned by the API.",
             example = "401"
     )
     private int status;
 
-
     @Schema(
-            description = "HTTP error category",
+            description = "HTTP error category associated with the response status.",
             example = "Unauthorized"
     )
     private String error;
 
-
     @Schema(
-            description = "Detailed error message",
+            description = "Detailed message describing the error.",
             example = "Full authentication is required to access this resource"
     )
     private String message;
 
-
     @Schema(
-            description = "API endpoint where the error occurred",
+            description = "API endpoint where the error occurred.",
             example = "/api/vehicles/1"
     )
     private String path;
 
-
     @Schema(
-            description = "Timestamp when the error occurred"
+            description = "Timestamp when the error occurred."
     )
     private LocalDateTime timestamp;
 
-
     @Schema(
-            description = "Request trace identifier used for diagnostics",
+            description = "Request trace identifier used to correlate the request with application logs.",
             example = "9f23fd2f-bbd4-4384-8c25-bfe41023bde5"
     )
     private String traceId;
 
-
     @Schema(
-            description = "Validation errors for individual fields",
+            description = "Validation errors for individual request fields. Populated when request validation fails.",
             nullable = true
     )
     private List<FieldError> fieldErrors;
 
-
     public ErrorResponse() {
     }
-
 
     public ErrorResponse(
             int status,
@@ -74,7 +69,6 @@ public class ErrorResponse {
         this.traceId = traceId;
     }
 
-
     public int getStatus() {
         return status;
     }
@@ -82,7 +76,6 @@ public class ErrorResponse {
     public void setStatus(int status) {
         this.status = status;
     }
-
 
     public String getError() {
         return error;
@@ -92,7 +85,6 @@ public class ErrorResponse {
         this.error = error;
     }
 
-
     public String getMessage() {
         return message;
     }
@@ -100,7 +92,6 @@ public class ErrorResponse {
     public void setMessage(String message) {
         this.message = message;
     }
-
 
     public String getPath() {
         return path;
@@ -110,7 +101,6 @@ public class ErrorResponse {
         this.path = path;
     }
 
-
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
@@ -118,7 +108,6 @@ public class ErrorResponse {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
-
 
     public String getTraceId() {
         return traceId;
@@ -128,7 +117,6 @@ public class ErrorResponse {
         this.traceId = traceId;
     }
 
-
     public List<FieldError> getFieldErrors() {
         return fieldErrors;
     }
@@ -137,17 +125,19 @@ public class ErrorResponse {
         this.fieldErrors = fieldErrors;
     }
 
-
+    @Schema(
+            description = "Validation error associated with an individual request field."
+    )
     public static class FieldError {
 
         @Schema(
-                description = "Field that failed validation",
+                description = "Name of the field that failed validation.",
                 example = "username"
         )
         private String field;
 
         @Schema(
-                description = "Validation failure message",
+                description = "Message describing the validation failure.",
                 example = "Username cannot be blank"
         )
         private String message;

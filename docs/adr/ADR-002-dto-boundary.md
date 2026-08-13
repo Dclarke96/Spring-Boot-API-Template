@@ -20,7 +20,7 @@ The template also needs to support applications where API requirements may evolv
 
 The template uses **Data Transfer Objects (DTOs) as the boundary between the API layer and internal application models**.
 
-The API does not directly expose persistence entities as request or response contracts.
+The API does not directly expose persistence entities as request or response contracts. Controllers therefore depend on API-specific DTOs rather than persistence entities.
 
 The general request flow is:
 

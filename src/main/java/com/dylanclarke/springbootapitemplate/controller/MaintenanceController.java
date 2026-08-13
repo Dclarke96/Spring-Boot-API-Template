@@ -1,5 +1,6 @@
 package com.dylanclarke.springbootapitemplate.controller;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,58 +28,49 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-
 @Tag(
-        name = "Maintenance",
-        description = "Endpoints for managing vehicle maintenance records."
+name = "Maintenance",
+description = "Endpoints for managing vehicle maintenance records."
 )
 @SecurityRequirement(name = "Bearer Authentication")
 @RestController
 @RequestMapping("/api/maintenance")
 public class MaintenanceController {
 
-    private final MaintenanceService maintenanceService;
+        private final MaintenanceService maintenanceService;
 
-
-    public MaintenanceController(MaintenanceService maintenanceService) {
+        public MaintenanceController(MaintenanceService maintenanceService) {
         this.maintenanceService = maintenanceService;
-    }
+        }
 
+        // ----------------------------------------
+        // GET ALL
+        // ----------------------------------------
 
+        @Operation(
+                summary = "Retrieve all maintenance records",
+                description = "Returns a paginated list of maintenance records accessible to the authenticated user."
+        )
+        @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
-    // ----------------------------------------
-    // GET ALL
-    // ----------------------------------------
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "200",
+                        description = "Maintenance records retrieved successfully"
+                ),
 
-    @Operation(
-            summary = "Retrieve all maintenance records",
-            description = "Returns a paginated list of maintenance records accessible to the authenticated user."
-    )
-    @io.swagger.v3.oas.annotations.responses.ApiResponses({
-
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "Maintenance records retrieved successfully",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ApiResponse.class
-                            )
-                    )
-            ),
-
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "Authentication required",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ErrorResponse.class
-                            )
-                    )
-            )
-    })
-    @GetMapping
-    public ResponseEntity<ApiResponse<PageResponse<MaintenanceResponseDTO>>> getAllMaintenance(
-            Pageable pageable) {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "401",
+                        description = "Authentication required",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                )
+        })
+        @GetMapping
+        public ResponseEntity<ApiResponse<PageResponse<MaintenanceResponseDTO>>> getAllMaintenance(
+                @ParameterObject Pageable pageable) {
 
         Page<MaintenanceResponseDTO> page =
                 maintenanceService.getAllMaintenance(pageable);
@@ -92,43 +84,46 @@ public class MaintenanceController {
                         "Maintenance records retrieved successfully"
                 )
         );
-    }
+        }
 
+        // ----------------------------------------
+        // GET BY ID
+        // ----------------------------------------
 
+        @Operation(
+                summary = "Retrieve a maintenance record by ID",
+                description = "Returns a single maintenance record by ID."
+        )
+        @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
-    // ----------------------------------------
-    // GET BY ID
-    // ----------------------------------------
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "200",
+                        description = "Maintenance record retrieved successfully"
+                ),
 
-    @Operation(
-            summary = "Retrieve a maintenance record by ID",
-            description = "Returns a single maintenance record by ID."
-    )
-    @io.swagger.v3.oas.annotations.responses.ApiResponses({
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "401",
+                        description = "Authentication required",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                ),
 
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "Maintenance record retrieved successfully",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ApiResponse.class
-                            )
-                    )
-            ),
-
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "Authentication required",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ErrorResponse.class
-                            )
-                    )
-            )
-    })
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<MaintenanceResponseDTO>> getMaintenanceById(
-            @PathVariable Long id) {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "404",
+                        description = "Maintenance record not found",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                )
+        })
+        @GetMapping("/{id}")
+        public ResponseEntity<ApiResponse<MaintenanceResponseDTO>> getMaintenanceById(
+                @PathVariable Long id) {
 
         MaintenanceResponseDTO response =
                 maintenanceService.getMaintenanceById(id);
@@ -139,44 +134,37 @@ public class MaintenanceController {
                         "Maintenance retrieved successfully"
                 )
         );
-    }
+        }
 
+        // ----------------------------------------
+        // GET BY VEHICLE
+        // ----------------------------------------
 
+        @Operation(
+                summary = "Retrieve maintenance for a vehicle",
+                description = "Returns a paginated list of maintenance records associated with a specific vehicle."
+        )
+        @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
-    // ----------------------------------------
-    // GET BY VEHICLE
-    // ----------------------------------------
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "200",
+                        description = "Maintenance records retrieved successfully"
+                ),
 
-    @Operation(
-            summary = "Retrieve maintenance for a vehicle",
-            description = "Returns a paginated list of maintenance records associated with a specific vehicle."
-    )
-    @io.swagger.v3.oas.annotations.responses.ApiResponses({
-
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "Maintenance records retrieved successfully",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ApiResponse.class
-                            )
-                    )
-            ),
-
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "Authentication required",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ErrorResponse.class
-                            )
-                    )
-            )
-    })
-    @GetMapping("/vehicle/{vehicleId}")
-    public ResponseEntity<ApiResponse<PageResponse<MaintenanceResponseDTO>>> getByVehicle(
-            @PathVariable Long vehicleId,
-            Pageable pageable) {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "401",
+                        description = "Authentication required",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                )
+        })
+        @GetMapping("/vehicle/{vehicleId}")
+        public ResponseEntity<ApiResponse<PageResponse<MaintenanceResponseDTO>>> getByVehicle(
+                @PathVariable Long vehicleId,
+                @ParameterObject Pageable pageable) {
 
         Page<MaintenanceResponseDTO> page =
                 maintenanceService.getMaintenanceForVehicle(vehicleId, pageable);
@@ -184,60 +172,52 @@ public class MaintenanceController {
         PageResponse<MaintenanceResponseDTO> pageResponse =
                 new PageResponse<>(page);
 
-
         return ResponseEntity.ok(
                 ApiResponse.success(
                         pageResponse,
                         "Maintenance records retrieved successfully"
                 )
         );
-    }
+        }
 
+        // ----------------------------------------
+        // CREATE
+        // ----------------------------------------
 
+        @Operation(
+                summary = "Create a maintenance record",
+                description = "Creates a new maintenance record for a vehicle."
+        )
+        @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
-    // ----------------------------------------
-    // CREATE
-    // ----------------------------------------
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "201",
+                        description = "Maintenance record created successfully"
+                ),
 
-    @Operation(
-            summary = "Create a maintenance record",
-            description = "Creates a new maintenance record for a vehicle."
-    )
-    @io.swagger.v3.oas.annotations.responses.ApiResponses({
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "400",
+                        description = "Invalid maintenance data",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                ),
 
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "201",
-                    description = "Maintenance record created successfully",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ApiResponse.class
-                            )
-                    )
-            ),
-
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid maintenance data",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ErrorResponse.class
-                            )
-                    )
-            ),
-
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "Authentication required",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ErrorResponse.class
-                            )
-                    )
-            )
-    })
-    @PostMapping
-    public ResponseEntity<ApiResponse<MaintenanceResponseDTO>> createMaintenance(
-            @Valid @RequestBody MaintenanceRequestDTO requestDTO) {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "401",
+                        description = "Authentication required",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                )
+        })
+        @PostMapping
+        public ResponseEntity<ApiResponse<MaintenanceResponseDTO>> createMaintenance(
+                @Valid @RequestBody MaintenanceRequestDTO requestDTO) {
 
         MaintenanceResponseDTO response =
                 maintenanceService.addMaintenance(requestDTO);
@@ -250,54 +230,59 @@ public class MaintenanceController {
                                 "Maintenance created successfully"
                         )
                 );
-    }
+        }
 
 
 
-    // ----------------------------------------
-    // UPDATE
-    // ----------------------------------------
+        // ----------------------------------------
+        // UPDATE
+        // ----------------------------------------
 
-    @Operation(
-            summary = "Update a maintenance record",
-            description = "Updates an existing maintenance record."
-    )
-    @io.swagger.v3.oas.annotations.responses.ApiResponses({
+        @Operation(
+                summary = "Update a maintenance record",
+                description = "Updates an existing maintenance record."
+        )
+        @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "Maintenance record updated successfully",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ApiResponse.class
-                            )
-                    )
-            ),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "200",
+                        description = "Maintenance record updated successfully"
+                ),
 
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid maintenance data",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ErrorResponse.class
-                            )
-                    )
-            ),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "400",
+                        description = "Invalid maintenance data",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                ),
 
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "Authentication required",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ErrorResponse.class
-                            )
-                    )
-            )
-    })
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<MaintenanceResponseDTO>> updateMaintenance(
-            @PathVariable Long id,
-            @Valid @RequestBody MaintenanceRequestDTO requestDTO) {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "401",
+                        description = "Authentication required",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                ),
+
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "404",
+                        description = "Maintenance record not found",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                )
+        })
+        @PutMapping("/{id}")
+        public ResponseEntity<ApiResponse<MaintenanceResponseDTO>> updateMaintenance(
+                @PathVariable Long id,
+                @Valid @RequestBody MaintenanceRequestDTO requestDTO) {
 
         MaintenanceResponseDTO response =
                 maintenanceService.updateMaintenance(id, requestDTO);
@@ -308,43 +293,48 @@ public class MaintenanceController {
                         "Maintenance updated successfully"
                 )
         );
-    }
+        }
 
 
 
-    // ----------------------------------------
-    // DELETE
-    // ----------------------------------------
+        // ----------------------------------------
+        // DELETE
+        // ----------------------------------------
 
-    @Operation(
-            summary = "Delete a maintenance record",
-            description = "Deletes an existing maintenance record."
-    )
-    @io.swagger.v3.oas.annotations.responses.ApiResponses({
+        @Operation(
+                summary = "Delete a maintenance record",
+                description = "Deletes an existing maintenance record."
+        )
+        @io.swagger.v3.oas.annotations.responses.ApiResponses({
 
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "Maintenance record deleted successfully",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ApiResponse.class
-                            )
-                    )
-            ),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "200",
+                        description = "Maintenance record deleted successfully"
+                ),
 
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "Authentication required",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ErrorResponse.class
-                            )
-                    )
-            )
-    })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteMaintenance(
-            @PathVariable Long id) {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "401",
+                        description = "Authentication required",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                ),
+
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "404",
+                        description = "Maintenance record not found",
+                        content = @Content(
+                                schema = @Schema(
+                                        implementation = ErrorResponse.class
+                                )
+                        )
+                )
+        })
+        @DeleteMapping("/{id}")
+        public ResponseEntity<ApiResponse<Void>> deleteMaintenance(
+                @PathVariable Long id) {
 
         maintenanceService.deleteMaintenance(id);
 
@@ -354,5 +344,6 @@ public class MaintenanceController {
                         "Maintenance deleted successfully"
                 )
         );
-    }
+        }
+
 }

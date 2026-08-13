@@ -30,12 +30,12 @@ The architecture is intentionally practical rather than overly complex. It provi
 
 The current implementation is represented by the following architecture diagram:
 
-![Spring Boot API Template Architecture](diagrams/v0.4.0%20Architecture.png)
+![Spring Boot API Template Architecture](diagrams/Architecture.png)
 
 The editable source for the diagram is available at:
 
 ```text
-docs/diagrams/v0.4.0 Architecture.drawio
+docs/diagrams/Architecture.drawio
 ```
 
 The primary application flow is:
