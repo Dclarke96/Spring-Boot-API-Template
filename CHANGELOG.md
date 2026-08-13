@@ -176,6 +176,7 @@ Changes currently being developed for the next release.
 
 | Version   | Date       | Milestone                      |
 | --------- | ---------- | ------------------------------ |
+| **1.0.0** | 2026-08-12 | Production Template Release    |
 | **0.5.0** | 2026-08-02 | Repository Professionalization |
 | **0.4.0** | 2026-07-28 | Template Hardening             |
 | **0.3.0** | 2026-07-26 | Template Generalization        |
