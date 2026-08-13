@@ -1,6 +1,6 @@
 # Spring Boot API Template
 
-![Build Status](https://github.com/Dclarke96/SpringbootAPITemplate/actions/workflows/build.yml/badge.svg)
+![Build Status](https://github.com/Dclarke96/Spring-Boot-API-Template/actions/workflows/build.yml/badge.svg)
 ![Java](https://img.shields.io/badge/Java-21-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.13-brightgreen)
 ![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-green)
