@@ -11,7 +11,35 @@ Spring Boot API Template is a production-oriented backend foundation designed to
 
 The template provides a reusable Spring Boot architecture including authentication, authorization, DTO-based API boundaries, validation, centralized exception handling, standardized API responses, OpenAPI documentation, integration testing, continuous integration, and containerized application workflows.
 
+The template was extracted and refined from the Fleet Management API after that project reached a stable production-oriented baseline. The patterns established during that project were generalized to create a reusable foundation for future Spring Boot applications.
+
 The repository includes an example application domain demonstrating how business functionality can be built on top of the reusable API foundation. The example implementation demonstrates resource management, relational data operations, authentication, and common REST API design patterns.
+
+---
+
+## Project Origin
+
+This template was developed from the Fleet Management API, a production-oriented backend application built to support the Fleet Management project.
+
+The Fleet Management API provided the opportunity to develop and refine patterns for authentication, authorization, DTO-based API boundaries, layered architecture, validation, exception handling, integration testing, Docker, CI, and API documentation.
+
+After the API reached a stable production-oriented baseline, these reusable patterns were extracted and refined into this template. The original fleet-management domain was subsequently decoupled so the template could serve as a general-purpose foundation for future Spring Boot REST APIs.
+
+---
+
+## Engineering Highlights
+
+- Layered architecture with explicit API and DTO boundaries
+- JWT authentication and role-based authorization
+- Centralized exception handling
+- Standardized API response models
+- PostgreSQL persistence with Spring Data JPA
+- Testcontainers-based integration testing
+- Docker-based development environment
+- GitHub Actions CI
+- OpenAPI / Swagger documentation
+- Architecture Decision Records
+- Environment-specific configuration
 
 ---
 
@@ -479,3 +507,13 @@ Every push and pull request to the `main` and `dev` branches automatically execu
 Deployment guidance, required environment variables, and production configuration are documented in:
 
 * [Deployment Guide](docs/deployment-guide.md)
+
+---
+
+# Related Project
+
+## Fleet Management API
+
+The production-oriented backend application from which this template was extracted and refined. The API served as the practical foundation for developing and validating the architecture, security model, testing strategy, and operational practices represented in this template.
+
+[View Fleet Management API](https://github.com/Dclarke96/Fleet-Management-API)
